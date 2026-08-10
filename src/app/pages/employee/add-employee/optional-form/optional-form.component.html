@@ -1,0 +1,150 @@
+<div
+class="py-[16px] text-dark dark:text-white/[.87] font-medium text-[17px] border-regular dark:border-white/10 border-b">
+<h4 class="mb-0 text-lg font-medium text-dark dark:text-white/[.87]">Others Info</h4>
+</div>
+
+<nz-form-item nzGutter="25" class="mb-0">
+
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Father's Name!">
+      <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtFathersName">Father's Name </nz-form-label>
+      <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtFathersName" id="txtFathersName" Placeholder="Father's Name " />
+    </nz-form-control>
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid mother's Name!">
+      <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtMothersName">
+        Mother's Name  </nz-form-label>
+        <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtMothersName" id="txtMothersName" Placeholder="Mother's Name " />
+      
+    </nz-form-control>
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="ddlDesignation">Marital Status </nz-form-label>
+        <nz-select [(ngModel)]="selectedValue" formControlName="ddlMeritialStatus"
+        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+        name="ddlMeritialStatus" [nzOptions]="MaritalStatus">
+      </nz-select>
+      </nz-form-control>
+      <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="ddlDesignation">Date Of Birth </nz-form-label>
+        <nz-date-picker
+        class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+        id="datePicker"
+        placeholder="Select Date"
+      ></nz-date-picker>
+      </nz-form-control>
+</nz-form-item>
+<nz-form-item nzGutter="25" class="mb-0">
+      <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtBithDay">
+          Place Of Birth  </nz-form-label>
+          <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtBithDay" id="txtBithDay" Placeholder=" Place Of Birth " />
+        
+      </nz-form-control>
+      <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Height!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtHeight">
+            Height </nz-form-label>
+          <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtHeight" id="txtHeight" Placeholder="Enter Height" />
+        
+      </nz-form-control>
+      <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Weight!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtWeight">
+            Weight  </nz-form-label>
+          <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtWeight" id="txtWeight" Placeholder=" Enter Weight " />
+        
+      </nz-form-control>
+      <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Blood Group !">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="ddlBloodGroup">Blood Group </nz-form-label>
+        <nz-select [(ngModel)]="selectedBlood" formControlName="ddlBloodGroup"
+        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+        name="ddlBloodGroup" [nzOptions]="BloodGroup">
+      </nz-select>
+      </nz-form-control>
+
+
+  </nz-form-item>
+
+  <nz-form-item nzGutter="25" class="mb-0">
+ 
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="ddlGender">Gender </nz-form-label>
+        <nz-select [(ngModel)]="SelectedGender" formControlName="ddlGender"
+        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+        name="ddlGender" [nzOptions]="Gender">
+      </nz-select>
+      </nz-form-control>
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="ddlReligion">Religion </nz-form-label>
+        <nz-select [(ngModel)]="SelectedReligion" formControlName="ddlReligion"
+        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+        name="ddlReligion" [nzOptions]="Religion">
+      </nz-select>
+      </nz-form-control>
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Select The valid Educational!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="ddlEduQualification">Last Educational Qualification </nz-form-label>
+        <nz-select [(ngModel)]="selectedValue" formControlName="ddlEduQualification"
+        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+        name="ddlEduQualification" [nzOptions]="MaritalStatus">
+      </nz-select>
+      </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nzGutter="25" class="mb-0">
+ 
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Experience!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="txtNumberOfExp">Total No of Experience	 </nz-form-label>
+        <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtNumberOfExp" id="txtNumberOfExp" Placeholder="Total Experience" />
+      </nz-form-control>
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The Select The Valid Nationality">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="ddlMeritialStatus">Nationality </nz-form-label>
+        <nz-select [(ngModel)]="SelectedNationality" formControlName="ddlMeritialStatus"
+        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+        name="ddlMeritialStatus" [nzOptions]="Nationality">
+      </nz-select>
+      </nz-form-control>
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Birth or NID!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="txtNidOrBid">National ID/Birth ID No </nz-form-label>
+        <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtNidOrBid" id="txtNidOrBid" Placeholder=" Place Of Birth or NID" />
+        
+      </nz-form-control>
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Mobile!">
+        <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="txtMobile">Mobile No </nz-form-label>
+        <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtMobile" id="txtMobile" Placeholder="Mobile No" />
+        
+      </nz-form-control>
+
+
+
+  </nz-form-item>
+
+  <nz-form-item nzGutter="25" class="mb-0">
+    <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Mobile!">
+      <figure class="relative max-w-[120px] mx-auto mb-6">
+        <nz-avatar  [nzSize]="120" nzIcon="user" [nzSrc]="avatarUrl"></nz-avatar>
+        <span class="absolute right-0 flex items-center justify-center w-10 h-10 bg-white rounded-full -bottom-2 dark:bg-white/10">
+          <nz-upload
+              nzName="avatar"
+              [nzShowUploadList]="false"
+              (nzChange)="handleChange($event)">
+              <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary text-[14px] text-white" nz-icon nzType="camera" nzTheme="outline">
+              </span>
+          </nz-upload>
+        </span>
+      </figure>
+
+    </nz-form-control>
+    
+<!--     <nz-form-item nzGutter="25" class="mb-0">
+      <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Mobile!">
+        <figure class="relative max-w-[120px] mx-auto mb-6">
+          <nz-avatar  [nzSize]="120" nzIcon="user" [nzSrc]="avatarUrl"></nz-avatar>
+          <span class="absolute right-0 flex items-center justify-center w-10 h-10 bg-white rounded-full -bottom-2 dark:bg-white/10">
+            <nz-upload
+                nzName="avatar"
+                [nzShowUploadList]="false"
+                (nzChange)="handleChange($event)">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary text-[14px] text-white" nz-icon nzType="camera" nzTheme="outline">
+                </span>
+            </nz-upload>
+          </span>
+        </figure>
+  
+      </nz-form-control> -->
+    
+    </nz-form-item>

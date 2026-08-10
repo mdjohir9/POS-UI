@@ -1,0 +1,48 @@
+
+  
+
+  .order-summary-details .discount {
+    color: #ff4d4f; /* Example color for discount */
+  }
+
+  .main-form{
+    display: flex;
+  }
+  .custome{
+    margin: 0 0 7px 0;
+  }
+  .ant-input-affix-wrapper {
+    padding: 0px 12px !important;
+    border-radius: 6px;
+}
+
+  .text-Reject {
+    --tw-text-opacity: 1 !important;
+    color: rgb(255 15 15 / 1  ) !important;
+    background-color: rgba(255, 15, 15, 0.1) !important;
+}
+
+
+.text-Approve {
+    --tw-text-opacity: 1 !important;
+    color: rgb(1 184 26 / 1 ) !important;
+    background-color: rgba(1, 184, 26, 0.1) !important;
+}
+
+
+
+.text-Processing {
+    --tw-text-opacity: 1 !important;
+    color: rgb(126, 23, 185) !important;
+    background-color: rgba(250, 139, 12, 0.1) !important;
+}
+
+
+
+.text-Pending {
+    --tw-text-opacity: 1 !important;
+    color: rgb(19, 143, 201) !important;
+    background-color: rgba(12, 135, 250, 0.1) !important;
+
+}
+

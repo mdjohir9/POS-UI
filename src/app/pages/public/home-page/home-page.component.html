@@ -1,0 +1,291 @@
+
+<!-- Header -->
+<!-- Responsive Navbar -->
+<div class="flex items-center justify-between py-4 border-b bg-white px-6 md:px-8">
+  <!-- Logo -->
+  <div class="flex items-center space-x-3">
+    <img src="../../../../assets/upstartloan/companyLogo.png" alt="Upstart Loan Logo" class="w-32 h-auto object-contain" />
+  </div>
+
+  <!-- Desktop Nav Links -->
+  <div class="hidden md:flex space-x-6 text-sm font-medium">
+    <a routerLink="/authentication/login" class="font-semibold text-black text-[18px]">LOG IN</a>
+  </div>
+
+  <!-- Mobile Menu Toggle Button -->
+  <div class="md:hidden">
+    <button (click)="isMenuOpen = !isMenuOpen" aria-label="Toggle menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Mobile Dropdown Nav (Only visible on small screens) -->
+<div *ngIf="isMenuOpen" class="md:hidden px-6 pb-4">
+  <a routerLink="/authentication/login" class="block py-2 text-black font-semibold text-[18px]">LOG IN</a>
+</div>
+
+<!--headrend-->
+
+  <!-- Hero Section -->
+   <div class="py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="grid md:grid-cols-2 items-center py-16 px-6 md:px-16">
+    <div class="space-y-6">
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+        Personal loans with <br>low fixed rates*
+      </h1>
+      <p class="text-lg text-gray-600">Next day funding<sup>4</sup> with no hidden fees. <em>Ever.</em></p>
+      <button nz-button nzType="primary" class="bg-teal-600 hover:bg-teal-700 border-none px-6 py-2 rounded text-white">
+        Check your rate
+      </button>
+      <div class="text-sm text-gray-500">
+        <span class="inline-flex items-center">
+          <i nz-icon nzType="lock" class="mr-1"></i>
+          Won't affect your credit score<sup>1</sup>
+        </span>
+      </div>
+      <div class="text-sm mt-2">
+        <span>Excellent</span>
+        <span class="text-green-600 font-semibold">4.9 out of 5</span>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Trustpilot_logo_2022.svg/1280px-Trustpilot_logo_2022.svg.png" alt="Trustpilot" class="inline-block h-4 ml-1"/>
+      </div>
+    </div>
+    <div class="hidden md:flex justify-center">
+      <img src="../../../../assets/images/upsloanImage/8953254.jpg" alt="Loan Illustration" class="max-w-md">
+    </div>
+  </div>
+</div>
+</div>
+  <!-- Loan Types Section -->
+<div class="bg-gradient-to-r from-teal-500 to-teal-700 text-white py-12 px-6 md:px-16">
+    
+<div class="py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="">
+
+  <div class="text-center mb-10">
+    <nz-icon nzType="car" nzTheme="outline" class="text-3xl mb-2" />
+    <h2 class="text-2xl md:text-3xl font-semibold">Explore more loan types</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Personal Loans -->
+    <div class="bg-white text-black rounded-lg p-6 shadow hover:shadow-lg cursor-pointer">
+      <div class="flex items-center space-x-3 mb-3">
+        <div class="bg-teal-500/10 text-teal-600 rounded-full p-2">
+        <i nz-icon nzType="user" nzTheme="outline" class="text-xl"></i>
+        </div>
+        <h3 class="font-bold text-lg">Personal loans</h3>
+      </div>
+      <p class="text-sm text-gray-600">Consolidate debt and more</p>
+    </div>
+
+    <!-- Car Loan Refinance -->
+    <div class="bg-white text-black rounded-lg p-6 shadow hover:shadow-lg cursor-pointer">
+    <div class="flex items-center space-x-3 mb-3">
+        <div class="bg-teal-500/10 text-teal-600 rounded-full p-2">
+        <i nz-icon nzType="car" nzTheme="outline" class="text-xl"></i>
+        </div>
+        <h3 class="font-bold text-lg">Car loan refinance</h3>
+    </div>
+    <p class="text-sm text-gray-600">Swap your car loan and save</p>
+    </div>
+
+
+    <!-- HELOC -->
+    <div class="bg-white text-black rounded-lg p-6 shadow hover:shadow-lg cursor-pointer">
+      <div class="flex items-center space-x-3 mb-3">
+            <div class="bg-teal-500/10 text-teal-600 rounded-full p-2">
+        <i nz-icon nzType="home" nzTheme="outline" class="text-xl"></i>
+        </div>
+        <h3 class="font-bold text-lg">HELOC</h3>
+      </div>
+      <p class="text-sm text-gray-600">Home equity line of credit</p>
+    </div>
+  </div>
+
+  <div class="text-right mt-6">
+    <a href="#" class="underline text-white text-sm">Have a mail offer code?</a>
+  </div>
+  </div>
+  </div></div>
+</div>
+
+
+<div class="py-10 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Personal loans card -->
+      <nz-card class="shadow-lg rounded-2xl text-center">
+        <img src="../../../../assets/images/upsloanImage/personalLoans.abfa8fd8.png" alt="Personal loans" class="mx-auto mb-4 w-24 h-24">
+        <h3 class="text-xl font-semibold">Personal loans</h3>
+        <div class="text-teal-700 font-semibold bg-teal-50 inline-block px-3 py-1 mt-2 rounded">
+          $1,000 - $50,000
+        </div>
+        <ul class="text-left mt-4 space-y-2 text-sm text-gray-700">
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>Checking your rate takes 5 minutes</li>
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>No pre-payment penalty</li>
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>33% lower rates than a traditional model</li>
+        </ul>
+        <button nz-button nzType="primary" class=" mt-6 w-full font-semibold custome-button">Check your rate</button>
+        <a href="#" class="block mt-3 text-teal-600 underline text-sm">Learn more</a>
+      </nz-card>
+
+      <!-- Car loan refinance card -->
+      <nz-card class="shadow-lg rounded-2xl text-center">
+        <img src="../../../../assets/images/upsloanImage/auto.40f73ad1.png" alt="Car loan refinance" class="mx-auto mb-4 w-24 h-24">
+        <h3 class="text-xl font-semibold">Car loan refinance</h3>
+        <div class="text-teal-700 font-semibold bg-teal-50 inline-block px-3 py-1 mt-2 rounded">
+          Swap your car loan and save
+        </div>
+        <ul class="text-left mt-4 space-y-2 text-sm text-gray-700">
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>Average yearly savings of $1,400</li>
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>Checking your rate takes minutes</li>
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>No pre-payment penalty</li>
+        </ul>
+        <button nz-button nzType="primary" class="mt-6 w-full font-semibold custome-button" >Check your rate</button>
+        <a href="#" class="block mt-3 text-teal-600 underline text-sm">Learn more</a>
+      </nz-card>
+
+      <!-- HELOC card -->
+      <nz-card class="shadow-lg rounded-2xl text-center">
+        <img src="../../../../assets/images/upsloanImage/heloc.9eb753c3.png" alt="Home equity line of credit" class="mx-auto mb-4 w-24 h-24">
+        <h3 class="text-xl font-semibold">Home equity line of credit</h3>
+        <p class="text-sm text-gray-500 mb-1">Offered by Upstart Mortgage</p>
+        <div class="text-teal-700 font-semibold bg-teal-50 inline-block px-3 py-1 mt-2 rounded">
+          $26,000 - $250,000
+        </div>
+        <ul class="text-left mt-4 space-y-2 text-sm text-gray-700">
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>Check your offer in minutes</li>
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>Get your funds fast</li>
+          <li><i nz-icon nzType="check-circle" nzTheme="twoTone" class="mr-1 text-green-500"></i>Simple terms, competitive rates</li>
+        </ul>
+        <button nz-button nzType="primary" class="mt-6 w-full font-semibold custome-button" >Visit Upstart Mortgage</button>
+        <a href="#" class="block mt-3 text-teal-600 underline text-sm">Learn more</a>
+      </nz-card>
+    </div>
+  </div>
+</div>
+<!-- Testimonial section -->
+<div class="bg-blue-50 py-12">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <h2 class="text-2xl md:text-3xl font-semibold mb-8">We've helped more than 3 million customers<sup>7</sup></h2>
+
+    <!-- Reviews Carousel Placeholder -->
+    <div class="bg-white border border-blue-100 rounded-md p-6 shadow-sm">
+      <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+        <div class="w-full md:w-1/4 text-center">
+          <div class="text-sm text-gray-500">Our customers say</div>
+          <div class="text-green-600 font-semibold">Excellent</div>
+          <div class="mt-1">
+            <img src="assets/trustpilot-stars.png" alt="Trustpilot stars" class="mx-auto w-24">
+          </div>
+          <div class="text-xs text-gray-500 mt-1">4.9 out of 5 based on 52,331 reviews</div>
+          <div class="text-xs text-gray-500">⭐ Trustpilot</div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-3/4 mt-4 md:mt-0">
+          <div class="bg-gray-50 p-4 rounded shadow text-left text-sm">
+            <img src="assets/trustpilot-stars-sm.png" class="mb-2 w-20" alt="">
+            <p>Fast and easy with a 650 FICO.<br><strong>Jose,</strong> 2 hours ago</p>
+          </div>
+          <div class="bg-gray-50 p-4 rounded shadow text-left text-sm">
+            <img src="assets/trustpilot-stars-sm.png" class="mb-2 w-20" alt="">
+            <p>Seamless and easy process. 5 stars!<br><strong>Robert,</strong> 3 hours ago</p>
+          </div>
+          <div class="bg-gray-50 p-4 rounded shadow text-left text-sm">
+            <img src="assets/trustpilot-stars-sm.png" class="mb-2 w-20" alt="">
+            <p>Process was very smooth and quick.<br><strong>Michael,</strong> 5 hours ago</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Button -->
+      <div class="mt-8">
+        <button nz-button nzType="primary" class="px-6 py-2 font-semibold rounded-md custome-button">Check your rate</button>
+        <p class="text-xs text-gray-500 mt-2">🔒 Won’t affect your credit score<sup>1</sup></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- "Upstart in the news" section -->
+<div class="bg-gray-100 py-14">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h3 class="text-2xl font-semibold mb-10">Upstart in the news</h3>
+
+    <div class="space-y-10">
+      <div class="flex flex-col md:flex-row items-center md:space-x-6 text-left">
+        <img src="assets/forbes-logo.png" alt="Forbes" class="h-8 mb-2 md:mb-0">
+        <blockquote class="text-gray-700 text-sm italic border-l-4 border-yellow-400 pl-4">
+          “Many people are growing increasingly savvy and want an alternative to high interest credit cards.”
+        </blockquote>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center md:space-x-6 text-left">
+        <img src="assets/wsj-logo.png" alt="Wall Street Journal" class="h-6 mb-2 md:mb-0">
+        <blockquote class="text-gray-700 text-sm italic border-l-4 border-yellow-400 pl-4">
+          “Upstart’s model has expanded credit access, and encouraged other lenders to explore ways to lend to more people with no or limited credit history.”
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<nz-row [nzGutter]="40" class="loan-section" nzJustify="center" nzAlign="middle">
+  <!-- Left Side: Steps -->
+  <nz-col [nzSpan]="12">
+    <h2>
+      A new loan could be just <br />
+      clicks away
+    </h2>
+
+    <nz-space direction="vertical" size="large">
+      <!-- Step 1 -->
+      <nz-space direction="horizontal" align="start">
+        <nz-avatar nzSize="large" style="background-color: #00b1ac; color: white;">1</nz-avatar>
+        <div>
+          <strong>Check your rate</strong>
+          <p>Fill out a form to check your rate in 5 minutes</p>
+        </div>
+      </nz-space>
+
+      <!-- Step 2 -->
+      <nz-space direction="horizontal" align="start">
+        <nz-avatar nzSize="large" [nzStyle]="{ color: '#00b1ac' }">2</nz-avatar>
+        <div>
+          <strong>Verify your information</strong>
+          <p>Most borrowers are instantly approved<sup>3</sup></p>
+        </div>
+      </nz-space>
+
+      <!-- Step 3 -->
+      <nz-space direction="horizontal" align="start">
+        <nz-avatar nzSize="large" [nzStyle]="{ backgroundColor: '#00b1ac' }">3</nz-avatar>
+        <div>
+          <strong>Get your money</strong>
+          <p>99% of personal loan funds are sent just 1<br />business day after signing<sup>4</sup></p>
+        </div>
+      </nz-space>
+    </nz-space>
+  </nz-col>
+
+  <!-- Right Side: Image -->
+  <nz-col [nzSpan]="8">
+    <img
+      src="../../../../assets/images/upsloanImage/loanStepsHero.2c6124e2.png"
+      alt="Loan Illustration"
+      style="max-width: 100%; height: auto"
+    />
+  </nz-col>
+</nz-row>
+</div>
+</div>

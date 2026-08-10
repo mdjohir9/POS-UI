@@ -1,0 +1,196 @@
+<div nz-row nzGutter="25">
+    <!-- skeleton -->
+    <ng-template #loadingSkeleton>
+      <nz-skeleton class="bg-white dark:bg-white/10 rounded-6 p-[30px] pt-[15px]" [nzShape]="circle" [nzActive]="true"
+        [nzParagraph]="{ rows: 6 }"></nz-skeleton>
+    </ng-template>
+    <!-- skeleton -->
+  
+    <div nz-col nzXs="24" class="mb-[25px]">
+      <ng-container *ngIf="showContent; else loadingSkeleton">
+        <div
+          class="bg-white dark:bg-white/10 m-0 p-0 text-theme-gray dark:text-white/60 text-[15px] rounded-10 relative h-full">
+          <div
+            class="py-[16px] px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] border-regular dark:border-white/10 border-b">
+            <h4 class="mb-0 text-lg font-medium text-dark dark:text-white/[.87]">Role information</h4>
+          </div>
+          <div class="p-[25px]">
+            <form class="max-w-full" nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+              <div style="display: flex;">
+                <div nz-col nzMd="18">
+    
+    
+                  <nz-form-item nzGutter="25" class="mb-0">
+                    <div nz-col nzMd="6" nzSm="12" nzXs="24">
+    
+                      <nz-form-control nxMd="6" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Roles Name!">
+                        <nz-form-label
+                          class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                          nzRequired nzFor="txtRolesName">Role Name</nz-form-label>
+                        <input
+                          class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                          nz-input formControlName="txtRolesName" id="txtRolesName" placeholder="Roles Name" />
+                      </nz-form-control>
+                    </div>
+                    <div nz-col nzMd="6" nzSm="12" nzXs="24">
+                      <nz-form-control class="mb-[10px]" nzErrorTip="Please Select The Data Access Level!">
+                        <nz-form-label
+                          class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                          nzRequired nzFor="ddlDataAccessLevel">Data Access Level</nz-form-label>
+                        <nz-select [(ngModel)]="selectedDataAccess" formControlName="ddlDataAccessLevel"
+                          class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 
+                                    [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none 
+                                    [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] 
+                                    [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] 
+                                    [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60" name="ddlDataAccessLevel">
+    
+                          <nz-option nzValue="0" nzLabel="---Select---"></nz-option>
+                          <nz-option nzValue="3" nzLabel="All"></nz-option>
+                          <!--                              <nz-option nzValue="2" nzLabel="Own Department"></nz-option> -->
+                          <nz-option nzValue="1" nzLabel="Only Me"></nz-option>
+                          <nz-option nzValue="4" nzLabel="Custom"></nz-option>
+    
+                        </nz-select>
+                      </nz-form-control>
+                    </div>
+                    <div nz-col nzMd="6" nzSm="12" nzXs="24">
+                      <nz-form-control nxMd="6" nzXs="24" class="mb-[10px]" nzErrorTip="Please input your Roles Name!">
+                        <nz-form-label
+                          class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                          nzFor="txtordering" nzRequired>
+                          Ordering
+                        </nz-form-label>
+                        <input
+                          class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                          nz-input id="txtordering" formControlName="txtordering" placeholder="Ordering" />
+                      </nz-form-control>
+                    </div>
+                    <div nz-col nzMd="2" nzSm="12" nzXs="24">
+                      <nz-form-control nxMd="6" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Username!">
+                        <nz-form-label
+                          class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                          nzRequired>Status</nz-form-label>
+                        <nz-switch [(ngModel)]="switchValue"></nz-switch>
+                      </nz-form-control>
+                    </div>
+                    <div nz-col nzMd="4" nzSm="12" nzXs="24">
+                      <nz-form-control>
+                        <nz-form-label style="opacity: 0% !important;"
+                          class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                          nzRequired>submit</nz-form-label>
+                        <button
+                          class="bg-primary hover:bg-primary-hbr border-solid border-1 border-primary text-white dark:text-white/[.87] text-[14px] font-semibold leading-[22px] inline-flex items-center justify-center rounded-[4px] px-[30px] h-[44px]"
+                          nz-button nzType="primary">Submit</button>
+                      </nz-form-control>
+                    </div>
+                  </nz-form-item>
+    
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    </div>
+
+    <div nz-row nzGutter="25">
+      <!-- skeleton -->
+      <ng-template #loadingSkeleton>
+        <nz-skeleton class="bg-white dark:bg-white/10 rounded-6 p-[30px] pt-[15px]" [nzShape]="circle" [nzActive]="true"
+          [nzParagraph]="{ rows: 5 }"></nz-skeleton>
+      </ng-template>
+      <!-- skeleton -->
+    
+      <div nz-col nzXs="24" class="mb-[25px]">
+        <ng-container *ngIf="showContent; else loadingSkeleton">
+          <div class="bg-white dark:bg-white/10 m-0 p-0 text-theme-gray dark:text-white/60 text-[15px] rounded-10 relative mb-[25px]">
+              <div class="py-[16px] px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] border-regular dark:border-white/10 border-b">
+                <h4 class="mb-0 text-lg font-medium text-dark dark:text-white/[.87]">User Roles</h4>
+              </div>
+              <div class="p-[25px]">
+                <div class="flex items-center justify-center w-full mt-5 mb-[25px] max-md:flex-col max-md:justify-center gap-[15px]">
+                  <div class="inline-flex items-center flex-wrap w-full gap-[20px] max-md:justify-center">
+                    <div class="inline-flex items-center">
+                      <span class="ltr:mr-2 rtl:ml-2 dark:text-white/60">Status:</span>
+                      <nz-select
+                        class="min-w-[180px] capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[40px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-light dark:[&>.ant-select-arrow]:text-white/60"
+                        [(ngModel)]="statusFilter"
+                        (ngModelChange)="filterByStatus()"
+                      >
+  
+                        <nz-option nzValue="All" nzLabel="All"></nz-option>
+                        <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
+                        <nz-option nzValue="Processing" nzLabel="Processing"></nz-option>
+                        <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
+                        <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
+                      </nz-select>
+                    </div>
+                  </div>
+                  <div class="ssm:min-w-[280px]">
+                    <nz-input-group class="h-10 inline-flex items-center text-body dark:text-white/60 bg-white dark:bg-white/10 border-normal border-1 dark:border-white/10 rounded-[6px] px-[20px]">
+                      <i class="text-light dark:text-white/[.87] text-[18px]" nz-icon nzType="search"></i>
+                      <input
+                        class="bg-transparent border-none text-[15px] shadow-none text-dark dark:text-white/[.87] flex items-center"
+                        type="text"
+                        nz-input
+                        placeholder="Search any"
+                        [(ngModel)]="searchAny"
+                        (ngModelChange)="filterByAnyMetchingData()"
+                   
+                      />
+                    </nz-input-group>
+                  </div>
+                </div>
+                <div class="w-full overflow-x-auto">
+                  <nz-table
+                  #rechargeTable
+                  [nzData]="datas"
+                  nzShowPagination
+                  nzShowSizeChanger
+                  [nzLoading]="!showContent"
+                >
+                  <thead>
+                    <tr>
+                      <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden rounded-s-[10px] capitalize">SL</th>
+                      <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Role Name</th>
+                      <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Data Access Level</th>
+                      <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Status</th>
+                      <th class="bg-regularBG px-[20px] py-[16px] text-start border-none before:hidden rounded-e-[10px] capitalize">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="group" *ngFor="let data of rechargeTable.data; let i = index;">
+                      <td class="px-[20px] py-4 text-dark text-[15px]">{{ i + 1 }}</td>
+                      <td class="px-[20px] py-4 text-dark text-[15px]">{{ data.userRoleName }}</td>
+                      <td class="px-[20px] py-4 text-dark text-[15px]">
+                        <span
+                          class="inline-flex items-center justify-center min-h-[24px] px-3 text-xs font-medium rounded-[15px] capitalize"
+                          [ngClass]="{
+                            'text-Pending': data.dataAccessLevel === 1,
+                            'text-Approve': data.dataAccessLevel === 3,
+                            'text-Reject': data.dataAccessLevel === 4
+                          }"
+                        >
+                          {{ data.dataAccessLevel === 1 ? 'Only Me' : data.dataAccessLevel ? 'All' : 'Custom' }}
+                        </span>
+                      </td>
+                      <td class="px-[20px] py-4 text-dark text-[15px]">{{ data.isActive }}</td>
+                        <td class="px-[20px] py-4">
+<!--                           <button nz-button nzType="link" (click)="deletecustommer(data.userRoleId)">
+                            <i nz-icon nzType="delete" class="text-red-500"></i>
+                          </button> -->
+                        </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+                
+               
+                </div>
+              </div>
+            </div>
+        </ng-container>
+      </div>
+    </div>
+    
+  

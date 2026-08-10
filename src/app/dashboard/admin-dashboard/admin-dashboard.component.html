@@ -1,0 +1,177 @@
+
+<!-- Date Filter UI (Add this) -->
+ <link
+  rel="stylesheet"
+  href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+/>
+
+<div class="relative z-10 mb-5">
+  <div class="flex justify-end items-center gap-3">
+  <input
+    type="date"
+    [(ngModel)]="filterDate"
+    class="w-[250px] rounded-[6px] border border-gray-300 text-[15px] px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:bg-white/10 dark:border-white/10 dark:text-white/60"
+    placeholder="Select Date"
+  />
+
+    <button (click)="OnFilterClick()"
+      class="px-5 py-2 min-h-[50px] text-white bg-[#2C99FF] hover:bg-[#1a7ed3] rounded-[6px] text-[15px]"
+    >
+      Filter <i class="uil uil-filter"></i>
+    </button>
+  </div>
+</div>
+<div nz-row [nzGutter]="25" style="margin-left: -12.5px;margin-right: -12.5px;margin-top: -50px;">
+  <ng-template #loadingSkeleton>
+    <nz-skeleton class="bg-white dark:bg-white/10 rounded-6 p-[30px] pt-[15px]" [nzShape]="circle" [nzActive]="true" [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+  </ng-template>
+    <!-- skeleton -->
+
+  <!-- overview -->
+  <div nz-col nzXs="24" nzXXl="12" class="w-full [&>.ant-skeleton]:mb-[25px]">
+    <ng-container *ngIf="showContent; else loadingSkeleton">
+  <!-- <nz-overview></nz-overview> -->
+
+  <div nz-row [nzGutter]="25">
+    <!-- Card 1: Total Products -->
+    <div nz-col nzXs="24" nzMd="12" nzXXl="12" class="mb-[25px]">
+      <div class="p-[25px] bg-white dark:bg-white/10 rounded-10 text-[15px] text-theme-gray dark:text-white/60 leading-6">
+        <div class="flex justify-between">
+          <div class="flex items-center justify-center order-2 bg-[#805DCA]/10 text-[#805DCA] w-[58px] h-[58px] rounded-2xl">
+            <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/user-check.svg"></svg-icon>
+          </div>
+          <div>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">{{ blanceAmount.totalCustomers }}</h4>
+            <span class="font-normal text-body dark:text-white/60 text-15">Total Borrower</span>
+          </div>
+        </div>
+        <div class="mt-3">
+          <span class="inline-flex  w-full items-center h-11 bg-gray-50 dark:bg-white/[.06] px-2.5 rounded-lg gap-[10px] " >
+            <span class="flex items-center text-sm font-medium text-[#00AA45]">
+              <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-up.svg"></svg-icon>
+            </span>
+            <span class="text-sm text-light dark:text-white/60 ml-2 ">Overall growth</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Card 2: Total Orders -->
+    <div nz-col nzXs="24" nzMd="12" nzXXl="12" class="mb-[25px]">
+      <div class="p-[25px] bg-white dark:bg-white/10 rounded-10 text-[15px] text-theme-gray dark:text-white/60 leading-6">
+        <div class="flex justify-between">
+          <div class="flex items-center justify-center order-2 bg-[#2C99FF]/10 text-[#2C99FF] w-[58px] h-[58px] rounded-2xl">
+            <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/coins.svg"></svg-icon>
+          </div>
+          <div>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">{{ blanceAmount.totalActiveLoan  }}</h4>
+            <span class="font-normal text-body dark:text-white/60 text-15">Active Loans</span>
+          </div>
+        </div>
+        <div class="mt-3">
+          <span class="inline-flex  w-full items-center h-11 bg-gray-50 dark:bg-white/[.06] px-2.5 rounded-lg gap-[10px]">
+            <span class="flex items-center text-sm font-medium text-[#00AA45]">
+              <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-up.svg"></svg-icon>
+   
+            </span>
+            <span class="text-sm text-light dark:text-white/60 ml-2">Overall Active Loan</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Card 3: Total Sales -->
+    <div nz-col nzXs="24" nzMd="12" nzXXl="12" class="mb-[25px]">
+      <div class="p-[25px] bg-white dark:bg-white/10 rounded-10 text-[15px] text-theme-gray dark:text-white/60 leading-6">
+        <div class="flex justify-between">
+          <div class="flex items-center justify-center order-2 bg-[#F2994A]/10 text-[#F2994A] w-[58px] h-[58px] rounded-2xl">
+            <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/dollar-sign.svg"></svg-icon>
+          </div>
+          <div>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">{{ blanceAmount.disbursementAmount |  currency }}</h4>
+            <span class="font-normal text-body dark:text-white/60 text-15">Total Disbursed Amount</span>
+          </div>
+        </div>
+        <div class="mt-3">
+          <span class="inline-flex  w-full items-center h-11 bg-gray-50 dark:bg-white/[.06] px-2.5 rounded-lg gap-[10px]">
+            <span class="flex items-center text-sm font-medium text-[#FF4D4F]">
+              <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-down.svg"></svg-icon>
+       
+            </span>
+            <span class="text-sm text-light dark:text-white/60 ml-2">Overall Disbursed Loan</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Card 4: New Customers -->
+    <div nz-col nzXs="24" nzMd="12" nzXXl="12" class="mb-[25px]">
+      <div class="p-[25px] bg-white dark:bg-white/10 rounded-10 text-[15px] text-theme-gray dark:text-white/60 leading-6">
+        <div class="flex justify-between">
+          <div class="flex items-center justify-center order-2 bg-[#00C896]/10 text-[#00C896] w-[58px] h-[58px] rounded-2xl">
+          
+            <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/wallet.svg"></svg-icon>
+
+          </div>
+          <div>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">{{ blanceAmount.repaymentAmount |  currency }}</h4>
+            <span class="font-normal text-body dark:text-white/60 text-15">Total Recovered Amount
+            </span>
+          </div>
+        </div>
+        <div class="mt-3">
+          <span class="inline-flex  w-full items-center h-11 bg-gray-50 dark:bg-white/[.06] px-2.5 rounded-lg gap-[10px]">
+            <span class="flex items-center text-sm font-medium text-[#00AA45]">
+              <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-up.svg"></svg-icon>
+            </span>
+            <span class="text-sm text-light dark:text-white/60 ml-2">Overall Recovered Loan</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    </ng-container>
+  </div>
+  <!-- end: overview -->
+
+  <!-- sales report -->
+  <div nz-col nzXs="24" nzXXl="12" class="mb-[25px]">
+    <ng-container *ngIf="showContent; else loadingSkeleton">
+      <nz-saleReport></nz-saleReport>
+    </ng-container>
+  </div>
+  <!-- end: sales report -->
+
+  <!-- sales Growth -->
+   <div nz-col nzXs="24" nzXXl="8" class="mb-[25px]">
+    <ng-container *ngIf="showContent; else loadingSkeleton">
+      <nz-saleGrowth [componentId]="'component1'"></nz-saleGrowth>
+    </ng-container>
+  </div>
+  <!-- end: sales Growth -->
+
+  <!-- sales Growth -->
+  <div nz-col nzXs="24" nzXXl="16" class="mb-[25px]">
+    <ng-container *ngIf="showContent; else loadingSkeleton">
+      <!-- <nz-saleLocation [componentId]="'component2'"></nz-saleLocation> -->
+       <upcoming-loan-instalment></upcoming-loan-instalment>
+    </ng-container>
+  </div>
+  <!-- end: sales Growth -->
+
+  <!-- Top Selling -->
+  <div nz-col nzXs="24" nzXXl="12" class="mb-[25px]">
+    <ng-container *ngIf="showContent; else loadingSkeleton">
+      <nz-topSelling [componentId]="'component3'"></nz-topSelling>
+    </ng-container>
+  </div>
+
+  <!-- Top Selling -->
+  <div nz-col nzXs="24" nzXXl="12" class="mb-[25px]">
+    <ng-container *ngIf="showContent; else loadingSkeleton">
+      <nz-browserStates></nz-browserStates>
+    </ng-container>
+  </div>
+
+</div>

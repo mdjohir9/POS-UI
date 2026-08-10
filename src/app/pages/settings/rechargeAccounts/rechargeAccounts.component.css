@@ -1,0 +1,50 @@
+.btn-view {
+    background-color: #e6f7ff;
+    color: #1890ff;
+    margin-right: 8px;
+    padding: 7px;
+
+  }
+  
+  .btn-edit {
+    background-color: #f6ffed;
+    color: #52c41a;
+    margin-right: 8px;
+    padding: 7px;
+  }
+  
+  .btn-delete {
+    background-color: #fff1f0;
+    color: #f5222d;
+    padding: 7px;
+  }
+  .text-Reject {
+    --tw-text-opacity: 1 !important;
+    color: rgb(255 15 15 / 1  ) !important;
+    background-color: rgba(255, 15, 15, 0.1) !important;
+}
+
+
+.text-Approve {
+    --tw-text-opacity: 1 !important;
+    color: rgb(1 184 26 / 1 ) !important;
+    background-color: rgba(1, 184, 26, 0.1) !important;
+}
+
+
+
+.text-Processing {
+    --tw-text-opacity: 1 !important;
+    color: rgb(126, 23, 185) !important;
+    background-color: rgba(250, 139, 12, 0.1) !important;
+}
+
+
+
+.text-Pending {
+    --tw-text-opacity: 1 !important;
+    color: rgb(19, 143, 201) !important;
+    background-color: rgba(12, 135, 250, 0.1) !important;
+
+}
+

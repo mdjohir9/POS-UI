@@ -1,0 +1,110 @@
+<div nz-row nzGutter="25">
+    <!-- skeleton -->
+    <ng-template #loadingSkeleton>
+      <nz-skeleton class="bg-white dark:bg-white/10 rounded-6 p-[30px] pt-[15px]" [nzShape]="circle" [nzActive]="true"
+        [nzParagraph]="{ rows: 5 }"></nz-skeleton>
+    </ng-template>
+    <!-- skeleton -->
+  
+    <div nz-col nzXs="24" class="mb-[25px]">
+      <ng-container *ngIf="showContent; else loadingSkeleton">
+        <div class="bg-white dark:bg-white/10 m-0 p-0 text-theme-gray dark:text-white/60 text-[15px] rounded-10 relative mb-[25px]">
+            <div class="py-[16px] px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] border-regular dark:border-white/10 border-b">
+              <h4 class="mb-0 text-lg font-medium text-dark dark:text-white/[.87]">Recharge Requests</h4>
+            </div>
+            <div class="p-[25px]">
+              <div class="flex items-center justify-center w-full mt-5 mb-[25px] max-md:flex-col max-md:justify-center gap-[15px]">
+                <div class="inline-flex items-center flex-wrap w-full gap-[20px] max-md:justify-center">
+                  <div class="inline-flex items-center">
+                    <span class="ltr:mr-2 rtl:ml-2 dark:text-white/60">Status:</span>
+                    <nz-select
+                      class="min-w-[180px] capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[40px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-light dark:[&>.ant-select-arrow]:text-white/60"
+                      [(ngModel)]="statusFilter"
+                      (ngModelChange)="filterByStatus()"
+                    >
+
+                      <nz-option nzValue="All" nzLabel="All"></nz-option>
+                      <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
+                      <nz-option nzValue="Processing" nzLabel="Processing"></nz-option>
+                      <nz-option nzValue="Approve" nzLabel="Approve"></nz-option>
+                      <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+                <div class="ssm:min-w-[280px]">
+                  <nz-input-group class="h-10 inline-flex items-center text-body dark:text-white/60 bg-white dark:bg-white/10 border-normal border-1 dark:border-white/10 rounded-[6px] px-[20px]">
+                    <i class="text-light dark:text-white/[.87] text-[18px]" nz-icon nzType="search"></i>
+                    <input
+                      class="bg-transparent border-none text-[15px] shadow-none text-dark dark:text-white/[.87] flex items-center"
+                      type="text"
+                      nz-input
+                      placeholder="Search any"
+                      [(ngModel)]="searchAny"
+                      (ngModelChange)="filterByAnyMetchingData()"
+                 
+                    />
+                  </nz-input-group>
+                </div>
+              </div>
+              <div class="w-full overflow-x-auto">
+                <nz-table
+                #rechargeTable
+                [nzData]="datas"
+                nzShowPagination
+                nzShowSizeChanger
+                [nzLoading]="!showContent"
+              >
+                <thead>
+                  <tr>
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden rounded-s-[10px] capitalize">SL</th>
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Name</th>
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Bank/Wallet</th>
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Amount</th>
+<!--                     <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Account No</th> -->
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Transaction ID</th>
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Request Date</th>
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="group" *ngFor="let data of rechargeTable.data; let i = index;">
+                    <td class="px-[20px] py-4 text-dark text-[15px]">{{ i + 1 }}</td>
+                    <td class="px-[20px] py-4 text-dark text-[15px]">
+                      <div class="flex items-center space-x-2">
+                        <img [src]="data.custommerImage" class="w-10 h-10 rounded-full" alt="Customer Picture">
+                        <div>
+                          <span class="block font-medium">{{ data.fullName }}</span>
+                          <span class="text-gray-500 text-sm">{{ data.custCardNo }}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-[20px] py-4 text-dark text-[15px]">{{ data.bankOrWalletName }}</td>
+                    <td class="px-[20px] py-4 text-dark text-[15px]">{{ '$'+ data.amount }}</td>
+<!--                     <td class="px-[20px] py-4 text-dark text-[15px]">{{ data.bankAccountNumber }}</td>
+ -->                    <td class="px-[20px] py-4 text-dark text-[15px]">{{ data.bankTransactCode }}</td>
+                    <td class="px-[20px] py-4 text-dark text-[15px]">{{ data.requestedDate | date:'short' }}</td>
+                    <td class="px-[20px] py-4 text-dark text-[15px]">
+                      <span
+                        class="inline-flex items-center justify-center min-h-[24px] px-3 text-xs font-medium rounded-[15px] capitalize"
+                        [ngClass]="{
+                          'text-Pending': data.isApproved === null,
+                          'text-Approve': data.isApproved === true,
+                          'text-Reject': data.isApproved === false
+                        }"
+                      >
+                        {{ data.isApproved === null ? 'Pending' : data.isApproved ? 'Approved' : 'Rejected' }}
+                      </span>
+                    </td>
+
+                  </tr>
+                </tbody>
+              </nz-table>
+              
+             
+              </div>
+            </div>
+          </div>
+      </ng-container>
+    </div>
+  </div>
+  

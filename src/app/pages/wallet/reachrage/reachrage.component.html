@@ -1,0 +1,146 @@
+<form [formGroup]="validateForm" (ngSubmit)="submitRecharge()" nz-form [nzLayout]="'vertical'" class="bg-white p-6 rounded-lg shadow-lg">
+  <nz-row [nzGutter]="24">
+    <!-- Left: Instructions -->
+    <nz-col nzSpan="24" nzMd="12">
+      <h2 class="text-xl font-semibold mb-2">Recharge Instructions</h2>
+      <p class="text-gray-600 mb-4">Please transfer the money to the following account:</p>
+      <nz-form-item>
+        <nz-form-control  class="mb-[10px]" nzErrorTip="Please Select The Borrowers!">
+          <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="name">Borrower</nz-form-label>
+          <nz-select [(ngModel)]="selectCustomer" formControlName="ddlCustommer"
+            class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+            name="ddlCustommer" [nzShowSearch]="true" >
+            <nz-option *ngFor="let custommer of CustomerIdName" [nzValue]="custommer.customerID" [nzLabel]="custommer.fullName">
+            </nz-option>
+          
+          </nz-select>
+        </nz-form-control>
+     
+    </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true" nzFor="ddlPaymentMethod">Payment Method</nz-form-label>
+        <nz-form-control [nzErrorTip]="'Payment method is required'">
+          <nz-select formControlName="ddlPaymentMethod" nzPlaceHolder="Select Payment Method"  class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 
+            [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none 
+            [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] 
+            [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] 
+            [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60">
+            <nz-option *ngFor="let method of paymentMethods" [nzValue]="method.id" [nzLabel]="method.name"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true" nzFor="ddlBank">Bank/Cripto Name</nz-form-label>
+        <nz-form-control [nzErrorTip]="'Bank is required'">
+          <nz-select formControlName="ddlBank" nzPlaceHolder="Select Bank"  class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 
+            [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none 
+            [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] 
+            [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] 
+            [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60">
+            <nz-option *ngFor="let bank of rechargeAccounts" [nzValue]="bank.id" [nzLabel]="bank.bankOrWalletName"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <div class="relative border border-gray-200 p-4 rounded-md bg-gray-50">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Details</label>
+          <p class="text-base text-gray-900">Account Holder Name: {{ bankDetails.accountName }}</p>
+          <p class="text-base text-gray-900">Account No./Crypto Address: {{ bankDetails.accountNumber }}</p>
+        
+          <button 
+            nz-button 
+            nzType="text" 
+            nzShape="circle" 
+            class="absolute top-2 right-2"
+            nz-tooltip 
+            nzTooltipTitle="Copy All"
+            (click)="copyAllBankDetails()">
+            <i nz-icon nzType="copy"></i>
+          </button>
+        </div>
+        
+      </nz-form-item>
+<!-- 
+      <nz-form-item>
+        <nz-form-label>Account Number</nz-form-label>
+        <nz-form-control>
+          <input nz-input [value]="bankDetails.accountNumber" readonly  class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"/>
+        </nz-form-control>
+      </nz-form-item> -->
+    </nz-col>
+
+    <!-- Right: Recharge Form -->
+    <nz-col nzSpan="24" nzMd="12">
+      <h2 class="text-xl font-semibold mb-4">Submit Recharge Request</h2>
+
+ <!--      <nz-form-item>
+        <nz-form-label [nzRequired]="true">Transfer From Account</nz-form-label>
+        <nz-form-control [nzErrorTip]="'This field is required'">
+          <input nz-input formControlName="fromAccount" placeholder="Enter your account name" class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"/>
+        </nz-form-control>
+      </nz-form-item> -->
+
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true">Amount</nz-form-label>
+        <nz-form-control [nzErrorTip]="'Amount is required'">
+          <nz-input-group [nzPrefix]="'$'">
+          <input nz-input type="number" formControlName="amount" placeholder="Enter amount" class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" />
+        </nz-input-group>
+
+
+        </nz-form-control>
+
+        
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true">Transaction/Order ID</nz-form-label>
+        <nz-form-control [nzErrorTip]="'Transaction/Order ID is required'">
+          <input nz-input formControlName="transactionId" placeholder="Enter Transaction/Order ID" class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>Transfer Time (optional)</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="datetime-local" formControlName="transferTime" class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-upload
+          nzType="drag"
+          [nzMultiple]="true"
+          [nzBeforeUpload]="beforeUpload"
+          [nzCustomRequest]="customUpload"
+          [nzFileList]="fileList"
+          (nzChange)="handleChange($event)"
+        >
+          <p class="ant-upload-drag-icon">
+            <nz-icon nzType="inbox"></nz-icon>
+          </p>
+          <p class="ant-upload-text">Click or drag file to this area to upload</p>
+          <p class="ant-upload-hint">
+            Please upload your recharge statement (screenshot or PDF of your transaction).
+          </p>
+          <p class="text-sm text-gray-500 mt-2">
+            <strong>Note:</strong> Max size: <strong>2 MB</strong>. Allowed types: <strong>JPG, PNG, PDF</strong>.
+          </p>
+        </nz-upload>
+        
+        
+      </nz-form-control>
+      </nz-form-item>
+
+      <div class="text-right mt-4">
+        <button nz-button nzType="primary" htmlType="submit" [disabled]="validateForm.invalid">
+          Submit Request
+        </button>
+      </div>
+    </nz-col>
+  </nz-row>
+</form>

@@ -1,0 +1,93 @@
+<div nz-row nzJustify="center">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16" nzXl="12">
+    <div class="steps-content mt-[44px] border-dashed border-1 border-normal dark:border-white/10 p-[30px]  rounded-10 min-h-[200px] pt-[30px]" style="background-color: #ffffff;">
+
+<div>
+  <h4 class="text-[20px] font-medium mb-[20px] text-dark dark:text-white/[.87]">Withdraw Request</h4>
+  <form class="max-w-full" [formGroup]="validateForm" (ngSubmit)="submitWithdraw()">
+    <nz-form-control class="mb-[20px]" nzErrorTip="Please Select The Borrower!">
+      <nz-form-label
+        class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 p-0 [&>label]:text-[16px] capitalize"
+        nzFor="ddlCustommer" nzRequired>
+        Borrower
+      </nz-form-label>
+      <nz-select formControlName="ddlCustommer" [nzShowSearch]="true" nzPlaceHolder="Select borrower"
+        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+        name="ddlCustommer">
+        <nz-option *ngFor="let customer of CustomerIdName"
+        [nzValue]="customer.customerID"
+        [nzLabel]="customer.fullName"></nz-option>
+      </nz-select>
+    </nz-form-control>
+<nz-form-control class="mb-[20px]" nzErrorTip="Please Select The Payment Method!">
+    <nz-form-label
+        class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 p-0 [&>label]:text-[16px] capitalize"
+        nzFor="ddlPaymentMethod" nzRequired>
+        Payment Method
+      </nz-form-label>
+      <nz-select formControlName="ddlPaymentMethod" [nzShowSearch]="true" nzPlaceHolder="Payment Method"
+        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+        name="ddlPaymentMethod">
+        <nz-option *ngFor="let method of paymentMethods"
+        [nzValue]="method.id"
+        [nzLabel]="method.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+
+<!--     <nz-form-control class="mb-[20px]" nzErrorTip="Bank Name is Required">
+      <nz-form-label
+        class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 p-0 [&>label]:text-[16px] capitalize"
+       nzRequired nzFor="txtBankName">Bank or Cripto Name</nz-form-label>
+      <input
+        class="w-full rounded-6 border-regular border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+        nz-input formControlName="txtBankName" id="txtBankName" placeholder="Bank Name" />
+    </nz-form-control> -->
+<nz-form-control class="mb-[20px]" nzErrorTip="Please Select The Bank/Cripto Name!">
+    <nz-form-label
+        class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 p-0 [&>label]:text-[16px] capitalize"
+        nzFor="ddlBank" nzRequired>
+        Bank/Cripto Name
+      </nz-form-label>
+          <nz-select formControlName="ddlBank" nzPlaceHolder="Select Bank"
+                class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 
+                      [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none 
+                      [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] 
+                      [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] 
+                      [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60">
+                <nz-option *ngFor="let bank of rechargeAccounts" [nzValue]="bank.id"
+                  [nzLabel]="bank.bankOrWalletName"></nz-option>
+          </nz-select>
+    </nz-form-control>
+
+    <nz-form-control class="mb-[20px]" nzErrorTip="The Account No Is Required">
+      <nz-form-label
+        class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 p-0 [&>label]:text-[16px] capitalize"
+       nzRequired nzFor="txtAccountNo">Bank AC No/crypto Address</nz-form-label>
+      <input
+        class="w-full rounded-6 border-regular border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+        nz-input formControlName="txtAccountNo" id="txtAccountNo" placeholder="Bank AC No/crypto Address" />
+    </nz-form-control>
+  
+
+    <nz-form-control class="mb-[20px]" nzErrorTip="The Amount Is Required">
+      <nz-form-label
+        class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 p-0 [&>label]:text-[16px] capitalize"
+       nzRequired nzFor="txtAmount">Amount</nz-form-label>
+       <nz-input-group [nzPrefix]="'$'">
+      <input
+        class="w-full rounded-6 border-regular border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+        nz-input formControlName="txtAmount" id="txtAmount" placeholder="Amount" />
+        </nz-input-group>
+    </nz-form-control>
+    <!-- Submit Button -->
+    <div class="text-right mt-6">
+      <button nz-button nzType="primary" htmlType="submit" [disabled]="validateForm.invalid">
+        Submit Request
+      </button>
+    </div>
+  </form>
+
+</div>
+</div>
+</div>
+</div>

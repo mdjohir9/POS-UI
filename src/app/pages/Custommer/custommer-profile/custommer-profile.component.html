@@ -1,0 +1,71 @@
+<!-- CV Wrapper -->
+<div id="cv-content" class="bg-white dark:bg-neutral-900 p-10 rounded-lg shadow-md max-w-5xl mx-auto text-gray-800 dark:text-gray-100 font-sans">
+
+  <!-- Header with Photo and Basic Info -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+    <div class="flex items-center gap-6">
+      <img [src]="customerData.custommerImage"   crossorigin="anonymous"
+      alt="Customer Photo" class="h-40 w-32 object-cover rounded-md shadow">
+      <div>
+        <h1 class="customerNameCustome text-3xl font-bold">{{ customerData.fullName }}</h1>
+        <p class="text-sm text-gray-500 mt-1">Card No: {{ customerData.custCardNo }}</p>
+        <p class="text-sm text-gray-500 mt-1">{{ customerData.phoneNumber }} | {{ customerData.emailAddress }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personal Info -->
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold border-b border-gray-200 dark:border-white/10 pb-2 mb-4">Personal Information</h2>
+    <div class="grid grid-cols-2 gap-y-3 gap-x-6 text-[15px]">
+      <p><strong>Gender:</strong> {{ customerData.gender }}</p>
+      <p><strong>Date of Birth:</strong> {{ customerData.dateOfBirth | date: 'longDate' }}</p>
+      <p><strong>Nationality:</strong> {{ customerData.nationality }}</p>
+      <p><strong>Education:</strong> {{ customerData.educationLevel }}</p>
+      <p><strong>Marital Status:</strong> {{ customerData.maritalStatus }}</p>
+      <p><strong>Occupation:</strong> {{ customerData.occupation }}</p>
+      <p><strong>Alternative Phone:</strong> {{ customerData.alternativePhoneNumber }}</p>
+      <p><strong>National ID / Passport:</strong> {{ customerData.nationalIDOrPassport || 'N/A' }}</p>
+      <p><strong>Tax ID:</strong> {{ customerData.taxIdentificationNumber || 'N/A' }}</p>
+      <p><strong>Driving License:</strong> {{ customerData.drivingLicenseNumber || 'N/A' }}</p>
+      <p><strong>Present Address:</strong> {{ customerData.preStreet }}, {{ customerData.preCity }}, {{ customerData.preState }} - {{ customerData.preZIP }}</p>
+      <p><strong>Permanent Address:</strong> {{ customerData.perStreet }}, {{ customerData.perCity }}, {{ customerData.perState }} - {{ customerData.perZIP }}</p>
+    </div>
+  </div>
+
+  <!-- Employment Info -->
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold border-b border-gray-200 dark:border-white/10 pb-2 mb-4">Employment Information</h2>
+    <div class="grid grid-cols-2 gap-y-3 gap-x-6 text-[15px]">
+      <p><strong>Employment Type:</strong> {{ customerData.employmentType || 'N/A' }}</p>
+      <p><strong>Employer/Business:</strong> {{ customerData.employerOrBusnName || 'N/A' }}</p>
+      <p><strong>Job Title / Business Type:</strong> {{ customerData.jobTitleOrBusnType || 'N/A' }}</p>
+      <p><strong>Experience / Business Age:</strong> {{ customerData.yearsOfExpOrBusnAge || 0 }} years</p>
+      <p><strong>Monthly Income / Revenue:</strong> {{ customerData.monthlyIncOrBusnRev | currency }}</p>
+      <p><strong>Business Address:</strong> {{ customerData.workOrBusnAddress || 'N/A' }}</p>
+      <p><strong>Business Contact:</strong> {{ customerData.employerOrBusnContact || 'N/A' }}</p>
+    </div>
+  </div>
+
+  <!-- Financial Info -->
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold border-b border-gray-200 dark:border-white/10 pb-2 mb-4">Financial Information</h2>
+    <div class="grid grid-cols-2 gap-y-3 gap-x-6 text-[15px]">
+      <p><strong>Bank Name:</strong> {{ customerData.bankName || 'N/A' }}</p>
+      <p><strong>Account Number:</strong> {{ customerData.accountNumber || 'N/A' }}</p>
+      <p><strong>Monthly Income Sources:</strong> {{ customerData.monthlyIncomeSources | currency }}</p>
+      <p><strong>Monthly Expenses:</strong> {{ customerData.monthlyExpenses | currency }}</p>
+      <p><strong>Assets Owned:</strong> {{ customerData.assetsOwned || 'N/A' }}</p>
+      <p><strong>Liabilities:</strong> {{ customerData.liabilities || 'N/A' }}</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Download Button -->
+<div class="flex justify-center mt-6">
+  <button (click)="downloadPDF()"
+    class="bg-blue-600 text-white px-6 py-2 rounded-md shadow hover:bg-blue-700 transition duration-150">
+    Download PDF
+  </button>
+</div>

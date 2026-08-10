@@ -1,0 +1,266 @@
+<div nz-row nzGutter="25">
+    <!-- skeleton -->
+    <ng-template #loadingSkeleton>
+      <nz-skeleton class="bg-white dark:bg-white/10 rounded-6 p-[30px] pt-[15px]" [nzShape]="circle" [nzActive]="true"
+        [nzParagraph]="{ rows: 6 }"></nz-skeleton>
+    </ng-template>
+    <!-- skeleton -->
+
+      <nz-demo-modal-basic (showModalData)="OnshowModel()"></nz-demo-modal-basic>
+
+
+    <div nz-col nzXs="24" class="mb-[25px]">
+      <ng-container *ngIf="showContent; else loadingSkeleton">
+        <div
+          class="bg-white dark:bg-white/10 m-0 p-0 text-theme-gray dark:text-white/60 text-[15px] rounded-10 relative h-full">
+          <div
+            class="py-[16px] px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] border-regular dark:border-white/10 border-b d-flex " style="display: flex ;
+                justify-content: space-between;">
+            <h4 class="mb-0 text-lg font-medium text-dark dark:text-white/[.87] d-inline">Employee Info</h4>
+            <div class="d-inline">
+
+              <nz-button-group>
+                <button class="text-white  text-[13px] font-semibold bg-primary border-primary px-[8px] capitalize" nz-button>today</button>
+                <button class="text-[13px] font-semibold px-[8px] capitalize" nz-button>Import CSV</button>
+                <button class="text-[13px] font-semibold px-[8px] capitalize" nz-button (click)="onShowModal()">Add More Emp info +</button>
+                <a class="text-[13px] font-semibold px-[8px] capitalize" nz-button routerLink="/employee/list">All Employee</a>
+
+
+              </nz-button-group>
+            </div>
+
+          </div>
+          <div class="p-[25px]">
+            <form class="max-w-full" nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                <nz-form-item nzGutter="25" class="mb-0">
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please Select The Company!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="name">Company</nz-form-label>
+                    <nz-select [(ngModel)]="selectedCompany" formControlName="ddlCompany"
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 
+                            [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none 
+                            [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] 
+                            [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] 
+                            [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60" name="ddlCompany">
+    
+                    <nz-option *ngFor="let cmp of companys" [nzValue]="cmp.companyId" [nzLabel]="cmp.companyName">
+                    </nz-option>
+    
+                </nz-select>
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Employee Type!">
+                    <nz-form-label class="opacity:0 flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="employeeType">Employee Type</nz-form-label>
+                    <nz-radio-group formControlName="employeeType">
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="1">Worker</label>
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="2">Staff</label>
+                    </nz-radio-group>
+                  </nz-form-control>
+
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Salary Type!">
+                    <nz-form-label
+                      class="opacity:0 flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzRequired nzFor="salaryType">Salary Type</nz-form-label>
+                    <nz-radio-group formControlName="salaryType">
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="Scale">Scale</label>
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="Gross">Gross</label>
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="Gross Scale">Gross Scale</label>
+                    </nz-radio-group>
+                  </nz-form-control>
+
+                </nz-form-item>
+                <nz-form-item nzGutter="25" class="mb-0">
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please input your Full Name!">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtFullName"
+                      nzRequired
+                    >
+                      Full Name
+                    </nz-form-label>
+                      <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input id="txtfullName" formControlName="txtFullName" placeholder="Full Name" />
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Nick!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="txtnickName">Nick Name</nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtNickName" id="txtNickName" placeholder="Nick Name" />
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please input your Bangla Name!!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="city">নাম</nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtNameBng" id="txtNameBng" placeholder="নাম" />
+                  </nz-form-control>
+
+                </nz-form-item>
+
+                <nz-form-item nzGutter="25" class="mb-0">
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please Select the Department!">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtDepartment"
+                      nzRequired
+                    >
+                      Department
+                    </nz-form-label>
+                    <nz-select [(ngModel)]="selectDepartments" formControlName="ddlDepartment" 
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                    name="ddlDepartment" [nzShowSearch]="true" (ngModelChange)="onDepartmentChange($event)">
+
+                    <nz-option *ngFor="let dpt of departments" [nzValue]="dpt.dptId" [nzLabel]="dpt.dptName">
+                    </nz-option>
+    
+                    </nz-select>
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please Select the Designation!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlDesignation">Designation </nz-form-label>
+                    <nz-select [(ngModel)]="selecteDesgnations" formControlName="ddlDesigation"
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                    name="ddlDesigation" [nzShowSearch]="true">
+                    <nz-option *ngFor="let dsg of designations" [nzValue]="dsg.id" [nzLabel]="dsg.name">
+                    </nz-option>
+                  </nz-select>
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please Select the Group!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="city">Group </nz-form-label>
+                    <nz-select [(ngModel)]="selecteGroups" formControlName="ddlGroup"
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                    name="ddlGroup" [nzShowSearch]="true">
+                    <nz-option *ngFor="let grp of groups" [nzValue]="grp.id" [nzLabel]="grp.name">
+                    </nz-option>
+                  </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nzGutter="25" class="mb-0">
+
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please Select the Shift!">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtDepartment"
+                      nzRequired
+                    >
+                    Emp Shift
+                    </nz-form-label>
+                    <nz-select [(ngModel)]="selectShift" formControlName="ddlShift"
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                    name="ddlShift"  [nzShowSearch]="true" >
+                    <nz-option *ngFor="let shift of shifts" [nzValue]="shift.id" [nzLabel]="shift.name">
+                    </nz-option>
+                  </nz-select>
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please input your Card No!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlDesignation">EmpCard No </nz-form-label>
+                    <nz-select [(ngModel)]="selecteEmpCardNo" formControlName="ddlCardNo"
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                    name="ddlCardNo" [nzShowSearch]="true">
+
+                    <nz-option *ngFor="let data of empCardNos" [nzValue]="data.id" [nzLabel]="data.name">
+                    </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please input your Alternate Card!!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="txtAlternetCard">Alternate Card </nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtAlternetCard" id="txtAlternetCard" Placeholder="Alternate Card " />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nzGutter="25" class="mb-0">
+
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please input your Reg.ID!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="txtRegID">Reg.ID  </nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtRegID" id="txtRegID" Placeholder="Reg.ID " />
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please input your Proximity No !">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="txtProximityNo">Proximity No  </nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtProximityNo" id="txtProximityNo" Placeholder="Proximity No " />
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="Please Select the Emp Status!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlEmpStatus">Emp Status </nz-form-label>
+                    <nz-select [(ngModel)]="selecteEmpStatus" formControlName="ddlEmpStatus"
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                    name="ddlEmpStatus">
+
+                    <nz-option *ngFor="let data of empStatus" [nzValue]="data.id" [nzLabel]="data.name">
+                    </nz-option>
+                  </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nzGutter="25" class="mb-0">
+
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlEmpType">Type </nz-form-label>
+                    <nz-select [(ngModel)]="selecteEmpType" formControlName="ddlEmpType"
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                    name="ddlEmpType" >
+
+                    <nz-option *ngFor="let data of EmpTypes" [nzValue]="data.id" [nzLabel]="data.name">
+                    </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlDesignation">
+                      Joining Date </nz-form-label>
+                      <nz-date-picker
+                      class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                      id="txtJoininfDate" formControlName="txtJoininfDate"
+                      placeholder="Select Date"
+                    ></nz-date-picker>           
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlDesignation">Expire Date </nz-form-label>
+                    <nz-date-picker
+                    class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                    id="txtExpireDate" formControlName="txtExpireDate"
+                    placeholder="Select Date"
+                  ></nz-date-picker>
+                  </nz-form-control>
+
+                </nz-form-item>
+                <nz-form-item nzGutter="25" class="mb-0">
+
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlDesignation">Ordering </nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtOrdering" id="txtOrdering" Placeholder="Ordering " />
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlDesignation">Duty Type </nz-form-label>
+                    <nz-radio-group formControlName="DutyType">
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="Regular" (select)="Worker">Regular</label>
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="Roster">Roster</label>
+                    </nz-radio-group>
+                  </nz-form-control>
+                  <nz-form-control nxMd="8" nzXs="24" class="mb-[10px]" nzErrorTip="The input is not valid Zip!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="txtDeautyType">Weekend Type </nz-form-label>
+                    <nz-radio-group formControlName="WeekendType">
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="Regular" (select)="Worker">Regular</label>
+                      <label class="dark:text-white/[.87]" nz-radio nzValue="Roster">Roster</label>
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>
+                
+                <div class="flex justify-center mt-4">
+                  <button
+                    class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 border border-blue-500 text-white font-semibold text-sm rounded-lg px-6 py-3 shadow-md transition-all duration-200 ease-in-out inline-flex items-center space-x-2"
+                    nz-button
+                    nzType="primary"
+                    (click)="toggleForm()"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                    <span>{{ showForm ? 'Hide Options' : 'Show More Options' }}</span>
+                  </button>
+                </div>
+                
+                <!-- Conditionally show the form -->
+                <div class="mt-4" *ngIf="showForm">
+                  <app-optional-form></app-optional-form>
+                </div>
+
+                <nz-form-item nz-row class="register-area" class="mb-0">
+                  <nz-form-control>
+                    <button class="bg-primary hover:bg-primary-hbr border-solid border-1 border-primary text-white dark:text-white/[.87] text-[14px] font-semibold leading-[22px] inline-flex items-center justify-center rounded-[4px] px-[30px] h-[44px]" nz-button nzType="primary">Submit</button>
+                  </nz-form-control>
+                </nz-form-item>
+              </form>
+          </div>
+          
+        </div>
+      </ng-container>
+      <app-emp-optional-data></app-emp-optional-data>
+    </div>

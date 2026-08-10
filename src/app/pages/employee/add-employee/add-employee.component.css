@@ -1,0 +1,4 @@
+.invisible {
+    visibility: hidden; /* Hide the element while keeping it in the layout */
+  }
+  

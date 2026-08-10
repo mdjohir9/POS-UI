@@ -1,0 +1,43 @@
+export interface ICustomerSave {
+    
+    custCardNo: string;
+    companyId: number;
+    custommerImage?: any[];
+    custommerSignature?: any[];
+    fullName?: string;
+    gender?: string;
+    dateOfBirth?: string;
+    nationality?: string;
+    maritalStatus?: string;
+    occupation?: string;
+    educationLevel? : number;
+    nationalIDOrPassport?: string;
+    taxIdentificationNumber?: string;
+    drivingLicenseNumber?: string;
+    phoneNumber?: string;
+    alternativePhoneNumber?: string;
+    emailAddress?: string;
+    preStreet?: string;
+    perStreet?: string;
+    preZIP?: string;
+    perZIP?: string;
+    preCity?: string;
+    perCity?: string;
+    preState?: string;
+    perState?: string;
+    employmentType?: string;
+    employerOrBusnName?: string;
+    jobTitleOrBusnType?: string;
+    monthlyIncOrBusnRev?: number;
+    yearsOfExpOrBusnAge?: number;
+    workOrBusnAddress?: string;
+    employerOrBusnContact?: string;
+    bankName?: string;
+    accountNumber?: string;
+    monthlyIncomeSources?: number;
+    monthlyExpenses?: number;
+    assetsOwned?: string;
+    liabilities?: string;
+    userId?:number;
+  }
+  

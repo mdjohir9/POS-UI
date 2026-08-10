@@ -1,0 +1,227 @@
+<div nz-row nzGutter="25">
+    <!-- skeleton -->
+    <ng-template #loadingSkeleton>
+      <nz-skeleton class="bg-white dark:bg-white/10 rounded-6 p-[30px] pt-[15px]" [nzShape]="circle" [nzActive]="true"
+        [nzParagraph]="{ rows: 6 }"></nz-skeleton>
+    </ng-template>
+    <!-- skeleton -->
+  
+    <div nz-col nzXs="24" class="mb-[25px]">
+      <ng-container *ngIf="showContent; else loadingSkeleton">
+        
+        <div
+          class="bg-white dark:bg-white/10 m-0 p-0 text-theme-gray dark:text-white/60 text-[15px] rounded-10 relative h-full d-flex">
+          <div
+          class="py-[16px] px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] border-regular dark:border-white/10 border-b d-flex " style="display: flex ;
+              justify-content: space-between;">
+          <h4 class="mb-0 text-lg font-medium text-dark dark:text-white/[.87] d-inline">Approve Application</h4>
+
+        </div>
+
+
+        <div *ngIf="customerData" class="w-full bg-white dark:bg-white/10 rounded-[10px] p-6 mt-6 shadow-sm">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Photo -->
+            <div class="flex flex-col items-center space-y-4">
+              <img [src]="customerData.custommerImage" alt="Customer Photo"
+                class="rounded-md h-[200px] w-[180px] object-cover shadow-md">
+              <p class="text-sm text-gray-500">Card No: {{ customerData.custCardNo }}</p>
+            </div>
+        
+            <!-- Info Sections -->
+            <div class="md:col-span-2 space-y-6">
+              <!-- Personal Info -->
+              <div>
+                <h3 class="text-lg font-medium text-dark dark:text-white/[.87] mb-4">Personal Information</h3>
+                <div class="grid grid-cols-2 gap-4 text-[15px] text-theme-gray dark:text-white/60">
+                  <p><strong>Full Name:</strong> {{ customerData.fullName }}</p>
+                  <p><strong>Gender:</strong> {{ customerData.gender }}</p>
+                  <p><strong>Date of Birth:</strong> {{ customerData.dateOfBirth | date: 'longDate' }}</p>
+                  <p><strong>Nationality:</strong> {{ customerData.nationality }}</p>
+                  <p><strong>Marital Status:</strong> {{ customerData.maritalStatus }}</p>
+                  <p><strong>Occupation:</strong> {{ customerData.occupation }}</p>
+                  <p><strong>Phone:</strong> {{ customerData.phoneNumber }}</p>
+                  <p><strong>Alt Phone:</strong> {{ customerData.alternativePhoneNumber }}</p>
+                  <p><strong>Email:</strong> {{ customerData.emailAddress }}</p>
+                  <p><strong>National ID / Passport:</strong> {{ customerData.nationalIDOrPassport || 'N/A' }}</p>
+                  <p><strong>Tax ID:</strong> {{ customerData.taxIdentificationNumber || 'N/A' }}</p>
+                  <p><strong>Driving License:</strong> {{ customerData.drivingLicenseNumber || 'N/A' }}</p>
+                  <p><strong>Present Address:</strong>
+                    {{ customerData.preStreet }}, {{ customerData.preCity }}, {{ customerData.preState }} - {{ customerData.preZIP }}
+                  </p>
+                  <p><strong>Permanent Address:</strong>
+                    {{ customerData.perStreet }}, {{ customerData.perCity }}, {{ customerData.perState }} - {{ customerData.perZIP }}
+                  </p>
+                </div>
+              </div>
+        
+              <!-- Employment Info -->
+              <div>
+                <h3 class="text-lg font-medium text-dark dark:text-white/[.87] mb-4">Employment Information</h3>
+                <div class="grid grid-cols-2 gap-4 text-[15px] text-theme-gray dark:text-white/60">
+                  <p><strong>Employment Type:</strong> {{ customerData.employmentType || 'N/A' }}</p>
+                  <p><strong>Employer/Business:</strong> {{ customerData.employerOrBusnName || 'N/A' }}</p>
+                  <p><strong>Job Title/Business Type:</strong> {{ customerData.jobTitleOrBusnType || 'N/A' }}</p>
+                  <p><strong>Experience/Business Age:</strong> {{ customerData.yearsOfExpOrBusnAge || 0 }} years</p>
+                  <p><strong>Monthly Income/Revenue:</strong> {{ customerData.monthlyIncOrBusnRev | currency }}</p>
+                  <p><strong>Business Address:</strong> {{ customerData.workOrBusnAddress || 'N/A' }}</p>
+                  <p><strong>Business Contact:</strong> {{ customerData.employerOrBusnContact || 'N/A' }}</p>
+                </div>
+              </div>
+        
+              <!-- Financial Info -->
+              <div>
+                <h3 class="text-lg font-medium text-dark dark:text-white/[.87] mb-4">Financial Information</h3>
+                <div class="grid grid-cols-2 gap-4 text-[15px] text-theme-gray dark:text-white/60">
+                  <p><strong>Bank Name:</strong> {{ customerData.bankName || 'N/A' }}</p>
+                  <p><strong>Account No:</strong> {{ customerData.accountNumber || 'N/A' }}</p>
+                  <p><strong>Monthly Income Sources:</strong> {{ customerData.monthlyIncomeSources | currency }}</p>
+                  <p><strong>Monthly Expenses:</strong> {{ customerData.monthlyExpenses | currency }}</p>
+                  <p><strong>Assets Owned:</strong> {{ customerData.assetsOwned || 'N/A' }}</p>
+                  <p><strong>Liabilities:</strong> {{ customerData.liabilities || 'N/A' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      
+      
+          <div class="p-[25px]">
+            <form class="max-w-full" nz-form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
+                <nz-form-item nzGutter="25" class="mb-0">
+                  <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                    <nz-form-control  class="mb-[10px]" nzErrorTip="Please Select The Borrowers!">
+                      <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="name">Borrower</nz-form-label>
+                      <nz-select formControlName="ddlCustommer"
+                        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                        name="ddlCustommer" [nzShowSearch]="true" >
+                        <nz-option *ngFor="let custommer of CustomerIdName" [nzValue]="custommer.customerID" [nzLabel]="custommer.fullName">
+                        </nz-option>
+                      
+                      </nz-select>
+                    </nz-form-control>
+                  </div>
+
+                  <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                    <nz-form-control class="mb-[10px]" nzErrorTip="Please Select The Loan Type!">
+                      <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="ddlLoanType">
+                        Loan Type
+                      </nz-form-label>
+                      <nz-select [(ngModel)]="selectedLoanType" formControlName="ddlLoanType"
+                        class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 
+                        [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none 
+                        [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] 
+                        [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] 
+                        [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                        name="ddlLoanType" [nzShowSearch]="true" (ngModelChange)="updateLoanAmountValidators($event)">
+<!--                         <nz-option nzValue="" nzLabel="---select---"></nz-option>
+                        <nz-option nzValue="1" nzLabel="Personal Loan"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Tourist Loan"></nz-option>
+                        <nz-option nzValue="3" nzLabel="Car Loan"></nz-option>
+                        <nz-option nzValue="4" nzLabel="Home Loan"></nz-option>
+                        <nz-option nzValue="5" nzLabel="Business Loan"></nz-option> -->
+
+                        <nz-option nzValue="" nzLabel="---select---"></nz-option>
+                        <nz-option *ngFor="let plan of LoanType"
+                                   [nzValue]="plan.planID"
+                                   [nzLabel]="plan.planName"></nz-option>
+
+                  
+                      </nz-select>
+                    </nz-form-control>
+                  </div>
+                  
+                  <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                    <nz-form-control 
+                      class="mb-[10px]" 
+                      [nzErrorTip]="validateForm.get('txtLaonAmount')?.hasError('required') 
+                        ? 'Loan Amount is Required!' 
+                        : validateForm.get('txtLaonAmount')?.hasError('min') 
+                          ? 'Loan Amount must be at least ' + currentMinAmount 
+                          : validateForm.get('txtLaonAmount')?.hasError('max') 
+                            ? 'Loan Amount cannot exceed ' + currentMaxAmount 
+                            : ''">
+                      
+                      <nz-form-label 
+                        class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  
+                        nzFor="txtLaonAmount" nzRequired>
+                        Loan Amount
+                      </nz-form-label>
+                    <nz-input-group [nzPrefix]="'$'">
+                      <input 
+                        class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" 
+                        nz-input formControlName="txtLaonAmount" id="txtLaonAmount" Placeholder="Loan Amount" />
+                        </nz-input-group>
+                    </nz-form-control>
+                  </div>            
+                  <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                    <nz-form-control class="mb-[10px]" [nzErrorTip]="
+                        validateForm.get('txtRepaymentPreiod')?.hasError('required')
+                          ? 'Tenure is required!'
+                          : validateForm.get('txtRepaymentPreiod')?.hasError('min')
+                            ? 'Tenure must be at least ' + currentMinTenure + ' months'
+                            : validateForm.get('txtRepaymentPreiod')?.hasError('max')
+                              ? 'Tenure cannot exceed ' + currentMaxTenure + ' months'
+                              : ''
+                      ">
+                      <nz-form-label
+                        class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                        nzFor="txtRepaymentPreiod" nzRequired>
+                        Tenure (in Months)
+                      </nz-form-label>
+
+                      <input type="number"
+                        class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                        nz-input formControlName="txtRepaymentPreiod" id="txtRepaymentPreiod" placeholder="Tenure (in Months)" />
+                    </nz-form-control>
+                  </div>
+
+
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control class="mb-[10px]" nzErrorTip="Please input your Apply Date!">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtApplyDate"
+                      nzRequired
+                    >
+                        Apply Date
+                    </nz-form-label>
+                    <nz-date-picker
+                    class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                    id="txtApplyDate" formControlName="txtApplyDate"
+                    placeholder="Apply Date" [nzFormat]="'yyyy-MM-dd'"
+                  ></nz-date-picker>
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control  class="mb-[10px]">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtPurposeOfLoan">Purpose Of Loan</nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtPurposeOfLoan" id="txtPurposeOfLoan" Placeholder="Purpose Of Loan" />
+                  </nz-form-control>
+                </div>
+                </nz-form-item>
+
+                
+
+                <nz-form-item nz-row class="register-area" class="mb-0">
+                  <nz-form-control>
+                    <button
+                      class="bg-success hover:bg-success-hbr border-solid border-1 border-success text-white dark:text-white/[.87] text-[14px] font-semibold leading-[22px] inline-flex items-center justify-center rounded-[4px] px-[30px] h-[44px]"
+                      nz-button nzType="success" [disabled]="LoanApplicationData?.status === 1">Approve</button>
+                    <button type="button" (click)="onReject()"
+                      class="bg-danger hover:bg-danger-hbr border-solid border-1 border-danger text-white dark:text-white/[.87] text-[14px] font-semibold leading-[22px] inline-flex items-center justify-center rounded-[4px] px-[30px] h-[44px] ml-2"
+                      nz-button nzType="danger" [disabled]="LoanApplicationData?.status === 1">
+                      Reject
+                    </button>
+
+                  </nz-form-control>
+
+                </nz-form-item>
+
+              </form>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+

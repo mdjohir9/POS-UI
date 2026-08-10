@@ -1,0 +1,232 @@
+<div nz-row nzGutter="25">
+    <!-- skeleton -->
+    <ng-template #loadingSkeleton>
+      <nz-skeleton class="bg-white dark:bg-white/10 rounded-6 p-[30px] pt-[15px]" [nzShape]="circle" [nzActive]="true"
+        [nzParagraph]="{ rows: 6 }"></nz-skeleton>
+    </ng-template>
+    <!-- skeleton -->
+  
+    <div nz-col nzXs="24" class="mb-[25px]">
+      <ng-container *ngIf="showContent; else loadingSkeleton">
+        <div
+          class="bg-white dark:bg-white/10 m-0 p-0 text-theme-gray dark:text-white/60 text-[15px] rounded-10 relative h-full d-flex">
+          <div
+          class="py-[16px] px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] border-regular dark:border-white/10 border-b d-flex " style="display: flex ;
+              justify-content: space-between;">
+          <h4 class="mb-0 text-lg font-medium text-dark dark:text-white/[.87] d-inline">Leave Info</h4>
+          <div class="d-inline">
+
+            <nz-button-group>
+              <a class="text-[13px] font-semibold px-[8px] capitalize" nz-button routerLink="/leave/list">All Leaves</a>
+              <button class="text-[13px] font-semibold px-[8px] capitalize" nz-button (click)="onShowModal()">Approvel List</button>
+              <button class="text-[13px] font-semibold px-[8px] capitalize" nz-button>Activation History</button>
+            </nz-button-group>
+          </div>
+
+        </div>
+
+          <div class="p-[25px]">
+            <form class="max-w-full" nz-form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
+                <nz-form-item nzGutter="25" class="mb-0">
+                  <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control class="mb-[10px]" nzErrorTip="Please Select The Employee!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="name">Employee</nz-form-label>
+                    <nz-select [(ngModel)]="selectedEmployee" formControlName="ddlEmployee"
+                    class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 
+                    [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none 
+                    [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] 
+                    [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] 
+                    [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                    name="ddlEmployee" [nzShowSearch]="true">
+                    
+                    <nz-option *ngFor="let emp of employees" [nzValue]="emp.empId" [nzLabel]="emp.fullName">
+                    </nz-option>
+                  
+                  </nz-select>
+                  
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control  class="mb-[10px]" nzErrorTip="Please Select The Leave Type!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="name">Lave Type</nz-form-label>
+                    <nz-select [(ngModel)]="selectLvType" formControlName="ddlLeaveType"
+                      class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                      name="ddlLeaveType">
+                      <nz-option *ngFor="let LeaveType of leaveTypes" [nzValue]="LeaveType.leaveId" [nzLabel]="LeaveType.leaveName">
+                      </nz-option>
+                    
+                    </nz-select>
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control class="mb-[10px]" nzErrorTip="Please input your Apply Date!">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtApplyDate"
+                      nzRequired
+                    >
+                        Apply Date
+                    </nz-form-label>
+                    <nz-date-picker
+                    class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                    id="txtApplyDate" formControlName="txtApplyDate"
+                    placeholder="Apply Date" [nzFormat]="'yyyy-MM-dd'"
+                  ></nz-date-picker>
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+             
+                  <nz-form-control class="mb-[10px]" nzErrorTip="Please input your Leave Start Date!">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtStartDate"
+                      nzRequired
+                    >
+                       Leave Start Date
+                    </nz-form-label>
+                    <nz-date-picker
+                    class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                    id="txtStartDate" formControlName="txtStartDate"
+                    placeholder="Leave Start Date" [nzFormat]="'yyyy-MM-dd'"
+                  ></nz-date-picker>
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control class="mb-[10px]" nzErrorTip="Please input your Leave End Date !">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtEndDate"
+                      nzRequired
+                    >
+                       Leave End Date
+                    </nz-form-label>
+                    <nz-date-picker
+                    class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                    id="txtEndDate" formControlName="txtEndDate"
+                    placeholder="Leave End Date"
+                    [nzFormat]="'yyyy-MM-dd'"
+                  ></nz-date-picker>
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control  class="mb-[10px]" nzErrorTip="Please input your Total Days!">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtTotalDays"
+                      nzRequired
+                    >
+                      Total Days
+                    </nz-form-label>
+                      <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input id="txtTotalDays" formControlName="txtTotalDays" Placeholder="Total Days" />
+                  </nz-form-control>
+                </div>
+        
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control class="mb-[10px]" nzErrorTip="Please input your Leave End Date !">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtPregnentDate"
+                    
+                    >
+                       Pregnent Date
+                    </nz-form-label>
+                    <nz-date-picker
+                    class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                    id="txtPregnentDate" formControlName="txtPregnentDate"
+                    placeholder="Leave End Date" [nzFormat]="'yyyy-MM-dd'"
+                  ></nz-date-picker>
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control class="mb-[10px]" nzErrorTip="Please input your Leave End Date !">
+                    <nz-form-label
+                      class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"
+                      nzFor="txtExpectedDelivarydate"
+                  
+                    >
+                    Expected Delivary date
+                    </nz-form-label>
+                    <nz-date-picker
+                    class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
+                    id="txtExpectedDelivarydate" formControlName="txtExpectedDelivarydate"
+                    placeholder="Leave End Date" [nzFormat]="'yyyy-MM-dd'"
+                  ></nz-date-picker>
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control  class="mb-[10px]" nzErrorTip="Select Employee!">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize" nzFor="ddlChardHendEmp">Charge hand Over To</nz-form-label>
+                    <nz-select [(ngModel)]="selectedValue" formControlName="ddlChardHendEmp"
+                      class="w-full capitalize [&>nz-select-top-control]:border-normal dark:[&>nz-select-top-control]:border-white/10 [&>nz-select-top-control]:bg-white [&>nz-select-top-control]:dark:bg-white/10 [&>nz-select-top-control]:shadow-none [&>nz-select-top-control]:text-dark [&>nz-select-top-control]:dark:text-white/60 [&>nz-select-top-control]:h-[50px] [&>nz-select-top-control]:flex [&>nz-select-top-control]:items-center [&>nz-select-top-control]:rounded-[6px] [&>nz-select-top-control]:px-[20px] [&>.ant-select-arrow]:text-theme-gray dark:[&>.ant-select-arrow]:text-white/60"
+                      name="ddlChardHendEmp" [nzShowSearch]="true" >
+                      <nz-option *ngFor="let emp of employees" [nzValue]="emp.empId" [nzLabel]="emp.fullName">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control  class="mb-[10px]">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtLeaveAddress">Leave Address</nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtLeaveAddress" id="txtLeaveAddress" Placeholder="Leave Address" />
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control  class="mb-[10px]">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtEmergencyContact">Emergency Contact</nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtEmergencyContact" id="txtEmergencyContact" Placeholder="Emergency Contact" />
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                
+                  <nz-form-control  class="mb-[10px]">
+                    <nz-form-label class="flex items-center [&>label]:text-dark [&>label]:dark:text-white/60 mb-[10px] p-0 text-[15px] capitalize"  nzFor="txtPurposeOfLeave">Purpose Of Leave</nz-form-label>
+                    <input class="w-full rounded-6 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60" nz-input formControlName="txtPurposeOfLeave" id="txtPurposeOfLeave" Placeholder="Purpose Of Leave" />
+                  </nz-form-control>
+                </div>
+                <div nz-col nzMd="8" nzSm="12" nzXs="24">
+                  <nz-form-control  class="mb-[10px]">
+                    <label for="txtdocemnt" class="color-dark fs-14 fw-500 align-center mb-10">
+                      Attach Document (if any)
+                    </label>
+                    <div class="dm-tag-wrap">
+                      <div class="dm-upload">
+                        <div class="dm-upload__button">
+                          <a href="javascript:void(0)" class="btn btn-lg btn-outline-lighten btn-upload" (click)="fileInput.click()">
+                            <i class="uil uil-upload"></i> Click to Upload
+                          </a>
+                          <input
+                            type="file"
+                            #fileInput
+                            (change)="onFileSelected($event)"
+                            formControlName="attachments"
+                            multiple
+                            style="display: none"
+                          />
+                        </div>
+                        <div class="dm-upload__file">
+                          <ul id="fileList">
+                            <li *ngFor="let file of allFiles; let i = index">
+                              <i class="fas fa-link"></i> {{ file.name }}
+                              <button type="button" (click)="removeFile(i)" class="removeFile">Remove</button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </nz-form-control>
+                </div>
+                </nz-form-item>
+                <nz-form-item nz-row class="register-area" class="mb-0">
+                  <nz-form-control>
+                    <button class="bg-primary hover:bg-primary-hbr border-solid border-1 border-primary text-white dark:text-white/[.87] text-[14px] font-semibold leading-[22px] inline-flex items-center justify-center rounded-[4px] px-[30px] h-[44px]" nz-button nzType="primary">Submit form</button>
+                  </nz-form-control>
+
+                </nz-form-item>
+
+              </form>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+

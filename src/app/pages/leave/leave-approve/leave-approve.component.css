@@ -1,0 +1,15 @@
+.forward{
+    background-color:blueviolet !important;
+}
+.reject{
+    background-color: rgb(237, 117, 117) !important;
+}
+.approve{
+    background-color: green !important;
+}
+
+
+.action-button {
+    /* Common styles for all action buttons */
+    margin-right: 5px; /* Add some spacing between buttons */
+  }
