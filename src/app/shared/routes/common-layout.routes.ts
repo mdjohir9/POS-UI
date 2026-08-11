@@ -71,7 +71,7 @@ export const CommonLayout_ROUTES: Routes = [
     },
 
     {
-        canMatch: [CustomerProfileMatch],
+      //  canMatch: [CustomerProfileMatch],
         path: 'loan',
         data: {
             title: 'Loan'
@@ -91,49 +91,10 @@ export const CommonLayout_ROUTES: Routes = [
     },
 
     {
-        path: 'custommer',
-   
-        data: {
-            title: 'Loan'
-        },
-       canActivate: [AuthGuard],
-        children: [
-            {
-                path: '',
-                redirectTo: '/dashboard',
-                pathMatch: 'full'
-            },
-            {
-                path: '',
-                loadChildren: () => import('../../pages/Custommer/Custommer.module').then(m => m.CustommerModule)
-            },
-        ]
-    },
-
-    {
-        path: 'wallet',
         canMatch: [CustomerProfileMatch],
+        path: 'sales',
         data: {
-            title: 'wallet'
-        },
-       canActivate: [AuthGuard],
-        children: [
-            {
-                path: '',
-                redirectTo: '/dashboard',
-                pathMatch: 'full'
-            },
-            {
-                path: '',
-                loadChildren: () => import('../../pages/wallet/wallet-module').then(m => m.WalletModule)
-            },
-        ]
-    },
-
-    {
-        path: 'employee',
-        data: {
-            title: 'Employee '
+            title: 'Sales'
         },
         canActivate: [AuthGuard],
         children: [
@@ -144,31 +105,54 @@ export const CommonLayout_ROUTES: Routes = [
             },
             {
                 path: '',
-                loadChildren: () => import('../../pages/employee/employee.module').then(m => m.EmployeeModule)
+                loadChildren: () => import('../../pages/sales/sales-module').then(m => m.SalesModule)
             },
         ]
     },
+    {
+        canMatch: [CustomerProfileMatch],
+        path: 'inventory',
+        data: {
+            title: 'Inventory'
+        },
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: '',
+                redirectTo: '/dashboard',
+                pathMatch: 'full'
+            },
+            {
+                path: '',
+                loadChildren: () => import('../../pages/inventory/inventory-module').then(m => m.InventoryModule)
+            },
+        ]
+    },
+
+        {
+        canMatch: [CustomerProfileMatch],
+        path: 'customers',
+        data: {
+            title: 'Customers'
+        },
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: '',
+                redirectTo: '/dashboard',
+                pathMatch: 'full'
+            },
+            {
+                path: '',
+                loadChildren: () => import('../../pages/customers/pos-customer.module').then(m => m.PosCustomerModule)
+            },
+        ]
+    },
+
+    
 
       // Charts
 
 
-    {
-        path: 'leave',
-        data: {
-            title:'leave'
-        },
-        canActivate: [AuthGuard],
-        children: [
-            {
-                path:'',
-                redirectTo:'/dashboard',
-                pathMatch:'full'
-            },
-            {
-                path: '',
-                loadChildren:()=>import('../../pages/leave/leave-module').then(m=>m.LeaveModule)
-            },
-        ]
-    }
-
+  
 ];
