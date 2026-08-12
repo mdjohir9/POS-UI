@@ -1,0 +1,27 @@
+/* Color Palette definition matching NEXTPOS Brand Logo */
+:root {
+  --nextpos-navy: #0B3B60;
+  --nextpos-teal: #28C76F;
+}
+
+/* Override NG-ZORRO Default Active Styles */
+::ng-deep .ant-pagination-item-active {
+  border-color: #28C76F !important;
+}
+
+::ng-deep .ant-pagination-item-active a {
+  color: #28C76F !important;
+}
+
+::ng-deep .ant-pagination-next:hover .ant-pagination-item-link,
+::ng-deep .ant-pagination-prev:hover .ant-pagination-item-link {
+  color: #28C76F !important;
+  border-color: #28C76F !important;
+}
+
+/* Table Header Style Overrides */
+::ng-deep .ant-table-thead > tr > th {
+  background-color: #f8fafc !important;
+  color: #0B3B60 !important;
+  font-weight: 700 !important;
+}

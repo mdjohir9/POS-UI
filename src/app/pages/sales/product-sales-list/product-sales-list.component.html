@@ -1,1 +1,114 @@
-<p>product-sales-list works!</p>
+<div nz-row nzGutter="25">
+  <!-- skeleton -->
+  <ng-template #loadingSkeleton>
+    <nz-skeleton class="bg-white rounded-6 p-[30px] pt-[15px]" [nzShape]="'circle'" [nzActive]="true"
+      [nzParagraph]="{ rows: 5 }"></nz-skeleton>
+  </ng-template>
+
+  <div nz-col nzXs="24" class="mb-[25px]">
+    <ng-container *ngIf="showContent; else loadingSkeleton">
+      <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative mb-[25px] shadow-sm border border-[#e2e8f0]">
+        
+        <!-- Header & Top Bar -->
+        <div class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
+          <div class="flex items-center gap-3">
+            <!-- Brand Logo Match Header -->
+            <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">
+              Product Purchase List
+            </h4>
+          </div>
+          
+          <div class="flex items-center gap-[15px]">
+            <!-- Search Field with Focus Highlight -->
+            <div class="ssm:min-w-[260px]">
+              <nz-input-group class="h-10 inline-flex items-center bg-[#f8fafc] border border-[#cbd5e1] rounded-[6px] px-[12px] focus-within:border-[#28C76F]">
+                <i class="text-[#64748b] text-[18px]" nz-icon nzType="search"></i>
+                <input
+                  class="bg-transparent border-none text-[14px] text-[#0B3B60] flex items-center ml-2 outline-none w-full"
+                  type="text"
+                  nz-input
+                  placeholder="Search purchase no or supplier..."
+                  [(ngModel)]="searchAny"
+                  (ngModelChange)="filterByAnyMatchingData()"
+                />
+              </nz-input-group>
+            </div>
+
+            <!-- Action Button with Logo Gradient -->
+            <button 
+              nz-button 
+              routerLink="/purchase/create"
+              class="text-white text-[13px] font-semibold h-10 px-[18px] flex items-center justify-center rounded-[6px] capitalize border-none transition-all duration-300 shadow-sm"
+              style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
+              + Add Purchase
+            </button>
+          </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="p-[25px]">
+          <div class="w-full overflow-x-auto">
+            <nz-table #purchaseTable 
+              [nzData]="dataType === 'datas' ? datas : allDatas"
+              nzShowPagination
+              nzShowSizeChanger
+              [nzLoading]="isLoading" 
+              class="max-h-[650px]">
+              <thead>
+                <tr>
+                  <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">SL</th>
+                  <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Purchase No</th>
+                  <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Purchase Date</th>
+                  <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Supplier</th>
+                  <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Items</th>
+                  <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Total Amount</th>
+                  <th class="px-[20px] py-[14px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="hover:bg-[#f8fafc] transition-colors duration-150 border-b border-[#f1f5f9]" *ngFor="let data of purchaseTable.data; let i = index;">
+                  <td class="px-[20px] py-4 text-[#64748b] text-[14px]">{{ i + 1 }}</td>
+                  <td class="px-[20px] py-4 text-[#0B3B60] font-semibold text-[14px]">{{ data.purchaseNo }}</td>
+                  <td class="px-[20px] py-4 text-[#334155] text-[14px]">{{ data.purchaseDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+                  <td class="px-[20px] py-4 text-[#334155] text-[14px] font-medium">{{ data.supplierName }}</td>
+                  <td class="px-[20px] py-4 text-[#334155] text-[14px]">
+                    <span class="bg-[#e6f4ea] text-[#28C76F] px-2.5 py-1 rounded-full text-[12px] font-bold">
+                      {{ data.details ? data.details.length : 0 }} Items
+                    </span>
+                  </td>
+                  <td class="px-[20px] py-4 text-[#0B3B60] text-[15px] font-bold">
+                    {{ data.totalAmount | currency: 'USD' }}
+                  </td>
+                  <td class="px-[20px] py-4 text-center">
+                    <div class="flex items-center justify-center gap-2">
+                      <!-- Edit Icon with Navy Hover -->
+                      <button
+                        nz-button
+                        nzType="default"
+                        nzShape="circle"
+                        class="border-[#cbd5e1] text-[#0B3B60] hover:border-[#0B3B60] hover:bg-[#0B3B60] hover:text-white transition-all duration-200"
+                        (click)="editPurchase(data.purchaseNo)">
+                        <i nz-icon nzType="edit"></i>
+                      </button>
+                    
+                      <!-- Delete Icon -->
+                      <button
+                        nz-button
+                        nzType="default"
+                        nzShape="circle"
+                        class="border-[#cbd5e1] text-[#ef4444] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white transition-all duration-200"
+                        (click)="deletePurchase(data.purchaseNo)">
+                        <i nz-icon nzType="delete"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PagesRoutingModule } from './pages-routing.module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -31,14 +31,12 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { CompanyComponent } from './settings/company/company.component';
-import { RechargePaymentMethsComponent } from './settings/rechargePaymentMeths/rechargePaymentMeths.component';
-import { RechargeAccountsComponent } from './settings/rechargeAccounts/rechargeAccounts.component';
-
-
-
+import { CompanyComponent } from './company/company.component';
 
 import { register } from 'swiper/element/bundle';
+import { PosBrandComponent } from './pos-brand/pos-brand.component';
+import { PosCategoryComponent } from './pos-category/pos-category.component';
+import { PosroductBatchComponent } from './posroduct-batch/posroduct-batch.component';
 
 register();
 
@@ -81,8 +79,10 @@ const antdModule = [
     declarations: [
 
         CompanyComponent,
-        RechargePaymentMethsComponent,
-        RechargeAccountsComponent,
+        PosBrandComponent,
+        PosCategoryComponent,
+        PosroductBatchComponent
+
 
     ],
     providers: [

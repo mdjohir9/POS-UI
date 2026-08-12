@@ -1,1 +1,201 @@
-<p>pos-customer works!</p>
+<div class="bg-slate-50 min-h-screen p-6">
+  
+  <!-- ================= TOP: CUSTOMER ENTRY FORM ================= -->
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+    <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative mb-[25px] shadow-sm border border-[#e2e8f0]">
+      
+      <!-- Top Header Bar -->
+      <div class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
+        <div class="flex items-center gap-3">
+          <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">
+            {{ isEditMode ? 'Update Customer' : 'Add New Customer' }}
+          </h4>
+        </div>
+      </div>
+
+      <div class="p-[25px]">
+        <div nz-row [nzGutter]="20">
+          
+          <!-- Customer Code -->
+          <div nz-col nzXs="24" nzMd="6">
+            <nz-form-item class="mb-4">
+              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Customer Code</nz-form-label>
+              <nz-form-control nzErrorTip="Customer Code is required!">
+                <input 
+                  nz-input 
+                  formControlName="customerCode" 
+                  placeholder="CUST-XXXXX" 
+                  class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Customer Name -->
+          <div nz-col nzXs="24" nzMd="6">
+            <nz-form-item class="mb-4">
+              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Customer Name</nz-form-label>
+              <nz-form-control nzErrorTip="Customer Name is required!">
+                <input 
+                  nz-input 
+                  formControlName="customerName" 
+                  placeholder="Enter full name" 
+                  class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Phone Number -->
+          <div nz-col nzXs="24" nzMd="6">
+            <nz-form-item class="mb-4">
+              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Phone Number</nz-form-label>
+              <nz-form-control nzErrorTip="Valid phone number is required!">
+                <input 
+                  nz-input 
+                  formControlName="phone" 
+                  placeholder="+8801XXXXXXXXX" 
+                  class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Address -->
+          <div nz-col nzXs="24" nzMd="5">
+            <nz-form-item class="mb-4">
+              <nz-form-label class="font-bold text-[#0B3B60]">Address</nz-form-label>
+              <nz-form-control>
+                <input 
+                  nz-input 
+                  formControlName="address" 
+                  placeholder="Enter street/city address" 
+                  class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Status Toggle Switch -->
+<!--           <div nz-col nzXs="24" nzMd="6">
+            <nz-form-item class="mb-4">
+              <nz-form-label class="font-bold text-[#0B3B60]">Status</nz-form-label>
+              <nz-form-control>
+                <div class="flex items-center gap-3 h-10">
+                  <nz-switch formControlName="isActive"></nz-switch>
+                  <span class="text-sm font-semibold" [class.text-[#28C76F]="customerForm.get('isActive')?.value" [class.text-red-500]="!customerForm.get('isActive')?.value">
+                    {{ customerForm.get('isActive')?.value ? 'Active' : 'Inactive' }}
+                  </span>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div> -->
+
+        </div>
+
+        <!-- Submit & Reset Buttons -->
+        <div class="flex justify-end gap-3 pt-3 border-t border-[#e2e8f0]">
+          <button 
+            type="button" 
+            nz-button 
+            (click)="resetForm()"
+            class="rounded-[6px] h-10 px-6 font-semibold border-[#cbd5e1] text-[#64748b] hover:border-[#0B3B60] hover:text-[#0B3B60]">
+            Reset
+          </button>
+          
+          <button 
+            type="submit" 
+            nz-button 
+            class="text-white text-[14px] font-semibold h-10 px-8 rounded-[6px] border-none shadow-sm transition-all duration-300"
+            style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
+            {{ isEditMode ? 'Update Customer' : 'Save Customer' }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </form>
+
+  <!-- ================= BOTTOM: CUSTOMER LIST ================= -->
+  <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative shadow-sm border border-[#e2e8f0]">
+    
+    <!-- Header & Search Bar -->
+    <div class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
+      <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">
+        Customer List
+      </h4>
+      
+      <div class="ssm:min-w-[280px]">
+        <nz-input-group class="h-10 inline-flex items-center bg-[#f8fafc] border border-[#cbd5e1] rounded-[6px] px-[12px] focus-within:border-[#28C76F]">
+          <i class="text-[#64748b] text-[18px]" nz-icon nzType="search"></i>
+          <input
+            class="bg-transparent border-none text-[14px] text-[#0B3B60] flex items-center ml-2 outline-none w-full"
+            type="text"
+            nz-input
+            placeholder="Search code, name, or phone..."
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="filterData()"
+          />
+        </nz-input-group>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="p-[25px]">
+      <div class="w-full overflow-x-auto">
+        <nz-table #customerTable [nzData]="filteredCustomers" nzShowPagination nzShowSizeChanger class="max-h-[600px]">
+          <thead>
+            <tr>
+              <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9] w-12">SL</th>
+              <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Code</th>
+              <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Customer Name</th>
+              <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Phone</th>
+              <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Address</th>
+              <th class="px-[20px] py-[14px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9] w-28">Status</th>
+              <th class="px-[20px] py-[14px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9] w-28">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (data of customerTable.data; track $index) {
+              <tr class="hover:bg-[#f8fafc] transition-colors duration-150 border-b border-[#f1f5f9]">
+                <td class="px-[20px] py-4 text-[#64748b] text-[14px]">{{ $index + 1 }}</td>
+                <td class="px-[20px] py-4 text-[#0B3B60] font-semibold text-[14px]">{{ data.customerCode }}</td>
+                <td class="px-[20px] py-4 text-[#334155] font-medium text-[14px]">{{ data.customerName }}</td>
+                <td class="px-[20px] py-4 text-[#334155] text-[14px]">{{ data.phone }}</td>
+                <td class="px-[20px] py-4 text-[#64748b] text-[14px]">{{ data.address || 'N/A' }}</td>
+                <td class="px-[20px] py-4 text-center">
+                  <span 
+                    class="px-3 py-1 rounded-full text-[12px] font-bold uppercase tracking-wider"
+                    [class]="data.isActive ? 'bg-[#e6f4ea] text-[#28C76F]' : 'bg-red-100 text-red-500'">
+                    {{ data.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td class="px-[20px] py-4 text-center">
+                  <div class="flex items-center justify-center gap-2">
+                    <button
+                      type="button"
+                      nz-button
+                      nzType="default"
+                      nzShape="circle"
+                      class="border-[#cbd5e1] text-[#0B3B60] hover:border-[#0B3B60] hover:bg-[#0B3B60] hover:text-white transition-all duration-200"
+                      (click)="editCustomer(data)">
+                      <i nz-icon nzType="edit"></i>
+                    </button>
+                  
+                    <button
+                      type="button"
+                      nz-button
+                      nzType="default"
+                      nzShape="circle"
+                      class="border-[#cbd5e1] text-[#ef4444] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white transition-all duration-200"
+                      (click)="deleteCustomer(data.customerCode)">
+                      <i nz-icon nzType="delete"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+
+  </div>
+
+</div>

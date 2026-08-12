@@ -47,7 +47,7 @@ export const CommonLayout_ROUTES: Routes = [
             },
             {
                 path: '',
-                loadChildren: () => import('../../pages/pages.module').then(m => m.PagesModule)
+                loadChildren: () => import('../../pages/settings/pages.module').then(m => m.PagesModule)
             },
         ]
     },
