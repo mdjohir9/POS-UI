@@ -25,7 +25,8 @@ interface PurchaseItem {
   templateUrl: './product-purches-list.component.html',
   styleUrl: './product-purches-list.component.css'
 })
-export class ProductPurchesListComponent {isLoading = true;
+export class ProductPurchesListComponent {
+  isLoading = true;
   showContent = false;
   searchAny = '';
   dataType: string = 'allDatas';

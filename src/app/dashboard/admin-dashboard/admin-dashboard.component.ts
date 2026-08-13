@@ -21,7 +21,7 @@ export class AdminDashboardComponent  {
   constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.getBalance();
+     this.getBalance();
 
   }
 
@@ -58,8 +58,24 @@ export class AdminDashboardComponent  {
     disbursementAmount: 0,
     repaymentAmount: 0
   };
-  
-  getBalance(): void {
+    getBalance(): void {
+    // Static/Demo data
+    this.isLoading = true;
+    this.showContent = false;
+
+    setTimeout(() => {
+      this.blanceAmount = {
+        totalCustomers: 1250,
+        totalActiveLoan: 485,
+        disbursementAmount: 2500000,
+        repaymentAmount: 1850000
+      };
+
+      this.isLoading = false;
+      this.showContent = true;
+    }, 500);
+  }
+/*   getBalance(): void {
     this.isLoading = true;
     this.showContent = false;
   
@@ -78,6 +94,6 @@ export class AdminDashboardComponent  {
         console.error('Error fetching balance details:', error);
       }
     });
-  }
+  } */
 
 }

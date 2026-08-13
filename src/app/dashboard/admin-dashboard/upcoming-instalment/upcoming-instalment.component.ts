@@ -16,7 +16,7 @@ import { DateTimeFormat } from 'intl';
   styleUrl: './upcoming-instalment.component.css'
 })
 export class UpcomingInstalmentComponent implements OnInit{
-isLoading = true;
+ isLoading = true;
   showContent = false;
   value = '';
   statusFilter = 'All'; 

@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-product-sales',
@@ -9,7 +10,11 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ProductSalesComponent {
 private fb = inject(FormBuilder);
+  private message = inject(NzMessageService); 
+  @ViewChild('barcodeInput') barcodeInputRef!: ElementRef; 
 
+  barcodeControl = new FormControl('');
+  
   salesForm!: FormGroup;
   isModalVisible = false;
   newCustomerName = '';
@@ -24,10 +29,10 @@ private fb = inject(FormBuilder);
   ];
 
   products = [
-    { productId: 501, productName: 'Cotton Fabric Roll', defaultRate: 200.00 },
-    { productId: 502, productName: 'Sewing Thread Box', defaultRate: 35.00 }
-  ];
-
+      { productId: 501, productName: 'Cotton Fabric Roll', barcode: 'bar-1001', defaultRate: 200.00 },
+      { productId: 502, productName: 'Sewing Thread Box', barcode: 'bar-1002', defaultRate: 35.00 }
+    ];
+    
   paymentMethods = [
     { methodId: 1, methodName: 'Cash' },
     { methodId: 2, methodName: 'Bank Transfer' },
@@ -126,6 +131,70 @@ private fb = inject(FormBuilder);
       this.newCustomerName = '';
       this.isModalVisible = false;
     }
+  }
+  addProductToDetails(product: any): void {
+  const firstRow = this.details.at(0);
+  const isFirstRowEmpty = this.details.length === 1 && !firstRow?.get('productId')?.value;
+
+  if (isFirstRowEmpty) {
+    firstRow.patchValue({
+      productId: product.productId,
+      quantity: 1,
+      rate: product.defaultRate
+    });
+
+    this.calculateRowAmount(0);
+  } else {
+    const newRow = this.createItemRow();
+        newRow.patchValue({
+      productId: product.productId,
+      quantity: 1,
+      rate: product.defaultRate
+    });
+    this.details.push(newRow);
+    this.calculateRowAmount(this.details.length - 1);
+  }
+}
+onBarcodeScan(event: Event): void {
+  event.preventDefault();
+  const barcode = this.barcodeControl.value?.trim();
+
+  if (!barcode) return;
+
+  const matchedProduct = this.products.find(
+    p => p.barcode && p.barcode.toLowerCase() === barcode.toLowerCase()
+  );
+
+  if (matchedProduct) {
+    const existingRowIndex = this.details.controls.findIndex(
+      row => row.get('productId')?.value === matchedProduct.productId
+    );
+
+    if (existingRowIndex !== -1) {
+      const existingRow = this.details.at(existingRowIndex);
+      const currentQty = existingRow.get('quantity')?.value || 0;
+      existingRow.get('quantity')?.setValue(currentQty + 1);
+      
+      this.calculateRowAmount(existingRowIndex);
+    } else {
+      this.addProductToDetails(matchedProduct);
+    }
+
+    this.barcodeControl.setValue('');
+    this.focusBarcodeInput();
+  } else {
+    alert('Product not found!');
+    this.barcodeControl.setValue('');
+    this.focusBarcodeInput();
+  }
+}
+
+
+
+  focusBarcodeInput(): void {
+    setTimeout(() => {
+      this.barcodeInputRef?.nativeElement?.focus();
+    }, 100);
   }
 
   onSubmit(): void {

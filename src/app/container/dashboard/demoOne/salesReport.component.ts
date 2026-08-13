@@ -110,12 +110,34 @@ export class SaleReportComponent implements OnInit {
   ngOnInit(): void {
     const today = new Date();
     const currentYear = today.getFullYear().toString(); // "2025"
+  this.repaymentAmount = 125000;
+  this.disbursementAmount = 250000;
 
-    this.getdisbursedAndRecoveredSummary(currentYear);
+  this.monthlyDisbursementData = [
+    18000, 25000, 32000, 28000, 40000, 35000,
+    45000, 50000, 42000, 55000, 48000, 60000
+  ];
+
+  this.monthlyRepaymentData = [
+    12000, 18000, 22000, 20000, 28000, 25000,
+    30000, 35000, 32000, 38000, 36000, 42000
+  ];
+    //this.getdisbursedAndRecoveredSummary(currentYear);
 
     // Initialize chart options without series
     this.chartOptions = {
-      series: [],
+         series: [
+      {
+        name: 'Total Recovered',
+        data: this.monthlyRepaymentData,
+        color: '#7811FF'
+      },
+      {
+        name: 'Total Disbursed',
+        data: this.monthlyDisbursementData,
+        color: '#00AAFF'
+      }
+    ],
       chart: {
         width: '100%',
         height: 245,

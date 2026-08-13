@@ -1,86 +1,146 @@
-<div class="relative main-content py-[120px] bg-top bg-no-repeat bg-[url('/assets/images/shape/admin-bg-light.png')] dark:bg-[url('/assets/images/shape/admin-bg-dark.png')] dark:bg-[#010312] bg-contain">
-  <div class="admin">
-    <div class="text-center">
-      <img class="inline dark:hidden " style="width: 350px!important;" src="assets/upstartloan/companyLogo.png"  alt="image" />
-      <img class="hidden dark:inline" style="width: 350px!important;" src="assets/upstartloan/companyLogo.png"  alt="image" />
+<div class="min-h-screen w-full flex flex-col lg:flex-row bg-slate-50 dark:bg-[#010312]">
+
+  <!-- ================= LEFT SIDE: POS MOTIVATION & BRANDING (72%) ================= -->
+  <div class="hidden lg:flex lg:w-[70%] xl:w-[73%] bg-gradient-to-br from-[#0B3B60] via-[#07253d] to-[#041626] relative p-12 flex-col justify-between overflow-hidden">
+    
+    <!-- Background Glowing Effects -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-[#28C76F]/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-[#0B3B60]/50 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Top Brand Logo -->
+    <div class="z-10 flex items-center gap-3">
+      <img class="h-10 w-auto" src="assets/upstartloan/companyLogo.png" alt="NEXT POS Logo" />
     </div>
-    <div nz-row class="justify-center">
-      <div nz-col nzXs="24" nzSm="18" nzMd="12" nzXl="8" nzXXl="6">
-        <div class="rounded-6 mt-[25px] shadow_[0px_5px_20px_rgba(173,181,217, 0.03)] dark:shadow_[0px_5px_15px_rgba(0, 0, 0, .1)] bg-white dark:bg-[#1b1d2a]">
-          <div class="p-[25px] text-center border-b border-regular dark:border-white/[.05] top">
-            <h2 class="text-18 font-semibold leading-[1] mb-0 text-dark dark:text-white/[.87] title">Sign in NEXT POS</h2>
-          </div>
-          <div class="py-[30px] px-[40px] content">
-            <form nz-form [formGroup]="validateForm" nzLayout="vertical" class="login-form" (ngSubmit)="submitForm()">
-              <nz-form-item class="block mb-0">
-                <nz-form-label
-                  class="text-[14px] w-full leading-[1.4285714286] font-medium [&>label]:text-dark [&>label]:dark:text-white/[.87] mb-[8px] capitalize inline-block"
-                  nzRequired nzFor="userName">Phone or Email</nz-form-label>
-                <nz-form-control nzErrorTip="The input is not valid E-mail!">
-                  <input
-                    class="flex items-center shadow-none py-[10px] px-[20px] h-[48px] border-1 border-regular dark:border-white/10 rounded-4 w-full text-[14px] font-normal leading-[1.5] placeholder:text-[#A0A0A0] dark:bg-white/10 dark:text-white/60"
-                    nz-input formControlName="userName" placeholder="Phone or Email" id="userName" />
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item class="block mb-0 mt-[25px]">
-                <nz-form-label
-                  class=" text-[14px] leading-[1.4285714286] font-medium [&>label]:text-dark [&>label]:dark:text-white/[.87] capitalize inline-block"
-                  nzRequired nzFor="password">Password</nz-form-label>
-                <nz-form-control nzErrorTip="Please input your Password!">
-                  <nz-input-group
-                    class="flex items-center shadow-none py-[10px] px-[20px] h-[48px] border-1 border-regular dark:border-white/10 rounded-4 w-full text-[14px] font-normal leading-[1.5] dark:bg-white/10"
-                    [nzSuffix]="suffixTemplate">
-                    <input nz-input formControlName="password" [type]="passwordVisible ? 'text' : 'password'"
-                      id="password" placeholder="Password" class="placeholder:text-[#A0A0A0] dark:bg-transparent bg-transparent dark:text-white/60" />
-                  </nz-input-group>
-                  <ng-template #suffixTemplate>
-                    <span class="[&>svg]:text-theme-gray dark:[&>svg]:text-white/60" nz-icon [nzType]="passwordVisible ? 'eye' : 'eye-invisible'"
-                      (click)="passwordVisible = !passwordVisible"></span>
-                  </ng-template>
-                </nz-form-control>
-              </nz-form-item>
-              <div class="flex items-center justify-between capitalize mb-[19px] mt-[23px] ">
-                <label nz-checkbox formControlName="remember" class="font-normal text-13 leading-[22px] text-light dark:text-white/60">
-                  <span>Keep me logged in</span>
-                </label>
-                <a class="text-13 text-primary hover:text-dark dark:hover:text-white/[.87]" routerLink="/authentication/forget-pass">forget password?</a>
-              </div>
-              <button nz-button type="submit"
-                class=" inline-flex items-center justify-center w-full h-[48px] text-14 rounded-6 font-medium bg-primary text-white cursor-pointer hover:bg-primary-hbr border-primary transition duration-300">
-                <i class="fas fa-cog fa-spin"></i>
-                Log in
-              </button>
-            </form>
-            <div
-              class="relative mt-[25px] text-center text-13 text-regular dark:text-white/[87] before:content-[''] before:absolute before:w-full ltr:before:left-0 rtl:before:right-0 before:top-[50%] before:translate-y-[-50%] before:z-[1] before:h-[1px] before:bg-normal before:dark:bg-white/10">
-              <span
-                class="font-medium px-[15px] inline-block relative z-[2] bg-white dark:bg-[#1b1c29] text-theme-gray dark:text-white/60 capitalize">or</span>
-            </div>
-<!--             <div class="mt-[30px] d-flex align-items-center justify-content-center">
-              <ul class="flex flex-wrap justify-center gap-x-[20px] gap-y-[10px]">
-                <li *ngFor="let button of socialMediaButtons">
-                  <button class="w-[48px] h-[48px] cursor-pointer rounded-6 transition duration-300 flex justify-center items-center text-{{
-                      button.type
-                    }} bg-{{ button.type }}/10 dark:bg-{{ button.type }}  hover:bg-{{ button.type }}/20">
-                    <svg-icon class="w-[22px] h-[22px] [&>svg]:w-[22px] [&>svg]:h-[22px] dark:text-white text-{{ button.type }}" src="../../../assets/images/svg/unicons-line/{{ button.icon }}.svg"></svg-icon>
-                  </button>
-                  <div class="hidden dark:text-white remove-div text-facebook bg-facebook/10 dark:bg-facebook hover:bg-facebook/20"></div>
-                  <div class="hidden dark:text-white remove-div text-twitter bg-twitter/10 dark:bg-twitter hover:bg-twitter/20"></div>
-                  <div class="hidden dark:text-white remove-div text-github bg-github/10 dark:bg-github hover:bg-github/20"></div>
-                </li>
-              </ul>
-            </div> -->
-          </div>
-          <div class="text-center p-[25px] rounded-b-6 bg-deepBG dark:bg-[#282a37]">
-            <p
-              class="text-[14px] font-medium text-theme-gray dark:text-white/[.87] inline-flex items-center gap-[6px] mb-0">
-              Don`t have an account?<a
-                class="transition duration-300 text-primary hover:text-dark dark:hover:text-white/[.87]"
-                routerLink="/authentication/sign-up">Sign up</a>
-            </p>
-          </div>
+
+    <!-- Center Content: Motivation & Illustration -->
+    <div class="max-w-2xl mx-auto text-center my-auto flex flex-col items-center z-10 py-8">
+      <!-- POS Banner Illustration / Image -->
+      <div class="relative mb-8 group">
+        <div class="absolute inset-0 bg-[#28C76F]/10 rounded-2xl blur-xl group-hover:bg-[#28C76F]/20 transition-all duration-300"></div>
+        <img 
+          src="assets/images/shape/admin-bg-light.png" 
+          alt="NEXT POS Analytics" 
+          class="relative w-[380px] xl:w-[440px] max-w-full h-auto object-contain drop-shadow-2xl rounded-xl border border-white/10 p-4 bg-white/5 backdrop-blur-sm" />
+      </div>
+
+      <!-- Motivational Title & Description -->
+      <h1 class="text-2xl xl:text-4xl font-extrabold text-white leading-tight mb-4 tracking-tight">
+        Elevate Your Retail Business with <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#28C76F] to-emerald-300">NEXT POS</span>
+      </h1>
+      
+      <p class="text-slate-300 text-sm xl:text-base font-normal leading-relaxed max-w-xl">
+        Streamline your inventory, accelerate checkout speeds, and gain actionable real-time sales insights—all in one unified platform built for growth.
+      </p>
+
+      <!-- Key POS Benefits Badges -->
+      <div class="flex flex-wrap justify-center gap-4 mt-6">
+        <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-xs text-white font-medium">
+          <span class="w-2 h-2 rounded-full bg-[#28C76F]"></span> Real-time Analytics
+        </div>
+        <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-xs text-white font-medium">
+          <span class="w-2 h-2 rounded-full bg-[#28C76F]"></span> Smart Batch Stock
+        </div>
+        <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-xs text-white font-medium">
+          <span class="w-2 h-2 rounded-full bg-[#28C76F]"></span> Seamless Billing
         </div>
       </div>
     </div>
+
+    <!-- Bottom Copyright Note -->
+    <div class="z-10 text-xs text-slate-400 text-left">
+      &copy; 2026 NEXT POS. All rights reserved.
+    </div>
   </div>
+
+
+  <!-- ================= RIGHT SIDE: LOGIN FORM PANEL (28%) ================= -->
+  <div class="w-full lg:w-[30%] xl:w-[27%] min-h-screen flex flex-col justify-between bg-white dark:bg-[#1b1d2a] p-8 sm:p-10 shadow-2xl border-l border-slate-200 dark:border-white/10 z-20">
+    
+    <!-- Mobile Brand Header (Visible only on mobile/tablet) -->
+    <div class="lg:hidden text-center mb-6 pt-4">
+      <img class="inline dark:hidden h-10 w-auto" src="assets/upstartloan/companyLogo.png" alt="Company Logo" />
+      <img class="hidden dark:inline h-10 w-auto" src="assets/upstartloan/companyLogo.png" alt="Company Logo" />
+    </div>
+
+    <div class="my-auto w-full max-w-sm mx-auto">
+      
+      <!-- Header -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-[#0B3B60] dark:text-white mb-2">Sign in</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Welcome back! Please enter your account credentials to continue.</p>
+      </div>
+
+      <!-- Login Form -->
+      <form nz-form [formGroup]="validateForm" nzLayout="vertical" class="login-form" (ngSubmit)="submitForm()">
+        
+        <!-- Phone or Email -->
+        <nz-form-item class="block mb-4">
+          <nz-form-label
+            class="text-[13px] w-full leading-[1.4] font-semibold text-[#0B3B60] dark:text-white/90 mb-[6px] capitalize"
+            nzRequired nzFor="userName">Phone or Email</nz-form-label>
+          <nz-form-control nzErrorTip="The input is not valid E-mail!">
+            <input
+              class="flex items-center shadow-none py-[10px] px-[16px] h-[44px] border border-slate-300 dark:border-white/10 rounded-[6px] w-full text-[14px] font-normal leading-[1.5] focus:border-[#28C76F] dark:bg-white/10 dark:text-white/80"
+              nz-input formControlName="userName" placeholder="Phone or Email" id="userName" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- Password -->
+        <nz-form-item class="block mb-4">
+          <nz-form-label
+            class="text-[13px] leading-[1.4] font-semibold text-[#0B3B60] dark:text-white/90 mb-[6px] capitalize"
+            nzRequired nzFor="password">Password</nz-form-label>
+          <nz-form-control nzErrorTip="Please input your Password!">
+            <nz-input-group
+              class="flex items-center shadow-none py-[6px] px-[16px] h-[44px] border border-slate-300 dark:border-white/10 rounded-[6px] w-full text-[14px] font-normal focus-within:border-[#28C76F] dark:bg-white/10"
+              [nzSuffix]="suffixTemplate">
+              <input nz-input formControlName="password" [type]="passwordVisible ? 'text' : 'password'"
+                id="password" placeholder="Password" class="placeholder:text-[#A0A0A0] bg-transparent text-dark dark:text-white/80 border-none outline-none w-full" />
+            </nz-input-group>
+            <ng-template #suffixTemplate>
+              <span class="cursor-pointer text-slate-400 hover:text-[#0B3B60] dark:hover:text-white" nz-icon [nzType]="passwordVisible ? 'eye' : 'eye-invisible'"
+                (click)="passwordVisible = !passwordVisible"></span>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- Keep Logged In & Forget Password -->
+        <div class="flex items-center justify-between text-xs mb-6 mt-2">
+          <label nz-checkbox formControlName="remember" class="font-normal text-slate-600 dark:text-white/60">
+            <span>Keep me logged in</span>
+          </label>
+          <a class="text-[#0B3B60] hover:text-[#28C76F] font-semibold transition-colors duration-200" routerLink="/authentication/forget-pass">Forgot password?</a>
+        </div>
+
+        <!-- Log In Button -->
+        <button nz-button type="submit"
+          class="w-full h-[46px] text-[14px] rounded-[6px] font-bold text-white cursor-pointer shadow-md border-none transition-all duration-300 flex items-center justify-center gap-2"
+          style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
+          <i class="fas fa-cog fa-spin"></i>
+          Log in
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="relative my-6 text-center text-xs text-slate-400 before:content-[''] before:absolute before:w-full before:left-0 before:top-[50%] before:translate-y-[-50%] before:z-[1] before:h-[1px] before:bg-slate-200 dark:before:bg-white/10">
+        <span class="font-medium px-3 inline-block relative z-[2] bg-white dark:bg-[#1b1d2a] text-slate-400 uppercase">or</span>
+      </div>
+
+      <!-- Sign Up Section -->
+      <div class="text-center bg-slate-50 dark:bg-white/5 p-3 rounded-[6px] border border-slate-200 dark:border-white/5">
+        <p class="text-[13px] font-medium text-slate-600 dark:text-white/80 mb-0 flex justify-center items-center gap-1.5">
+          Don't have an account?
+          <a class="transition-colors duration-300 text-[#28C76F] hover:text-[#0B3B60] font-bold" routerLink="/authentication/sign-up">Sign up</a>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Bottom Footer Links -->
+    <div class="text-center pt-4 border-t border-slate-100 dark:border-white/5 text-[11px] text-slate-400">
+      Need help? <a href="#" class="text-[#0B3B60] dark:text-slate-300 underline">Contact Support</a>
+    </div>
+
+  </div>
+
 </div>
