@@ -47,7 +47,7 @@ import { WithdrawService } from 'src/app/core/services/withdraw.service';
     class="px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] flex flex-wrap items-center justify-between max-sm:flex-col max-sm:h-auto max-sm:mb-[15px]">
     <h1
       class="mb-0 inline-flex items-center py-[16px] max-sm:pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis text-[18px] font-semibold text-dark dark:text-white/[.87]">
-      Withdraw Requests</h1>
+      Payment Summary</h1>
 
   </div>
   <div class="px-[25px] pt-0 pb-[25px]">

@@ -40,7 +40,7 @@ export type ChartOptions = {
     class="px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] flex flex-wrap items-center justify-between max-sm:flex-col max-sm:h-auto max-sm:mb-[15px]">
     <h1
       class="mb-0 inline-flex items-center py-[16px] max-sm:pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis text-[18px] font-semibold text-dark dark:text-white/[.87]">
-      Recharge & Withdrawal Summary</h1>
+      Stock In/Out Summary</h1>
   </div>
   <div class="p-[25px] pt-0">
     <div class="flex items-center justify-center max-ssm:flex-col max-ssm:gap-y-[15px]">
@@ -126,11 +126,11 @@ export class SaleGrowthComponent implements OnInit  {
   constructor(private dashboardService: DashboardService) {
     this.chartOptions = {
       series: [{
-          name: "Recharge",
+          name: "Stock In",
           data: [0, 0, 0, 0, 0, 0, 0],
           color: "#7811FF",
       }, {
-          name: "Withdrawal",
+          name: "Stock Out",
           data: [0, 0, 0, 0, 0, 0, 0],
           color: "#00AAFF",
       }],

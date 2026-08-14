@@ -41,7 +41,7 @@ import { DashboardService } from 'src/app/core/services/dashboardService';
     class="px-[25px] text-dark dark:text-white/[.87] font-medium text-[17px] flex flex-wrap items-center justify-between max-sm:flex-col max-sm:h-auto max-sm:mb-[15px]">
     <h1
       class="mb-0 inline-flex items-center py-[16px] max-sm:pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis text-[18px] font-semibold text-dark dark:text-white/[.87]">
-      Disbursed and Recovered Summary </h1>
+     Sales vs Purchase Summary </h1>
       <div class="py-[16px]">
         <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
           <svg-icon class=" text-light dark:text-white/60 dark:group-hover:text-white/[.87] w-[24px] h-[24px] [&>svg]:w-[24px] [&>svg]:h-[24px]" src="assets/images/svg/feather/more-horizontal.svg"></svg-icon>
@@ -59,14 +59,14 @@ import { DashboardService } from 'src/app/core/services/dashboardService';
   <div class="p-[25px] pt-0">
     <div class="flex items-center justify-center max-ssm:flex-col max-ssm:gap-y-[15px]">
       <div class="relative flex items-center mx-3">
-          <span class="flex items-center ps-3 text-sm text-body dark:text-white/60 before:absolute before:bg-primary before:w-2 before:h-2 before:rounded-full ltr:before:left-0 rtl:before:right-0 before:top-1/2 before:-translate-y-2/4">Recovered</span>
+          <span class="flex items-center ps-3 text-sm text-body dark:text-white/60 before:absolute before:bg-primary before:w-2 before:h-2 before:rounded-full ltr:before:left-0 rtl:before:right-0 before:top-1/2 before:-translate-y-2/4">Sales</span>
           <span class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-22 font-semibold">{{repaymentAmount}}</span>
           <span class="flex items-center text-sm text-success font-medium">
           <svg-icon class="w-[20px] h-[20px] [&>svg]:w-full [&>svg]:h-full" src="assets/images/svg/unicons-line/arrow-down.svg"></svg-icon>
            </span>
       </div>
       <div class="relative flex items-center mx-3">
-          <span class="flex items-center ps-3 text-sm text-body dark:text-white/60 before:absolute before:bg-info before:w-2 before:h-2 before:rounded-full ltr:before:left-0 rtl:before:right-0 before:top-1/2 before:-translate-y-2/4">Disbursed</span>
+          <span class="flex items-center ps-3 text-sm text-body dark:text-white/60 before:absolute before:bg-info before:w-2 before:h-2 before:rounded-full ltr:before:left-0 rtl:before:right-0 before:top-1/2 before:-translate-y-2/4">Purchases</span>
           <span class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-22 font-semibold">{{disbursementAmount}}</span>
           <span class="flex items-center text-sm text-danger font-medium">
           <svg-icon class="w-[20px] h-[20px] [&>svg]:w-full [&>svg]:h-full" src="assets/images/svg/unicons-line/arrow-up.svg"></svg-icon> </span>
@@ -128,12 +128,12 @@ export class SaleReportComponent implements OnInit {
     this.chartOptions = {
          series: [
       {
-        name: 'Total Recovered',
+        name: 'Total Sales',
         data: this.monthlyRepaymentData,
         color: '#7811FF'
       },
       {
-        name: 'Total Disbursed',
+        name: 'Total Purches',
         data: this.monthlyDisbursementData,
         color: '#00AAFF'
       }
@@ -246,12 +246,12 @@ export class SaleReportComponent implements OnInit {
           // Set series now that data is available
           this.chartOptions.series = [
             {
-              name: 'Total Recovered ',
+              name: 'Total Sales ',
               data: this.monthlyRepaymentData,
               color: '#7811FF'
             },
             {
-              name: 'Total Disbursed',
+              name: 'Total Purches',
               data: this.monthlyDisbursementData,
               color: '#00AAFF'
             }
