@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 })
 export class CustommerService {
   private RootUrl = 'https://localhost:7220';
-  private CompanyId: string = '1111';
+  private CompanyId: string = '1';
   private Get_EMPLOYEE_URL = `api/Employee/employees?CompanyId=${this.CompanyId}`;
   private POST_PERSONNEL_INFO_URL = `api/Custommer/create`;
   private POST_CONTACT_INFO_URL = `api/CustommerContact/create`;
@@ -22,7 +22,7 @@ export class CustommerService {
   private POST_GUARANTOR_INFO_URL = `api/CustommerGuarantor/create`;
   private PUT_PERSONNEL_INFO_URL = `api/Custommer/update`;
   private PostEmployeeShortingUrl = `api/Employee/employee-sorting`;
-  private GET_PERSONNEL_INFO = `api/Custommer/custommer`;
+  private GET_PERSONNEL_INFO = `api/POSCustomer/customers`;
   private GET_PERSONNEL_DETAILES_BY_ID = `api/Custommer/custommer`;
   private GET_CUSTOMMER_DETAILES = `api/Custommer/custommerDetailes`;
   private GET_ALL_CUSTOMMER = `api/Custommer/custommers`;
@@ -130,6 +130,27 @@ export class CustommerService {
       })
     );
   }
+  getCustomers(): Observable<any> {
+  return this.genericHttpService
+    .getAll<any>(`${this.GET_PERSONNEL_INFO}?companyId=${this.CompanyId}`)
+    .pipe(
+      map((response: any) => {
+        if (
+          response &&
+          response.statusCode === 200 &&
+          Array.isArray(response.data)
+        ) {
+          return response;
+        }
+
+        return {
+          statusCode: 500,
+          message: 'Invalid response',
+          data: []
+        };
+      })
+    );
+}
   
   getCustommerInfo(id: any): Observable<ICustomerDetailes[] | null> {
     return this.genericHttpService.getById<IApiResponse<ICustomerDetailes[]>>(this.GET_CUSTOMMER_DETAILES, id).pipe(

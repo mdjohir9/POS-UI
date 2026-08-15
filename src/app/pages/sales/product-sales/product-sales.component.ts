@@ -1,7 +1,10 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { ProductService } from 'src/app/core/services/product.service';
+import {CustommerService} from 'src/app/core/services/custommerService';
+import { PaymentMethodService } from 'src/app/core/services/paymentMethod.service';
+import { SalesService } from 'src/app/core/services/sales.service';
 @Component({
   selector: 'app-product-sales',
   standalone: false,
@@ -10,11 +13,16 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class ProductSalesComponent {
 private fb = inject(FormBuilder);
-  private message = inject(NzMessageService); 
   @ViewChild('barcodeInput') barcodeInputRef!: ElementRef; 
-
+constructor(
+  private productService: ProductService,
+  private customerService: CustommerService,  
+  private paymentMethodService: PaymentMethodService,
+  private salesService: SalesService,
+  private message: NzMessageService
+) {}
   barcodeControl = new FormControl('');
-  
+  paymentMethods: any[] = [];
   salesForm!: FormGroup;
   isModalVisible = false;
   newCustomerName = '';
@@ -23,28 +31,66 @@ private fb = inject(FormBuilder);
   totalPaid = 0;
   grandTotal = 0;
 
-  customers = [
-    { customerId: 201, customerName: 'Rahim Apparel Ltd.' },
-    { customerId: 202, customerName: 'Fashion Warehouse' }
-  ];
+  customers = [];
 
-  products = [
-      { productId: 501, productName: 'Cotton Fabric Roll', barcode: 'bar-1001', defaultRate: 200.00 },
-      { productId: 502, productName: 'Sewing Thread Box', barcode: 'bar-1002', defaultRate: 35.00 }
-    ];
+  products = [];
     
-  paymentMethods = [
-    { methodId: 1, methodName: 'Cash' },
-    { methodId: 2, methodName: 'Bank Transfer' },
-    { methodId: 3, methodName: 'Mobile Banking (BKash/Nagad)' }
-  ];
-
   ngOnInit(): void {
     this.initForm();
     this.addItem();
     this.addPayment();
+    this.getCustomers();
+    this.getPaymentMethods();
   }
+  getCustomers(): void {
 
+  this.customerService.getCustomers().subscribe({
+    next: (response) => {
+      if (response.statusCode === 200) {
+        this.customers = response.data;
+      } else {
+        this.customers = [];
+        this.message.error(
+          response.message || 'Customer not found.'
+        );
+      }
+    },
+    error: (error) => {
+      console.error('Customer API Error:', error);
+      this.customers = [];
+      this.message.error('Failed to load customers.');
+    }
+  });
+}
+getPaymentMethods(): void {
+  this.paymentMethodService.getPaymentMethods().subscribe({
+    next: (response) => {
+
+      if (response.statusCode === 200) {
+        this.paymentMethods = response.data;
+      } else {
+        this.paymentMethods = [];
+        this.message.error(
+          response.message || 'Payment methods not found.'
+        );
+      }
+    },
+
+    error: (error) => {
+
+      console.error(
+        'Payment Method API Error:',
+        error
+      );
+
+      this.paymentMethods = [];
+
+      this.message.error(
+        'Failed to load payment methods.'
+      );
+    }
+  });
+}
   initForm(): void {
     this.salesForm = this.fb.group({
       invoiceNo: [`INV-${Date.now().toString().slice(-5)}`, [Validators.required]],
@@ -64,14 +110,15 @@ private fb = inject(FormBuilder);
     return this.salesForm.get('payments') as FormArray;
   }
 
-  createItemRow(): FormGroup {
-    return this.fb.group({
-      productId: [null, [Validators.required]],
-      quantity: [1, [Validators.required, Validators.min(1)]],
-      rate: [0, [Validators.required, Validators.min(0)]],
-      amount: [{ value: 0, disabled: true }]
-    });
-  }
+createItemRow(): FormGroup {
+  return this.fb.group({
+    productId: [null, [Validators.required]],
+    productName: [''],
+    quantity: [1, [Validators.required, Validators.min(1)]],
+    rate: [0, [Validators.required, Validators.min(0)]],
+    amount: [{ value: 0, disabled: true }]
+  });
+}
 
   createPaymentRow(): FormGroup {
     return this.fb.group({
@@ -132,61 +179,113 @@ private fb = inject(FormBuilder);
       this.isModalVisible = false;
     }
   }
-  addProductToDetails(product: any): void {
+addProductToDetails(product: any): void {
+
   const firstRow = this.details.at(0);
-  const isFirstRowEmpty = this.details.length === 1 && !firstRow?.get('productId')?.value;
+
+  const isFirstRowEmpty =
+    this.details.length === 1 &&
+    !firstRow?.get('productId')?.value;
 
   if (isFirstRowEmpty) {
+
     firstRow.patchValue({
       productId: product.productId,
+      productName: product.productName,
       quantity: 1,
       rate: product.defaultRate
     });
 
     this.calculateRowAmount(0);
+
   } else {
+
     const newRow = this.createItemRow();
-        newRow.patchValue({
+
+    newRow.patchValue({
       productId: product.productId,
+      productName: product.productName,
       quantity: 1,
       rate: product.defaultRate
     });
+
     this.details.push(newRow);
-    this.calculateRowAmount(this.details.length - 1);
+
+    this.calculateRowAmount(
+      this.details.length - 1
+    );
   }
 }
 onBarcodeScan(event: Event): void {
+
   event.preventDefault();
+  event.stopPropagation();
+
   const barcode = this.barcodeControl.value?.trim();
 
-  if (!barcode) return;
-
-  const matchedProduct = this.products.find(
-    p => p.barcode && p.barcode.toLowerCase() === barcode.toLowerCase()
-  );
-
-  if (matchedProduct) {
-    const existingRowIndex = this.details.controls.findIndex(
-      row => row.get('productId')?.value === matchedProduct.productId
-    );
-
-    if (existingRowIndex !== -1) {
-      const existingRow = this.details.at(existingRowIndex);
-      const currentQty = existingRow.get('quantity')?.value || 0;
-      existingRow.get('quantity')?.setValue(currentQty + 1);
-      
-      this.calculateRowAmount(existingRowIndex);
-    } else {
-      this.addProductToDetails(matchedProduct);
-    }
-
-    this.barcodeControl.setValue('');
-    this.focusBarcodeInput();
-  } else {
-    alert('Product not found!');
-    this.barcodeControl.setValue('');
-    this.focusBarcodeInput();
+  if (!barcode) {
+    return;
   }
+
+  this.productService.getProductByBarcode(barcode).subscribe({
+    next: (response) => {
+
+      if (response.statusCode === 200 && response.data) {
+
+        const product = response.data;
+
+        const existingRowIndex =
+          this.details.controls.findIndex(
+            row => row.get('productId')?.value === product.id
+          );
+
+        if (existingRowIndex !== -1) {
+
+          const row = this.details.at(existingRowIndex);
+
+          const currentQty =
+            row.get('quantity')?.value || 0;
+
+          row.get('quantity')?.setValue(currentQty + 1);
+
+          this.calculateRowAmount(existingRowIndex);
+
+        } else {
+
+          this.addProductToDetails({
+            productId: product.id,
+            productName: product.productName,
+            barcode: product.barcode,
+            defaultRate: product.salesPrice
+          });
+        }
+
+        this.barcodeControl.setValue('');
+        this.focusBarcodeInput();
+
+      } else {
+
+        this.message.error(
+          response.message || 'Product not found.'
+        );
+
+        this.barcodeControl.setValue('');
+        this.focusBarcodeInput();
+      }
+    },
+
+    error: (error) => {
+
+      console.error('Barcode Product Error:', error);
+
+      this.message.error(
+        error?.error?.message || 'Product not found.'
+      );
+
+      this.barcodeControl.setValue('');
+      this.focusBarcodeInput();
+    }
+  });
 }
 
 
@@ -198,26 +297,93 @@ onBarcodeScan(event: Event): void {
   }
 
   onSubmit(): void {
-    if (this.salesForm.valid) {
-      const rawValue = this.salesForm.getRawValue();
-      const payload = {
-        invoiceNo: rawValue.invoiceNo,
-        salesDate: new Date(rawValue.salesDate).toISOString(),
-        customerId: rawValue.customerId,
-        discountAmount: rawValue.discountAmount || 0,
-        details: rawValue.details.map((item: any) => ({
-          productId: item.productId,
-          quantity: item.quantity,
-          rate: item.rate,
-          amount: item.quantity * item.rate
-        })),
-        payments: rawValue.payments.map((pay: any) => ({
-          paymentMethodId: pay.paymentMethodId,
-          amount: pay.amount
-        }))
-      };
+    if (this.salesForm.invalid) {
+      this.salesForm.markAllAsTouched();
 
-      console.log('Final Payload matching Sales API:', payload);
+      this.message.error(
+        'Please fill in all required fields.'
+      );
+
+      return;
     }
+    const rawValue = this.salesForm.getRawValue();
+    const payload = {
+      invoiceNo: rawValue.invoiceNo,
+
+      salesDate: new Date(
+        rawValue.salesDate
+      ).toISOString(),
+
+      customerId: rawValue.customerId,
+
+      discountAmount:
+        Number(rawValue.discountAmount) || 0,
+
+      details: rawValue.details.map((item: any) => ({
+        productId: Number(item.productId),
+        quantity: Number(item.quantity),
+        rate: Number(item.rate),
+        amount:
+          Number(item.quantity) *
+          Number(item.rate)
+      })),
+
+      payments: rawValue.payments.map((pay: any) => ({
+        paymentMethodId:
+          Number(pay.paymentMethodId),
+
+        amount:
+          Number(pay.amount)
+      }))
+    };
+
+    console.log(
+      'Sales Submit Payload:',
+      payload
+    );
+
+    this.salesService
+      .saveSales(payload)
+      .subscribe({
+
+        next: (response) => {
+
+          console.log(
+            'Sales Submit Response:',
+            response
+          );
+
+          if (response.statusCode === 200) {
+
+            this.message.success(
+              response.message ||
+              'Sales submitted successfully.'
+            );
+
+            // চাইলে এখানে form reset করতে পারো
+            // this.resetSalesForm();
+
+          } else {
+
+            this.message.error(
+              response.message ||
+              'Failed to submit sales.'
+            );
+          }
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Sales Submit Error:',
+            error
+          );
+
+          this.message.error(
+            error?.error?.message ||
+            'Failed to submit sales.'
+          );
+        }
+      });
   }
 }

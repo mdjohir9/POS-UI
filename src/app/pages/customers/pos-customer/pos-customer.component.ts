@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import {CustommerService} from 'src/app/core/services/custommerService';
 interface CustomerModel {
   customerCode: string;
   customerName: string;
@@ -15,8 +16,9 @@ interface CustomerModel {
   styleUrl: './pos-customer.component.css'
 })
 export class PosCustomerComponent {
+  [x: string]: any;
 private fb = inject(FormBuilder);
-
+private customerService = inject(CustommerService);
   customerForm!: FormGroup;
   isEditMode = false;
   searchQuery = '';
@@ -50,8 +52,44 @@ private fb = inject(FormBuilder);
 
   ngOnInit(): void {
     this.initForm();
-    this.filteredCustomers = [...this.customers];
+    //this.filteredCustomers = [...this.customers];
+    this.getCustomers();
   }
+  getCustomers(): void {
+
+  this.customerService.getCustomers().subscribe({
+
+    next: (response) => {
+
+      if (response.statusCode === 200) {
+
+        this.customers = response.data;
+
+      } else {
+
+        this.customers = [];
+
+        this.message.error(
+          response.message || 'Customer not found.'
+        );
+      }
+    },
+
+    error: (error) => {
+
+      console.error(
+        'Customer API Error:',
+        error
+      );
+
+      this.customers = [];
+
+      this.message.error(
+        'Failed to load customers.'
+      );
+    }
+  });
+}
 
   initForm(): void {
     this.customerForm = this.fb.group({

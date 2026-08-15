@@ -1,21 +1,20 @@
 <div class="bg-slate-50 min-h-screen p-6">
-  <form [formGroup]="salesForm" (ngSubmit)="onSubmit()">
-    
-    <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative mb-[25px] shadow-sm border border-[#e2e8f0]">
-      
+<form [formGroup]="salesForm" (ngSubmit)="onSubmit()">
+
+    <div
+      class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative mb-[25px] shadow-sm border border-[#e2e8f0]">
+
       <!-- Top Header Bar -->
-      <div class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
+      <div
+        class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
         <div class="flex items-center gap-3">
           <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">
             Create Product Sale
           </h4>
         </div>
-        
+
         <div class="flex items-center gap-[15px]">
-          <button 
-            type="button"
-            nz-button 
-            routerLink="/sales/list"
+          <button type="button" nz-button routerLink="/sales/product-sales-list"
             class="text-white text-[13px] font-semibold h-10 px-[18px] flex items-center justify-center rounded-[6px] capitalize border-none shadow-sm"
             style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
             Sales List
@@ -24,7 +23,7 @@
       </div>
 
       <div class="p-[25px]">
-        
+
         <!-- General Information Section -->
         <div class="mb-8">
           <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">
@@ -37,10 +36,7 @@
               <nz-form-item class="mb-4">
                 <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Invoice No</nz-form-label>
                 <nz-form-control nzErrorTip="Invoice No is required!">
-                  <input 
-                    nz-input 
-                    formControlName="invoiceNo" 
-                    placeholder="INV-XXXXX" 
+                  <input nz-input formControlName="invoiceNo" placeholder="INV-XXXXX"
                     class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
                 </nz-form-control>
               </nz-form-item>
@@ -51,9 +47,7 @@
               <nz-form-item class="mb-4">
                 <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Sales Date</nz-form-label>
                 <nz-form-control nzErrorTip="Date is required!">
-                  <nz-date-picker 
-                    formControlName="salesDate" 
-                    nzShowTime 
+                  <nz-date-picker formControlName="salesDate" nzShowTime
                     class="w-full h-10 rounded-[6px] border-[#cbd5e1]"></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
@@ -65,133 +59,111 @@
                 <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Customer</nz-form-label>
                 <nz-form-control nzErrorTip="Please select a customer!">
                   <div class="flex gap-2">
-                    <nz-select 
-                      formControlName="customerId" 
-                      nzPlaceHolder="Select Customer" 
-                      nzShowSearch 
+                    <nz-select formControlName="customerId" nzPlaceHolder="Select Customer" nzShowSearch
                       class="flex-1 h-10">
-                      @for (cust of customers; track cust.customerId) {
-                        <nz-option [nzValue]="cust.customerId" [nzLabel]="cust.customerName"></nz-option>
+                      @for (cust of customers; track cust.id) {
+                      <nz-option [nzValue]="cust.id" [nzLabel]="cust.customerName"></nz-option>
                       }
                     </nz-select>
-                    <button 
-                      type="button" 
-                      nz-button 
-                      (click)="showCustomerModal()" 
+                    <button type="button" nz-button (click)="showCustomerModal()"
                       class="h-10 px-3.5 rounded-[6px] bg-[#e6f4ea] text-[#28C76F] border border-[#28C76F] hover:bg-[#28C76F] hover:text-white font-bold transition-colors duration-200">
                       +
                     </button>
                   </div>
                 </nz-form-control>
               </nz-form-item>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sales Item Details Section -->
+        <div class="mb-8">
+          <div class="flex flex-wrap justify-between items-center mb-4 border-b border-[#e2e8f0] pb-3 gap-y-3">
+
+            <!-- Section Title -->
+            <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider m-0">
+              Sales Details
+            </h5>
+
+            <!-- Barcode Scanner Input & Add Button Group -->
+            <div class="flex items-center gap-3 flex-wrap">
+
+              <!-- Barcode Input Field -->
+              <div class="w-64">
+                <nz-input-group [nzPrefix]="prefixIconSearch"
+                  class="h-10 rounded-[6px] border-[#cbd5e1] focus-within:border-[#28C76F]">
+                  <input #barcodeInput type="text" [formControl]="barcodeControl" placeholder="Scan Barcode"
+                    class="w-full" (keydown.enter)="onBarcodeScan($event)" />
+                </nz-input-group>
+                <ng-template #prefixIconSearch>
+                  <i nz-icon nzType="barcode" class="text-[#28C76F] text-lg"></i>
+                </ng-template>
               </div>
-              </div>
-              </div>
-              
-              <!-- Sales Item Details Section -->
-              <div class="mb-8">
-                <div class="flex flex-wrap justify-between items-center mb-4 border-b border-[#e2e8f0] pb-3 gap-y-3">
-              
-                  <!-- Section Title -->
-                  <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider m-0">
-                    Sales Details
-                  </h5>
-              
-                  <!-- Barcode Scanner Input & Add Button Group -->
-                  <div class="flex items-center gap-3 flex-wrap">
-              
-                    <!-- Barcode Input Field -->
-                    <div class="w-64">
-                      <nz-input-group [nzPrefix]="prefixIconSearch"
-                        class="h-10 rounded-[6px] border-[#cbd5e1] focus-within:border-[#28C76F]">
-                        <input #barcodeInput nz-input type="text" [formControl]="barcodeControl"
-                          placeholder="Scan Barcode (Press Enter)" (keyup.enter)="onBarcodeScan($event)"
-                          class="h-full text-[13px] text-[#0B3B60] font-medium" />
-                      </nz-input-group>
-                      <ng-template #prefixIconSearch>
-                        <i nz-icon nzType="barcode" class="text-[#28C76F] text-lg"></i>
-                      </ng-template>
-                    </div>
-              
-                    <!-- Manual Add Product Item Button -->
-                    <button type="button" nz-button (click)="onBarcodeScan($event)"
-                      class="text-white text-[13px] font-semibold h-10 px-4 flex items-center justify-center rounded-[6px] border-none shadow-sm"
-                      style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
-                      + Add Product Item
-                    </button>
-              
-                  </div>
-                </div>
+
+              <!-- Manual Add Product Item Button -->
+              <button type="button" nz-button (click)="onBarcodeScan($event)"
+                class="text-white text-[13px] font-semibold h-10 px-4 flex items-center justify-center rounded-[6px] border-none shadow-sm"
+                style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
+                + Add Product Item
+              </button>
+
+            </div>
+          </div>
 
           <div class="w-full overflow-x-auto">
             <nz-table #basicTable [nzData]="details.controls" [nzShowPagination]="false">
               <thead>
                 <tr>
-                  <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-2/5">Product</th>
-                  <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">Quantity</th>
-                  <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">Rate ($)</th>
-                  <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">Amount ($)</th>
-                  <th class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-12">Action</th>
+                  <th
+                    class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-2/5">
+                    Product</th>
+                  <th
+                    class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">
+                    Quantity</th>
+                  <th
+                    class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">
+                    Rate</th>
+                  <th
+                    class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">
+                    Amount</th>
+                  <th
+                    class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-12">
+                    Action</th>
                 </tr>
               </thead>
               <tbody formArrayName="details">
                 @for (row of details.controls; track $index) {
-                  <tr [formGroupName]="$index" class="border-b border-[#f1f5f9]">
-                    <td class="px-[12px] py-3">
-                      <nz-select 
-                        formControlName="productId" 
-                        nzPlaceHolder="Select Product" 
-                        nzShowSearch 
-                        (ngModelChange)="onProductSelect($event, $index)" 
-                        class="w-full">
-                        @for (prod of products; track prod.productId) {
-                          <nz-option [nzValue]="prod.productId" [nzLabel]="prod.productName"></nz-option>
-                        }
-                      </nz-select>
-                    </td>
+                <tr [formGroupName]="$index" class="border-b border-[#f1f5f9]">
+                  <td class="px-[12px] py-3">
+                    <input type="text" formControlName="productName" class="w-full border rounded px-3 py-2 bg-gray-100"
+                      readonly placeholder="Product Name" />
 
-                    <td class="px-[12px] py-3">
-                      <input 
-                        nz-input 
-                        type="number" 
-                        formControlName="quantity" 
-                        (input)="calculateRowAmount($index)" 
-                        class="rounded-[6px] h-9 border-[#cbd5e1]" 
-                        min="1" />
-                    </td>
+                    <input type="hidden" formControlName="productId" />
+                  </td>
 
-                    <td class="px-[12px] py-3">
-                      <input 
-                        nz-input 
-                        type="number" 
-                        formControlName="rate" 
-                        (input)="calculateRowAmount($index)" 
-                        class="rounded-[6px] h-9 border-[#cbd5e1]" 
-                        min="0" 
-                        step="0.01" />
-                    </td>
+                  <td class="px-[12px] py-3">
+                    <input nz-input type="number" formControlName="quantity" (input)="calculateRowAmount($index)"
+                      class="rounded-[6px] h-9 border-[#cbd5e1]" min="1" />
+                  </td>
 
-                    <td class="px-[12px] py-3">
-                      <input 
-                        nz-input 
-                        type="number" 
-                        formControlName="amount" 
-                        class="rounded-[6px] h-9 bg-[#f8fafc] font-bold text-[#0B3B60] border-[#cbd5e1]" />
-                    </td>
+                  <td class="px-[12px] py-3">
+                    <input nz-input type="number" formControlName="rate" (input)="calculateRowAmount($index)"
+                      class="rounded-[6px] h-9 border-[#cbd5e1]" min="0" step="0.01" />
+                  </td>
 
-                    <td class="px-[12px] py-3 text-center">
-                      <button 
-                        type="button" 
-                        nz-button 
-                        nzType="default" 
-                        nzShape="circle"
-                        class="border-[#cbd5e1] text-[#ef4444] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white transition-colors duration-200"
-                        (click)="removeItem($index)" 
-                        [disabled]="details.length === 1">
-                        <i nz-icon nzType="delete"></i>
-                      </button>
-                    </td>
-                  </tr>
+                  <td class="px-[12px] py-3">
+                    <input nz-input type="number" formControlName="amount"
+                      class="rounded-[6px] h-9 bg-[#f8fafc] font-bold text-[#0B3B60] border-[#cbd5e1]" />
+                  </td>
+
+                  <td class="px-[12px] py-3 text-center">
+                    <button type="button" nz-button nzType="default" nzShape="circle"
+                      class="border-[#cbd5e1] text-[#ef4444] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white transition-colors duration-200"
+                      (click)="removeItem($index)" [disabled]="details.length === 1">
+                      <i nz-icon nzType="delete"></i>
+                    </button>
+                  </td>
+                </tr>
                 }
               </tbody>
             </nz-table>
@@ -200,17 +172,14 @@
 
         <!-- Payments Section & Grand Total Grid -->
         <div nz-row [nzGutter]="24" class="mb-6">
-          
+
           <!-- Payments Breakdown -->
           <div nz-col nzXs="24" nzLg="14">
             <div class="flex justify-between items-center mb-4 border-b border-[#e2e8f0] pb-2">
               <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider m-0">
                 Payment Details
               </h5>
-              <button 
-                type="button" 
-                nz-button 
-                (click)="addPayment()"
+              <button type="button" nz-button (click)="addPayment()"
                 class="text-[#0B3B60] border-[#0B3B60] hover:bg-[#0B3B60] hover:text-white text-[13px] font-semibold h-8 px-3 rounded-[6px] transition-colors duration-200">
                 + Add Payment Method
               </button>
@@ -218,35 +187,27 @@
 
             <div formArrayName="payments" class="space-y-3">
               @for (payRow of payments.controls; track $index) {
-                <div [formGroupName]="$index" class="flex gap-3 items-center">
-                  <div class="flex-1">
-                    <nz-select formControlName="paymentMethodId" nzPlaceHolder="Select Payment Method" class="w-full h-10">
-                      @for (method of paymentMethods; track method.methodId) {
-                        <nz-option [nzValue]="method.methodId" [nzLabel]="method.methodName"></nz-option>
-                      }
-                    </nz-select>
-                  </div>
-                  <div class="flex-1">
-                    <input 
-                      nz-input 
-                      type="number" 
-                      formControlName="amount" 
-                      (input)="calculateTotals()"
-                      placeholder="Amount" 
-                      class="h-10 rounded-[6px] border-[#cbd5e1]" 
-                      min="0" />
-                  </div>
-                  <button 
-                    type="button" 
-                    nz-button 
-                    nzType="default" 
-                    nzShape="circle"
-                    class="border-[#cbd5e1] text-[#ef4444] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white"
-                    (click)="removePayment($index)"
-                    [disabled]="payments.length === 1">
-                    <i nz-icon nzType="delete"></i>
-                  </button>
+              <div [formGroupName]="$index" class="flex gap-3 items-center">
+                <div class="flex-1">
+                  <nz-select formControlName="paymentMethodId" nzPlaceHolder="Select Payment Method" nzShowSearch
+                    class="w-full">
+                    @for (method of paymentMethods; track method.id) {
+                    <nz-option [nzValue]="method.id" [nzLabel]="method.name">
+                    </nz-option>
+                    }
+
+                  </nz-select>
                 </div>
+                <div class="flex-1">
+                  <input nz-input type="number" formControlName="amount" (input)="calculateTotals()"
+                    placeholder="Amount" class="h-10 rounded-[6px] border-[#cbd5e1]" min="0" />
+                </div>
+                <button type="button" nz-button nzType="default" nzShape="circle"
+                  class="border-[#cbd5e1] text-[#ef4444] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white"
+                  (click)="removePayment($index)" [disabled]="payments.length === 1">
+                  <i nz-icon nzType="delete"></i>
+                </button>
+              </div>
               }
             </div>
           </div>
@@ -256,30 +217,26 @@
             <div class="bg-[#f8fafc] p-5 rounded-[8px] border border-[#e2e8f0] space-y-3">
               <div class="flex justify-between items-center text-sm font-semibold text-[#64748b]">
                 <span>Sub Total:</span>
-                <span class="text-[#0B3B60]">{{ subTotal | currency:'USD' }}</span>
+                <span class="text-[#0B3B60]">{{ subTotal | currency:'BDT' }}</span>
               </div>
 
               <div class="flex justify-between items-center text-sm font-semibold text-[#64748b]">
                 <span>Discount Amount:</span>
                 <div class="w-32">
-                  <input 
-                    nz-input 
-                    type="number" 
-                    formControlName="discountAmount" 
-                    (input)="calculateTotals()"
-                    class="h-8 rounded-[6px] text-right font-bold text-[#0B3B60] border-[#cbd5e1]" 
-                    min="0" />
+                  <input nz-input type="number" formControlName="discountAmount" (input)="calculateTotals()"
+                    class="h-8 rounded-[6px] text-right font-bold text-[#0B3B60] border-[#cbd5e1]" min="0" />
                 </div>
               </div>
 
               <div class="flex justify-between items-center text-sm font-semibold text-[#64748b]">
                 <span>Total Paid:</span>
-                <span class="text-[#28C76F]">{{ totalPaid | currency:'USD' }}</span>
+                <span class="text-[#28C76F]">{{ totalPaid | currency:'BDT' }}</span>
               </div>
 
-              <div class="border-t border-[#e2e8f0] pt-3 flex justify-between items-center text-base font-bold text-[#0B3B60]">
+              <div
+                class="border-t border-[#e2e8f0] pt-3 flex justify-between items-center text-base font-bold text-[#0B3B60]">
                 <span>Net Payable:</span>
-                <span class="text-xl text-[#28C76F]">{{ grandTotal | currency:'USD' }}</span>
+                <span class="text-xl text-[#28C76F]">{{ grandTotal | currency:'BDT' }}</span>
               </div>
             </div>
           </div>
@@ -288,17 +245,12 @@
 
         <!-- Form Submit & Reset Buttons -->
         <div class="flex justify-end gap-3 pt-4 border-t border-[#e2e8f0]">
-          <button 
-            type="button" 
-            nz-button 
-            (click)="salesForm.reset()"
+          <button type="button" nz-button (click)="salesForm.reset()"
             class="rounded-[6px] h-10 px-6 font-semibold border-[#cbd5e1] text-[#64748b] hover:border-[#0B3B60] hover:text-[#0B3B60]">
             Reset
           </button>
-          
-          <button 
-            type="submit" 
-            nz-button 
+
+          <button type="submit" nz-button
             class="text-white text-[14px] font-semibold h-10 px-8 rounded-[6px] border-none shadow-sm transition-all duration-300"
             style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
             Save Sale
@@ -310,15 +262,13 @@
   </form>
 
   <!-- Add New Customer Modal -->
-  <nz-modal [(nzVisible)]="isModalVisible" nzTitle="Add New Customer" (nzOnCancel)="handleCancel()" (nzOnOk)="addCustomer()">
+  <nz-modal [(nzVisible)]="isModalVisible" nzTitle="Add New Customer" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="addCustomer()">
     <ng-container *nzModalContent>
       <nz-form-item class="mb-0">
         <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Customer Name</nz-form-label>
         <nz-form-control>
-          <input 
-            nz-input 
-            [(ngModel)]="newCustomerName" 
-            placeholder="Enter customer name" 
+          <input nz-input [(ngModel)]="newCustomerName" placeholder="Enter customer name"
             class="h-10 rounded-[6px] border-[#cbd5e1]" />
         </nz-form-control>
       </nz-form-item>
