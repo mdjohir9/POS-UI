@@ -1,63 +1,66 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
-interface Person {
-  id: string;
-  name: string;
-  shipment: string;
-  department: string;
-  employeeCode: string;
-  joinDate: string;
-  status: string;
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+export interface Company {
+  id?: number;
+  companyName: string;
+  email: string;
+  phone: string;
+  address: string;
+  isActive: boolean;
 }
+
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
-  styleUrl: './company.component.css'
+  styleUrls: ['./company.component.css']
 })
 export class CompanyComponent implements OnInit {
-  isLoading = true;
-  showContent = false;
-  constructor(private fb: UntypedFormBuilder,private http: HttpClient) {}
+  companyForm!: FormGroup;
+  editingId: number | null = null;
+
+  // Sample Data List
+  companyList: Company[] = [
+    { id: 1, companyName: 'Next POS Solutions', email: 'info@nextpos.com', phone: '+8801700000000', address: 'Dhaka, Bangladesh', isActive: true }
+  ];
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.loadData();
-    this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
-      lastName: [null, [Validators.required]],
-      username: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      zip: [null, [Validators.required]],
-      agree: [false]
+    this.initForm();
+  }
+
+  initForm(): void {
+    this.companyForm = this.fb.group({
+      companyName: ['', [Validators.required]],
+      email: [''],
+      phone: [''],
+      address: [''],
+      isActive: [true]
     });
   }
 
-
-
-  loadData() {
-    // Simulate an asynchronous data loading operation
-    setTimeout(() => {
-      this.isLoading = false;
-      this.showContent = true;
-    }, 500);
-  }
-
-
-
-
-  validateForm!: UntypedFormGroup;
-  captchaTooltipIcon: NzFormTooltipIcon= {
-    type: 'info-circle',
-    theme: 'twotone'
-  };
-
-  submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
+  onSubmit(): void {
+    if (this.companyForm.valid) {
+      if (this.editingId !== null) {
+        const index = this.companyList.findIndex(c => c.id === this.editingId);
+        if (index !== -1) {
+          this.companyList[index] = {
+            id: this.editingId,
+            ...this.companyForm.value
+          };
+        }
+        this.editingId = null;
+      } else {
+        const newCompany: Company = {
+          id: this.companyList.length + 1,
+          ...this.companyForm.value
+        };
+        this.companyList = [...this.companyList, newCompany];
+      }
+      this.resetForm();
     } else {
-      Object.values(this.validateForm.controls).forEach(control => {
+      Object.values(this.companyForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
@@ -66,59 +69,33 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls.checkPassword.updateValueAndValidity());
-  }
-
-  confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
+  editCompany(company: Company): void {
+    if (company.id) {
+      this.editingId = company.id;
+      this.companyForm.patchValue({
+        companyName: company.companyName,
+        email: company.email,
+        phone: company.phone,
+        address: company.address,
+        isActive: company.isActive
+      });
     }
-    return {};
-  };
-
-  getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
   }
 
+  deleteCompany(id?: number): void {
+    if (id) {
+      this.companyList = this.companyList.filter(c => c.id !== id);
+    }
+  }
 
-
-
-  //Company List Start 
-
-  
-    value = '';
-      statusFilter = '';
-      contactSearchValue = '';
-      people: Person[] = [];
-      filteredPeople: Person[] = [];
-
-    
-      searchById(): void {
-        if (this.value) {
-          this.filteredPeople = this.people.filter(
-            (person) => person.id === this.value
-          );
-        } else {
-          this.filteredPeople = this.people;
-        }
-      }
-    
-      filterByContact(): void {
-        this.filteredPeople = this.applyFilters();
-      }
-    
-      filterByStatus(): void {
-        this.filteredPeople = this.applyFilters();
-      }
-    
-      private applyFilters(): Person[] {
-        return this.people.filter((person) =>
-          person.name.toLowerCase().includes(this.contactSearchValue.toLowerCase())
-          && (this.statusFilter === 'all' || person.status.toLowerCase() === this.statusFilter.toLowerCase())
-        );
-      }
+  resetForm(): void {
+    this.companyForm.reset({
+      companyName: '',
+      email: '',
+      phone: '',
+      address: '',
+      isActive: true
+    });
+    this.editingId = null;
+  }
 }

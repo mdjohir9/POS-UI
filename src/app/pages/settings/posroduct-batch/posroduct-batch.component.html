@@ -1,334 +1,178 @@
 <div class="bg-slate-50 min-h-screen p-6">
-  
-  <!-- ================= TOP: BATCH ENTRY FORM ================= -->
-  <form [formGroup]="batchForm" (ngSubmit)="onSubmit()">
-    <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative mb-[25px] shadow-sm border border-[#e2e8f0]">
-      
-      <!-- Top Header Bar -->
-      <div class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
-        <div class="flex items-center gap-3">
-          <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">
-            {{ isEditMode ? 'Update Batch Stock' : 'Add New Batch Stock' }}
-          </h4>
-        </div>
-      </div>
-
-      <div class="p-[25px]">
-        <div nz-row [nzGutter]="20">
-          
-          <!-- Product Dropdown with Add New Item in Dropdown -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Product</nz-form-label>
-              <nz-form-control nzErrorTip="Please select a product!">
-                <nz-select 
-                  formControlName="productId" 
-                  nzPlaceHolder="Select Product" 
-                  nzShowSearch 
-                  class="w-full h-10"
-                  [nzDropdownRender]="productDropdownRender">
-                  @for (prod of products; track prod.productId) {
-                    <nz-option [nzValue]="prod.productId" [nzLabel]="prod.productName"></nz-option>
-                  }
-                </nz-select>
-                <!-- Custom Footer Inside Dropdown -->
-                <ng-template #productDropdownRender>
-                  <nz-divider class="my-1"></nz-divider>
-                  <div 
-                    (click)="openProductModal()" 
-                    class="p-2 text-[#28C76F] font-bold cursor-pointer hover:bg-[#e6f4ea] flex items-center gap-2 rounded-[4px] transition-colors">
-                    <i nz-icon nzType="plus-circle"></i> + Add New Product
-                  </div>
-                </ng-template>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Company Dropdown with Add New Item in Dropdown -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Company / Manufacturer</nz-form-label>
-              <nz-form-control nzErrorTip="Please select a company!">
-                <nz-select 
-                  formControlName="companyId" 
-                  nzPlaceHolder="Select Company" 
-                  nzShowSearch 
-                  class="w-full h-10"
-                  [nzDropdownRender]="companyDropdownRender">
-                  @for (comp of companies; track comp.companyId) {
-                    <nz-option [nzValue]="comp.companyId" [nzLabel]="comp.companyName"></nz-option>
-                  }
-                </nz-select>
-                <!-- Custom Footer Inside Dropdown -->
-                <ng-template #companyDropdownRender>
-                  <nz-divider class="my-1"></nz-divider>
-                  <div 
-                    (click)="openCompanyModal()" 
-                    class="p-2 text-[#28C76F] font-bold cursor-pointer hover:bg-[#e6f4ea] flex items-center gap-2 rounded-[4px] transition-colors">
-                    <i nz-icon nzType="plus-circle"></i> + Add New Company
-                  </div>
-                </ng-template>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Batch No -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Batch No</nz-form-label>
-              <nz-form-control nzErrorTip="Batch No is required!">
-                <input 
-                  nz-input 
-                  formControlName="batchNo" 
-                  placeholder="BATCH-XXXX" 
-                  class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Lot No -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Lot No</nz-form-label>
-              <nz-form-control nzErrorTip="Lot No is required!">
-                <input 
-                  nz-input 
-                  formControlName="lotNo" 
-                  placeholder="LOT-XXXX" 
-                  class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Mfg Date -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Manufacturing Date</nz-form-label>
-              <nz-form-control nzErrorTip="Mfg Date is required!">
-                <nz-date-picker formControlName="manufacturingDate" class="w-full h-10 rounded-[6px] border-[#cbd5e1]"></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Expiry Date -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Expiry Date</nz-form-label>
-              <nz-form-control nzErrorTip="Expiry Date is required!">
-                <nz-date-picker formControlName="expiryDate" class="w-full h-10 rounded-[6px] border-[#cbd5e1]"></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Purchase Price -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Purchase Price ($)</nz-form-label>
-              <nz-form-control nzErrorTip="Purchase Price is required!">
-                <input 
-                  nz-input 
-                  type="number" 
-                  formControlName="purchasePrice" 
-                  placeholder="0.00" 
-                  class="h-10 rounded-[6px] border-[#cbd5e1]" 
-                  min="0" step="0.01" />
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Selling Price -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Selling Price ($)</nz-form-label>
-              <nz-form-control nzErrorTip="Selling Price is required!">
-                <input 
-                  nz-input 
-                  type="number" 
-                  formControlName="sellingPrice" 
-                  placeholder="0.00" 
-                  class="h-10 rounded-[6px] border-[#cbd5e1]" 
-                  min="0" step="0.01" />
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Receive Qty -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Receive Quantity</nz-form-label>
-              <nz-form-control nzErrorTip="Receive Qty is required!">
-                <input 
-                  nz-input 
-                  type="number" 
-                  formControlName="receiveQty" 
-                  (input)="syncAvailableQty()"
-                  placeholder="0" 
-                  class="h-10 rounded-[6px] border-[#cbd5e1]" 
-                  min="0" />
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Available Qty -->
-          <div nz-col nzXs="24" nzMd="6">
-            <nz-form-item class="mb-4">
-              <nz-form-label class="font-bold text-[#0B3B60]">Available Quantity</nz-form-label>
-              <nz-form-control>
-                <input 
-                  nz-input 
-                  type="number" 
-                  formControlName="availableQty" 
-                  placeholder="0" 
-                  class="h-10 rounded-[6px] bg-[#f8fafc] font-bold text-[#0B3B60] border-[#cbd5e1]" />
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Active Status -->
-          <div nz-col nzXs="24" nzMd="12">
-            <nz-form-item class="mb-4">
-              <nz-form-label class="font-bold text-[#0B3B60]">Status</nz-form-label>
-              <nz-form-control>
-                <div class="flex items-center gap-3 h-10">
-                  <nz-switch formControlName="isActive"></nz-switch>
-                  <span class="text-sm font-semibold" [class.text-[#28C76F]="batchForm.get('isActive')?.value" [class.text-red-500]="!batchForm.get('isActive')?.value">
-                    {{ batchForm.get('isActive')?.value ? 'Active Batch' : 'Inactive Batch' }}
-                  </span>
-                </div>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-        </div>
-
-        <!-- Submit & Reset Buttons -->
-        <div class="flex justify-end gap-3 pt-3 border-t border-[#e2e8f0]">
-          <button 
-            type="button" 
-            nz-button 
-            (click)="resetForm()"
-            class="rounded-[6px] h-10 px-6 font-semibold border-[#cbd5e1] text-[#64748b] hover:border-[#0B3B60] hover:text-[#0B3B60]">
-            Reset
-          </button>
-          
-          <button 
-            type="submit" 
-            nz-button 
-            class="text-white text-[14px] font-semibold h-10 px-8 rounded-[6px] border-none shadow-sm transition-all duration-300"
-            style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
-            {{ isEditMode ? 'Update Batch' : 'Save Batch' }}
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </form>
-
-  <!-- ================= BOTTOM: BATCH LIST ================= -->
-  <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative shadow-sm border border-[#e2e8f0]">
+  <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative mb-[25px] shadow-sm border border-[#e2e8f0]">
     
+    <!-- Header Bar -->
     <div class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
-      <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">
-        Batch Stock List
-      </h4>
-      
-      <div class="ssm:min-w-[280px]">
-        <nz-input-group class="h-10 inline-flex items-center bg-[#f8fafc] border border-[#cbd5e1] rounded-[6px] px-[12px] focus-within:border-[#28C76F]">
-          <i class="text-[#64748b] text-[18px]" nz-icon nzType="search"></i>
-          <input
-            class="bg-transparent border-none text-[14px] text-[#0B3B60] flex items-center ml-2 outline-none w-full"
-            type="text"
-            nz-input
-            placeholder="Search batch or lot no..."
-            [(ngModel)]="searchQuery"
-            (ngModelChange)="filterData()"
-          />
-        </nz-input-group>
+      <div class="flex items-center gap-3">
+        <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">
+          Product Batch Setup
+        </h4>
       </div>
     </div>
 
     <div class="p-[25px]">
-      <div class="w-full overflow-x-auto">
-        <nz-table #batchTable [nzData]="filteredBatches" nzShowPagination nzShowSizeChanger class="max-h-[600px]">
-          <thead>
-            <tr>
-              <th class="px-[16px] py-[12px] text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">SL</th>
-              <th class="px-[16px] py-[12px] text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">Product</th>
-              <th class="px-[16px] py-[12px] text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">Company</th>
-              <th class="px-[16px] py-[12px] text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">Batch/Lot</th>
-              <th class="px-[16px] py-[12px] text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">Expiry</th>
-              <th class="px-[16px] py-[12px] text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">Buy/Sell Price</th>
-              <th class="px-[16px] py-[12px] text-center text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">Stock (Rec/Avail)</th>
-              <th class="px-[16px] py-[12px] text-center text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">Status</th>
-              <th class="px-[16px] py-[12px] text-center text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f1f5f9]">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (data of batchTable.data; track $index) {
-              <tr class="hover:bg-[#f8fafc] transition-colors border-b border-[#f1f5f9]">
-                <td class="px-[16px] py-3 text-[#64748b] text-[13px]">{{ $index + 1 }}</td>
-                <td class="px-[16px] py-3 text-[#0B3B60] font-bold text-[13px]">{{ getProductName(data.productId) }}</td>
-                <td class="px-[16px] py-3 text-[#334155] font-medium text-[13px]">{{ getCompanyName(data.companyId) }}</td>
-                <td class="px-[16px] py-3 text-[#334155] text-[13px]">
-                  <span class="font-semibold text-[#0B3B60] block">{{ data.batchNo }}</span>
-                  <span class="text-xs text-[#64748b]">Lot: {{ data.lotNo }}</span>
-                </td>
-                <td class="px-[16px] py-3 text-[#334155] text-[13px]">{{ data.expiryDate | date:'yyyy-MM-dd' }}</td>
-                <td class="px-[16px] py-3 text-[#334155] text-[13px]">
-                  <span class="text-[#64748b]">{{ data.purchasePrice | currency:'USD' }}</span> / 
-                  <span class="font-bold text-[#28C76F]">{{ data.sellingPrice | currency:'USD' }}</span>
-                </td>
-                <td class="px-[16px] py-3 text-center text-[13px]">
-                  <span class="bg-[#f8fafc] px-2.5 py-1 rounded-full font-bold text-[#0B3B60] border border-[#e2e8f0]">
-                    {{ data.receiveQty }} / <span class="text-[#28C76F]">{{ data.availableQty }}</span>
-                  </span>
-                </td>
-                <td class="px-[16px] py-3 text-center">
-                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase" [class]="data.isActive ? 'bg-[#e6f4ea] text-[#28C76F]' : 'bg-red-100 text-red-500'">
-                    {{ data.isActive ? 'Active' : 'Inactive' }}
-                  </span>
-                </td>
-                <td class="px-[16px] py-3 text-center">
-                  <div class="flex items-center justify-center gap-2">
-                    <button nz-button nzType="default" nzShape="circle" class="border-[#cbd5e1] text-[#0B3B60] hover:bg-[#0B3B60] hover:text-white" (click)="editBatch(data)">
-                      <i nz-icon nzType="edit"></i>
-                    </button>
-                    <button nz-button nzType="default" nzShape="circle" class="border-[#cbd5e1] text-[#ef4444] hover:bg-[#ef4444] hover:text-white" (click)="deleteBatch(data.batchNo)">
-                      <i nz-icon nzType="delete"></i>
-                    </button>
+      
+      <!-- Batch Form Section -->
+      <div class="mb-8">
+        <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">
+          Add / Edit Batch Details
+        </h5>
+
+        <form [formGroup]="batchForm" (ngSubmit)="onSubmit()">
+          <div nz-row [nzGutter]="20">
+            
+            <!-- Batch Number -->
+            <div nz-col nzXs="24" nzMd="12">
+              <nz-form-item class="mb-4">
+                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Batch Number</nz-form-label>
+                <nz-form-control nzErrorTip="Batch Number is required!">
+                  <input 
+                    nz-input 
+                    formControlName="batchNo" 
+                    placeholder="Enter batch number" 
+                    class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <!-- Product Name -->
+            <div nz-col nzXs="24" nzMd="12">
+              <nz-form-item class="mb-4">
+                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Product Name</nz-form-label>
+                <nz-form-control nzErrorTip="Product Name is required!">
+                  <input 
+                    nz-input 
+                    formControlName="productName" 
+                    placeholder="Enter product name" 
+                    class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <!-- Quantity -->
+            <div nz-col nzXs="24" nzMd="12">
+              <nz-form-item class="mb-4">
+                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Quantity</nz-form-label>
+                <nz-form-control nzErrorTip="Quantity is required!">
+                  <input 
+                    type="number"
+                    nz-input 
+                    formControlName="quantity" 
+                    placeholder="Enter batch quantity" 
+                    class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <!-- Expiry Date -->
+            <div nz-col nzXs="24" nzMd="12">
+              <nz-form-item class="mb-4">
+                <nz-form-label class="font-bold text-[#0B3B60]">Expiry Date</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker 
+                    formControlName="expiryDate" 
+                    class="w-full h-10 rounded-[6px] border-[#cbd5e1]"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <!-- Status Switch -->
+            <div nz-col nzXs="24" nzMd="12">
+              <nz-form-item class="mb-4">
+                <nz-form-label class="font-bold text-[#0B3B60]">Status</nz-form-label>
+                <nz-form-control>
+                  <div class="pt-2">
+                    <nz-switch formControlName="isActive" nzCheckedChildren="Active" nzUnCheckedChildren="Inactive"></nz-switch>
                   </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </nz-table>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex justify-end gap-3 pt-4 border-t border-[#e2e8f0]">
+            <button 
+              type="button" 
+              nz-button 
+              (click)="resetForm()"
+              class="rounded-[6px] h-10 px-6 font-semibold border-[#cbd5e1] text-[#64748b] hover:border-[#0B3B60] hover:text-[#0B3B60]">
+              Reset
+            </button>
+            
+            <button 
+              type="submit" 
+              nz-button 
+              class="text-white text-[14px] font-semibold h-10 px-8 rounded-[6px] border-none shadow-sm transition-all duration-300"
+              style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
+              Save Batch
+            </button>
+          </div>
+        </form>
       </div>
+
+      <!-- Batch List Section -->
+      <div>
+        <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">
+          Batch List
+        </h5>
+
+        <div class="w-full overflow-x-auto">
+          <nz-table #batchTable [nzData]="batchList" [nzPageSize]="10">
+            <thead>
+              <tr>
+                <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">SL</th>
+                <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Batch No</th>
+                <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Product Name</th>
+                <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Quantity</th>
+                <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Expiry Date</th>
+                <th class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Status</th>
+                <th class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (data of batchTable.data; track data.id; let i = $index) {
+                <tr class="border-b border-[#f1f5f9]">
+                  <td class="px-[20px] py-3 text-[#0B3B60] font-medium">{{ i + 1 }}</td>
+                  <td class="px-[20px] py-3 text-[#0B3B60] font-bold">{{ data.batchNo }}</td>
+                  <td class="px-[20px] py-3 text-[#0B3B60]">{{ data.productName }}</td>
+                  <td class="px-[20px] py-3 text-[#0B3B60] font-semibold">{{ data.quantity }}</td>
+                  <td class="px-[20px] py-3 text-[#0B3B60]">{{ data.expiryDate | date:'mediumDate' }}</td>
+                  <td class="px-[20px] py-3 text-center">
+                    <span [ngClass]="data.isActive ? 'badge-approve' : 'badge-reject'">
+                      {{ data.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                  </td>
+                  <td class="px-[20px] py-3 text-center">
+                    <div class="flex items-center justify-center gap-2">
+                      <button 
+                        type="button" 
+                        nz-button 
+                        nzType="default" 
+                        nzShape="circle"
+                        class="border-[#cbd5e1] text-[#0B3B60] hover:border-[#0B3B60] hover:bg-[#0B3B60] hover:text-white transition-colors duration-200"
+                        (click)="editBatch(data)">
+                        <i nz-icon nzType="edit"></i>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        nz-button 
+                        nzType="default" 
+                        nzShape="circle"
+                        class="border-[#cbd5e1] text-[#ef4444] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white transition-colors duration-200"
+                        (click)="deleteBatch(data.id)">
+                        <i nz-icon nzType="delete"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+
     </div>
-
   </div>
-
-  <!-- ================= MODAL: ADD PRODUCT ================= -->
-  <nz-modal [(nzVisible)]="isProductModalOpen" nzTitle="Add New Product" (nzOnCancel)="isProductModalOpen = false" (nzOnOk)="saveNewProduct()">
-    <ng-container *nzModalContent>
-      <nz-form-item class="mb-0">
-        <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Product Name</nz-form-label>
-        <nz-form-control>
-          <input nz-input [(ngModel)]="newProductName" placeholder="Enter product name" class="h-10 rounded-[6px]" />
-        </nz-form-control>
-      </nz-form-item>
-    </ng-container>
-  </nz-modal>
-
-  <!-- ================= MODAL: ADD COMPANY ================= -->
-  <nz-modal [(nzVisible)]="isCompanyModalOpen" nzTitle="Add New Company" (nzOnCancel)="isCompanyModalOpen = false" (nzOnOk)="saveNewCompany()">
-    <ng-container *nzModalContent>
-      <nz-form-item class="mb-0">
-        <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Company Name</nz-form-label>
-        <nz-form-control>
-          <input nz-input [(ngModel)]="newCompanyName" placeholder="Enter company name" class="h-10 rounded-[6px]" />
-        </nz-form-control>
-      </nz-form-item>
-    </ng-container>
-  </nz-modal>
-
 </div>

@@ -1,0 +1,32 @@
+/* Custom Status Badge Styles */
+.badge-approve {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.15);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-reject {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.15);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Ant Design Input, DatePicker & Switch overrides */
+::ng-deep .ant-switch-checked {
+  background-color: #28C76F !important;
+}
+
+::ng-deep .ant-input:focus, 
+::ng-deep .ant-input-focused,
+::ng-deep .ant-picker-focused {
+  border-color: #28C76F !important;
+  box-shadow: 0 0 0 2px rgba(40, 199, 111, 0.2) !important;
+}
