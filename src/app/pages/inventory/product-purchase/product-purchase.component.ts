@@ -113,7 +113,6 @@ private fb = inject(FormBuilder);
     }
   }
 //product save and invoice
-isInvoiceModalVisible = true;
 savedInvoiceData: any = null;
 
 // Helper Methods
@@ -135,7 +134,6 @@ printInvoice(): void {
 }
 
 closeInvoiceModal(): void {
-  this.isInvoiceModalVisible = false;
   this.salesForm.reset();
   this.initForm(); // Form reset and re-initialize
 }
@@ -171,7 +169,6 @@ onSubmit(): void {
     };
 
     // Open Print Preview Modal
-    this.isInvoiceModalVisible = true;
   }
 }
 }

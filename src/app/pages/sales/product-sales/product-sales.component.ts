@@ -295,95 +295,76 @@ onBarcodeScan(event: Event): void {
       this.barcodeInputRef?.nativeElement?.focus();
     }, 100);
   }
+isInvoiceModalVisible = false;
+savedInvoiceData: any = null;
 
-  onSubmit(): void {
-    if (this.salesForm.invalid) {
-      this.salesForm.markAllAsTouched();
-
-      this.message.error(
-        'Please fill in all required fields.'
-      );
-
-      return;
-    }
-    const rawValue = this.salesForm.getRawValue();
-    const payload = {
-      invoiceNo: rawValue.invoiceNo,
-
-      salesDate: new Date(
-        rawValue.salesDate
-      ).toISOString(),
-
-      customerId: rawValue.customerId,
-
-      discountAmount:
-        Number(rawValue.discountAmount) || 0,
-
-      details: rawValue.details.map((item: any) => ({
-        productId: Number(item.productId),
-        quantity: Number(item.quantity),
-        rate: Number(item.rate),
-        amount:
-          Number(item.quantity) *
-          Number(item.rate)
-      })),
-
-      payments: rawValue.payments.map((pay: any) => ({
-        paymentMethodId:
-          Number(pay.paymentMethodId),
-
-        amount:
-          Number(pay.amount)
-      }))
-    };
-
-    console.log(
-      'Sales Submit Payload:',
-      payload
-    );
-
-    this.salesService
-      .saveSales(payload)
-      .subscribe({
-
-        next: (response) => {
-
-          console.log(
-            'Sales Submit Response:',
-            response
-          );
-
-          if (response.statusCode === 200) {
-
-            this.message.success(
-              response.message ||
-              'Sales submitted successfully.'
-            );
-
-            // চাইলে এখানে form reset করতে পারো
-            // this.resetSalesForm();
-
-          } else {
-
-            this.message.error(
-              response.message ||
-              'Failed to submit sales.'
-            );
-          }
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Sales Submit Error:',
-            error
-          );
-
-          this.message.error(
-            error?.error?.message ||
-            'Failed to submit sales.'
-          );
-        }
-      });
+onSubmit(): void {
+  if (this.salesForm.invalid) {
+    this.salesForm.markAllAsTouched();
+    return;
   }
+
+  const rawValue = this.salesForm.getRawValue();
+
+  const payload = {
+    invoiceNo: rawValue.invoiceNo,
+    salesDate: new Date(rawValue.salesDate).toISOString(),
+    customerId: rawValue.customerId,
+    discountAmount: rawValue.discountAmount || 0,
+
+    details: rawValue.details.map((item: any) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+      rate: item.rate,
+      amount: item.quantity * item.rate
+    })),
+
+    payments: rawValue.payments.map((pay: any) => ({
+      paymentMethodId: pay.paymentMethodId,
+      amount: pay.amount
+    }))
+  };
+
+  console.log('Sales API Payload:', payload);
+
+  this.salesService.saveSales(payload).subscribe({
+    next: (response: any) => {
+
+      console.log('Sales API Response:', response);
+
+      // Save data for invoice preview
+      this.savedInvoiceData = {
+        ...payload,
+
+        // If API generates/returns invoice number,
+        // use API invoice number here
+        invoiceNo: response?.invoiceNo || payload.invoiceNo,
+
+        subTotal: this.subTotal,
+        grandTotal: this.grandTotal,
+
+        details: payload.details,
+        payments: payload.payments
+      };
+
+      // Open invoice preview
+      this.isInvoiceModalVisible = true;
+    },
+
+    error: (error) => {
+      console.error('Sales save failed:', error);
+
+      // Your notification
+      // this.message.error('Failed to save sale');
+    }
+  });
+}
+
+openInvoiceModal(): void {
+  this.isInvoiceModalVisible = true;
+}
+
+closeInvoiceModal(): void {
+  this.isInvoiceModalVisible = false;
+}
 }
