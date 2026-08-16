@@ -88,7 +88,7 @@
               @for (data of brandTable.data; track data.id; let i = $index) {
                 <tr class="border-b border-[#f1f5f9]">
                   <td class="px-[20px] py-3 text-[#0B3B60] font-medium">{{ i + 1 }}</td>
-                  <td class="px-[20px] py-3 text-[#0B3B60] font-bold">{{ data.brandName }}</td>
+                  <td class="px-[20px] py-3 text-[#0B3B60] font-bold">{{ data.name }}</td>
                   <td class="px-[20px] py-3 text-center">
                     <span [ngClass]="data.isActive ? 'badge-approve' : 'badge-reject'">
                       {{ data.isActive ? 'Active' : 'Inactive' }}
