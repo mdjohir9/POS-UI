@@ -21,7 +21,7 @@ export class commonTaskService {
     private GET_GROUP_API_CALL_Url: string;
     private GET_EMP_CARD_NO_API_CALL_Url: string;
     private GET_DYNAMIC_MENU_API_CALL_Url: string;
-
+    private GET_SUPPLIER_INFO: string;
     constructor(private genericHttpService: GenericHttpService<any>) { 
       this.companyId = sessionStorage.getItem('__companyId__');
       this.DataAccessLevel = sessionStorage.getItem('__DataAccessLevel__');
@@ -32,6 +32,7 @@ export class commonTaskService {
       this.GET_DESIGNATION_API_CALL_Url = `api/Designation/basicInfo?CompanyId=${this.companyId}`;
       this.GET_EMP_CARD_NO_API_CALL_Url = `api/Employee/cardNo?CompanyId=${this.companyId}`;
       this.GET_DYNAMIC_MENU_API_CALL_Url = `api/User/dynamicMenu?userId=10&DataAccessLevel=${this.DataAccessLevel}`;
+      this.GET_SUPPLIER_INFO = `api/POSSupplier/suppliers?companyId=${this.companyId}`;
     }
    
     getCompaniesApiCall(): Observable<any> {
@@ -139,5 +140,24 @@ export class commonTaskService {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
+      }
+
+      getSuppliers(): Observable<any> {
+        return this.genericHttpService.getAll<any>(`${this.GET_SUPPLIER_INFO}`).pipe(map((response: any) => {
+          if (
+            response &&
+            response.statusCode === 200 &&
+            Array.isArray(response.data)
+          ) {
+            return response;
+          }
+
+          return {
+            statusCode: 500,
+            message: 'Invalid response',
+            data: []
+          };
+        })
+        );
       }
 }

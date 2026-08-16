@@ -1,14 +1,21 @@
 import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { commonTaskService } from 'src/app/core/services/commonTaskService';
+import { ProductService } from 'src/app/core/services/product.service';
 interface Supplier {
   supplierId: number;
   supplierName: string;
 }
 
 interface Product {
-  productId: number;
+  id: number;
   productName: string;
-  defaultRate: number;
+  purchasePrice: number;
+  salesPrice: number;
+  vatPercent: number;
+  isBatchRequired: boolean;
+  barcode: string;
 }
 @Component({
   selector: 'app-product-purchase',
@@ -18,21 +25,19 @@ interface Product {
 })
 export class ProductPurchaseComponent {
 private fb = inject(FormBuilder);
+constructor(
+  private commonTask: commonTaskService,
+  private productService : ProductService,
+  private message: NzMessageService
+) {}
 
   purchaseForm!: FormGroup;
   isModalVisible = false;
   newSupplierName = '';
 
-  suppliers: Supplier[] = [
-    { supplierId: 101, supplierName: 'Acme Trading Co.' },
-    { supplierId: 102, supplierName: 'Global Garments Ltd.' }
-  ];
+  suppliers: Supplier[] = []; 
 
-  products: Product[] = [
-    { productId: 501, productName: 'Cotton Yarn 30/1', defaultRate: 15.50 },
-    { productId: 502, productName: 'Dyeing Chemical - Blue', defaultRate: 45.00 },
-    { productId: 503, productName: 'Knit Fabric Roll', defaultRate: 120.00 }
-  ];
+  products: Product[] = [];
   customers: any;
   paymentMethods: any;
   salesForm: any;
@@ -41,6 +46,8 @@ private fb = inject(FormBuilder);
   ngOnInit(): void {
     this.initForm();
     this.addItem(); // Add initial row
+    this.getSuppliers(); // Fetch suppliers from API
+    this.getProducts();
   }
 
   initForm(): void {
@@ -52,6 +59,44 @@ private fb = inject(FormBuilder);
     });
   }
 
+  getProducts(): void {
+  this.productService.getProducts().subscribe({
+    next: (response) => {
+      if (response.statusCode === 200) {
+        this.products = response.data;
+      } else {
+        this.products = [];
+        this.message.error(
+          response.message || 'Product not found.'
+        );
+      }
+    },
+    error: (error) => {
+      console.error('Product API Error:', error);
+      this.products = [];
+      this.message.error('Failed to load products.');
+    }
+  });
+}
+getSuppliers(): void {
+  this.commonTask.getSuppliers().subscribe({
+    next: (response) => {
+      if (response.statusCode === 200) {
+        this.suppliers = response.data;
+      } else {
+        this.suppliers = [];
+        this.message.error(
+          response.message || 'Supplier not found.'
+        );
+      }
+    },
+    error: (error) => {
+      console.error('Supplier API Error:', error);
+      this.suppliers = [];
+      this.message.error('Failed to load suppliers.');
+    }
+  });
+}
   get details(): FormArray {
     return this.purchaseForm.get('details') as FormArray;
   }
@@ -75,14 +120,25 @@ private fb = inject(FormBuilder);
     }
   }
 
-  onProductSelect(productId: number, index: number): void {
-    const selectedProd = this.products.find(p => p.productId === productId);
-    if (selectedProd) {
-      const row = this.details.at(index);
-      row.patchValue({ rate: selectedProd.defaultRate });
-      this.calculateRowAmount(index);
-    }
+onProductSelect(productId: number, index: number): void {
+
+  const selectedProduct = this.products.find(
+    p => p.id === productId
+  );
+
+  if (!selectedProduct) {
+    return;
   }
+
+  const row = this.details.at(index);
+
+  row.patchValue({
+    rate: selectedProduct.purchasePrice
+  });
+
+  this.calculateRowAmount(index);
+}
+
 
   calculateRowAmount(index: number): void {
     const row = this.details.at(index);
@@ -121,11 +177,11 @@ getCustomerName(id: number): string {
 }
 
 getProductName(id: number): string {
-  return this.products.find(p => p.productId === id)?.productName || 'N/A';
+  return this.products.find(p => p.id === id)?.productName || 'N/A';
 }
 
 getPaymentMethodName(id: number): string {
-  return this.paymentMethods.find(m => m.methodId === id)?.methodName || 'N/A';
+  return this.paymentMethods.find(m => m.id === id)?.methodName || 'N/A';
 }
 
 // Print & Modal Handlers
@@ -139,36 +195,90 @@ closeInvoiceModal(): void {
 }
 
 onSubmit(): void {
-  if (this.salesForm.valid) {
-    const rawValue = this.salesForm.getRawValue();
-    
-    const payload = {
-      invoiceNo: rawValue.invoiceNo,
-      salesDate: new Date(rawValue.salesDate).toISOString(),
-      customerId: rawValue.customerId,
-      discountAmount: rawValue.discountAmount || 0,
-      details: rawValue.details.map((item: any) => ({
-        productId: item.productId,
-        quantity: item.quantity,
-        rate: item.rate,
-        amount: item.quantity * item.rate
-      })),
-      payments: rawValue.payments.map((pay: any) => ({
-        paymentMethodId: pay.paymentMethodId,
-        amount: pay.amount
-      }))
-    };
 
-    console.log('Saved Sales API Payload:', payload);
+  if (this.purchaseForm.invalid) {
 
-    // Save complete information for printing
-    this.savedInvoiceData = {
-      ...payload,
-      subTotal: this.subTotal,
-      grandTotal: this.grandTotal
-    };
+    Object.values(this.purchaseForm.controls)
+      .forEach(control => {
+        control.markAsDirty();
+        control.updateValueAndValidity();
+      });
 
-    // Open Print Preview Modal
+    return;
   }
+
+  const rawValue = this.purchaseForm.getRawValue();
+
+  const payload = {
+    purchaseNo: rawValue.purchaseNo,
+
+    purchaseDate:
+      new Date(rawValue.purchaseDate).toISOString(),
+
+    supplierId: rawValue.supplierId,
+
+    details: rawValue.details.map((item: any) => ({
+      productId: item.productId,
+      quantity: Number(item.quantity),
+      rate: Number(item.rate),
+      amount: Number(item.quantity) * Number(item.rate)
+    }))
+  };
+
+  console.log('Purchase Payload:', payload);
+
+  this.productService.savePurchase(payload).subscribe({
+    next: (response) => {
+
+      if (response.statusCode === 200) {
+
+        this.message.success(
+          response.message || 'Purchase saved successfully.'
+        );
+
+        console.log(
+          'Purchase Saved:',
+          response.data
+        );
+
+        this.resetPurchaseForm();
+
+      } else {
+
+        this.message.error(
+          response.message || 'Failed to save purchase.'
+        );
+      }
+    },
+
+    error: (error) => {
+
+      console.error(
+        'Purchase Save Error:',
+        error
+      );
+
+      this.message.error(
+        'Failed to save purchase.'
+      );
+    }
+  });
+}
+
+resetPurchaseForm(): void {
+
+  this.purchaseForm.reset();
+  this.purchaseForm.patchValue({
+    purchaseNo:
+      `PO-${Date.now().toString().slice(-5)}`,
+
+    purchaseDate: new Date(),
+
+    supplierId: null
+  });
+
+  this.details.clear();
+
+  this.addItem();
 }
 }

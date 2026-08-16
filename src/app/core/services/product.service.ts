@@ -17,6 +17,7 @@ export class ProductService {
   private POST_PRODUCT = `api/POSProduct/create`;
   private UPDATE_PRODUCT = `api/POSProduct/update`;
   private DELETE_PRODUCT = `api/POSProduct/delete`;
+  private POST_PURCHASE = `api/POSPurchase/purchase/create`;
 
   constructor(
     private genericHttpService: GenericHttpService<any>
@@ -31,7 +32,7 @@ export class ProductService {
   getProducts(): Observable<any> {
 
     return this.genericHttpService
-      .getAll<any>(this.GET_PRODUCTS)
+      .getAll<any>(`${this.GET_PRODUCTS}?companyId=${this.companyId}`)
       .pipe(
         map((response: any) => {
 
@@ -62,8 +63,7 @@ export class ProductService {
         this.GET_PRODUCT_BY_ID,
         id
       )
-      .pipe(
-        map((response: any) => {
+      .pipe( map((response: any) => {
 
           if (response) {
             return response;
@@ -115,37 +115,32 @@ export class ProductService {
   // =========================
   // Create Product
   // =========================
-  saveProduct(postData: any): Observable<any> {
+ savePurchase(postData: any): Observable<any> {
+  return this.genericHttpService.create(this.POST_PURCHASE, postData )
+    .pipe(
+      catchError((error) => {
 
-    return this.genericHttpService
-      .create(
-        this.POST_PRODUCT,
-        postData
-      )
-      .pipe(
-        catchError((error) => {
+        console.error(
+          'Error occurred while saving Purchase:',
+          error
+        );
 
-          console.error(
-            'Error occurred while saving Product:',
-            error
-          );
+        const errorMessage =
+          error?.error?.message ||
+          'Failed to save purchase. Please try again.';
 
-          const errorMessage =
-            error?.error?.message ||
-            'Failed to save product. Please try again.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Submission Failed',
+          text: errorMessage
+        });
 
-          Swal.fire({
-            icon: 'error',
-            title: 'Submission Failed',
-            text: errorMessage
-          });
-
-          return throwError(
-            () => new Error('Failed to save product')
-          );
-        })
-      );
-  }
+        return throwError(
+          () => new Error('Failed to save purchase')
+        );
+      })
+    );
+}
 
   // =========================
   // Update Product

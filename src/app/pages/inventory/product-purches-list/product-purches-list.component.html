@@ -37,7 +37,7 @@
             <!-- Action Button with Logo Gradient -->
             <button 
               nz-button 
-              routerLink="/purchase/create"
+              routerLink="/inventory/product-purchase"
               class="text-white text-[13px] font-semibold h-10 px-[18px] flex items-center justify-center rounded-[6px] capitalize border-none transition-all duration-300 shadow-sm"
               style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
               + Add Purchase
@@ -73,11 +73,11 @@
                   <td class="px-[20px] py-4 text-[#334155] text-[14px] font-medium">{{ data.supplierName }}</td>
                   <td class="px-[20px] py-4 text-[#334155] text-[14px]">
                     <span class="bg-[#e6f4ea] text-[#28C76F] px-2.5 py-1 rounded-full text-[12px] font-bold">
-                      {{ data.details ? data.details.length : 0 }} Items
+                         {{ data.productNames ? data.productNames.split(',').length : 0 }} Items
                     </span>
                   </td>
                   <td class="px-[20px] py-4 text-[#0B3B60] text-[15px] font-bold">
-                    {{ data.totalAmount | currency: 'USD' }}
+                    {{ data.totalAmount | currency: 'BDT' }}
                   </td>
                   <td class="px-[20px] py-4 text-center">
                     <div class="flex items-center justify-center gap-2">

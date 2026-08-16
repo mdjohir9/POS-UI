@@ -17,7 +17,7 @@
           <button 
             type="button"
             nz-button 
-            routerLink="/purchase/list"
+            routerLink="/inventory/product-purchase-list"
             class="text-white text-[13px] font-semibold h-10 px-[18px] flex items-center justify-center rounded-[6px] capitalize border-none shadow-sm"
             style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
             Purchase List
@@ -74,7 +74,7 @@
                       nzShowSearch 
                       class="flex-1 h-10">
                       @for (sup of suppliers; track sup.supplierId) {
-                        <nz-option [nzValue]="sup.supplierId" [nzLabel]="sup.supplierName"></nz-option>
+                        <nz-option [nzValue]="sup.id" [nzLabel]="sup.supplierName"></nz-option>
                       }
                     </nz-select>
                     <!-- Small + Button using Emerald Color -->
@@ -116,8 +116,8 @@
                 <tr>
                   <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-2/5">Product</th>
                   <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">Quantity</th>
-                  <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">Rate ($)</th>
-                  <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">Amount ($)</th>
+                  <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">Rate (BDT)</th>
+                  <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/5">Amount (BDT)</th>
                   <th class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-12">Action</th>
                 </tr>
               </thead>
@@ -132,10 +132,12 @@
                         nzShowSearch 
                         (ngModelChange)="onProductSelect($event, $index)" 
                         class="w-full">
-                        @for (prod of products; track prod.productId) {
-                          <nz-option [nzValue]="prod.productId" [nzLabel]="prod.productName"></nz-option>
+                        @for (prod of products; track prod.id) {
+                          <nz-option [nzValue]="prod.id" [nzLabel]="prod.productName"></nz-option>
                         }
                       </nz-select>
+
+                      
                     </td>
 
                     <!-- Quantity -->
@@ -194,7 +196,7 @@
             <div class="w-72 bg-[#f8fafc] p-4 rounded-[8px] border border-[#e2e8f0]">
               <div class="flex justify-between items-center text-base font-bold text-[#0B3B60]">
                 <span>Grand Total:</span>
-                <span class="text-lg text-[#28C76F]">{{ grandTotal | currency:'USD':'symbol':'1.2-2' }}</span>
+                <span class="text-lg text-[#28C76F]">{{ grandTotal | currency:'BDT':'symbol':'1.2-2' }}</span>
               </div>
             </div>
           </div>

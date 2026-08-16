@@ -1,24 +1,19 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-interface PurchaseDetail {
-  productId: number;
-  productName?: string;
-  quantity: number;
-  rate: number;
-  amount: number;
-}
+
+import { PurchaseService } from 'src/app/core/services/purchase.service';
 
 interface PurchaseItem {
-  purchaseNo: string;
-  purchaseDate: string;
+  id: number;
+  companyId: string;
   supplierId: number;
   supplierName: string;
+  purchaseNo: string;
+  purchaseDate: string;
   totalAmount: number;
-  details: PurchaseDetail[];
 }
+
 @Component({
   selector: 'app-product-purches-list',
   standalone: false,
@@ -26,17 +21,18 @@ interface PurchaseItem {
   styleUrl: './product-purches-list.component.css'
 })
 export class ProductPurchesListComponent {
+
   isLoading = true;
   showContent = false;
+
   searchAny = '';
   dataType: string = 'allDatas';
 
-  allDatas: PurchaseItem[] = []; 
-  datas: PurchaseItem[] = []; 
+  allDatas: PurchaseItem[] = [];
+  datas: PurchaseItem[] = [];
 
   constructor(
-    private fb: UntypedFormBuilder,
-    private http: HttpClient,
+    private purchaseService: PurchaseService,
     private router: Router
   ) {}
 
@@ -44,97 +40,233 @@ export class ProductPurchesListComponent {
     this.getPurchesList();
   }
 
-  getPurchesList(): void {
-    this.isLoading = true;
-    
-    // Demo Data matching your API schema
-    setTimeout(() => {
-      this.allDatas = [
-        {
-          purchaseNo: "PO-2026-001",
-          purchaseDate: "2026-08-12T05:05:51.236Z",
-          supplierId: 101,
-          supplierName: "Acme Trading Co.",
-          totalAmount: 1250.00,
-          details: [
-            { productId: 501, productName: "Cotton Yarn 30/1", quantity: 50, rate: 15, amount: 750 },
-            { productId: 502, productName: "Dyeing Chemical", quantity: 10, rate: 50, amount: 500 }
-          ]
-        },
-        {
-          purchaseNo: "PO-2026-002",
-          purchaseDate: "2026-08-11T09:30:00.000Z",
-          supplierId: 102,
-          supplierName: "Global Garments Ltd.",
-          totalAmount: 2400.00,
-          details: [
-            { productId: 503, productName: "Knit Fabric Roll", quantity: 20, rate: 120, amount: 2400 }
-          ]
-        },
-        {
-          purchaseNo: "PO-2026-003",
-          purchaseDate: "2026-08-10T14:15:20.000Z",
-          supplierId: 101,
-          supplierName: "Acme Trading Co.",
-          totalAmount: 450.00,
-          details: [
-            { productId: 501, productName: "Cotton Yarn 30/1", quantity: 30, rate: 15, amount: 450 }
-          ]
-        }
-      ];
 
-      this.datas = [...this.allDatas];
-      this.isLoading = false;
-      this.showContent = true;
-    }, 600);
+  // =========================
+  // Get Purchase List
+  // =========================
+  getPurchesList(): void {
+
+    this.isLoading = true;
+
+    this.purchaseService.getPurchases().subscribe({
+
+      next: (response) => {
+
+        if (response.statusCode === 200) {
+
+          this.allDatas = response.data || [];
+
+          this.datas = [...this.allDatas];
+
+        } else {
+
+          this.allDatas = [];
+          this.datas = [];
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: response.message || 'Purchase not found.'
+          });
+
+        }
+
+        this.isLoading = false;
+        this.showContent = true;
+      },
+
+      error: (error) => {
+
+        console.error(
+          'Purchase List API Error:',
+          error
+        );
+
+        this.allDatas = [];
+        this.datas = [];
+
+        this.isLoading = false;
+        this.showContent = true;
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to load purchase list.'
+        });
+
+      }
+
+    });
   }
 
-  // Filter Search Logic
+
+  // =========================
+  // Search
+  // =========================
   filterByAnyMatchingData(): void {
-    if (!this.searchAny.trim()) {
+
+    const query = this.searchAny
+      .toLowerCase()
+      .trim();
+
+    if (!query) {
+
+      this.datas = [...this.allDatas];
       this.dataType = 'allDatas';
+
       return;
     }
 
-    const query = this.searchAny.toLowerCase().trim();
-    this.datas = this.allDatas.filter(item => 
-      item.purchaseNo.toLowerCase().includes(query) ||
-      item.supplierName.toLowerCase().includes(query)
+    this.datas = this.allDatas.filter(item =>
+
+      item.purchaseNo
+        ?.toLowerCase()
+        .includes(query)
+
+      ||
+
+      item.supplierName
+        ?.toLowerCase()
+        .includes(query)
+
     );
+
     this.dataType = 'datas';
   }
 
+
+  // =========================
   // Edit Purchase
-  editPurchase(purchaseNo: string): void {
-    console.log("Edit Purchase clicked:", purchaseNo);
-    this.router.navigate([`/purchase/update`, purchaseNo]);
+  // =========================
+  editPurchase(id: number): void {
+
+    console.log(
+      'Edit Purchase ID:',
+      id
+    );
+
+    this.router.navigate([
+      '/purchase/update',
+      id
+    ]);
   }
 
-  // Delete Purchase
-  deletePurchase(purchaseNo: string): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: `Do you really want to delete purchase record ${purchaseNo}?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Mock Delete Logic
-        this.allDatas = this.allDatas.filter(item => item.purchaseNo !== purchaseNo);
-        this.filterByAnyMatchingData();
 
-        Swal.fire({
-          title: 'Deleted!',
-          text: 'Purchase record deleted successfully.',
-          icon: 'success',
-          confirmButtonText: 'OK',
-        });
+  // =========================
+  // Delete Purchase
+  // =========================
+  deletePurchase(
+    id: number,
+    purchaseNo: string
+  ): void {
+
+    Swal.fire({
+
+      title: 'Are you sure?',
+
+      text:
+        `Do you really want to delete purchase record ${purchaseNo}?`,
+
+      icon: 'warning',
+
+      showCancelButton: true,
+
+      confirmButtonColor: '#3085d6',
+
+      cancelButtonColor: '#d33',
+
+      confirmButtonText: 'Yes, delete it!',
+
+    }).then((result) => {
+
+      if (!result.isConfirmed) {
+        return;
       }
+
+      this.purchaseService
+        .deletePurchase(id)
+        .subscribe({
+
+          next: (response) => {
+
+            if (response.statusCode === 200) {
+
+              Swal.fire({
+
+                title: 'Deleted!',
+
+                text:
+                  response.message ||
+                  'Purchase record deleted successfully.',
+
+                icon: 'success',
+
+                confirmButtonText: 'OK'
+
+              });
+
+              // Remove from local list
+              this.allDatas =
+                this.allDatas.filter(
+                  item => item.id !== id
+                );
+
+              this.datas =
+                this.datas.filter(
+                  item => item.id !== id
+                );
+
+            } else {
+
+              Swal.fire({
+
+                title: 'Failed!',
+
+                text:
+                  response.message ||
+                  'Failed to delete purchase.',
+
+                icon: 'error'
+
+              });
+
+            }
+
+          },
+
+          error: (error) => {
+
+            console.error(
+              'Delete Purchase Error:',
+              error
+            );
+
+            Swal.fire({
+
+              title: 'Error!',
+
+              text:
+                error?.error?.message ||
+                'Failed to delete purchase.',
+
+              icon: 'error'
+
+            });
+
+          }
+
+        });
+
     });
   }
-  
-      
+
+
+  // =========================
+  // Refresh
+  // =========================
+  refreshList(): void {
+    this.searchAny = '';
+    this.getPurchesList();
+  }
+
 }
