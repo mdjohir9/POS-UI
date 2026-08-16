@@ -1,1 +1,129 @@
-<p>pos-brand works!</p>
+<div class="bg-slate-50 min-h-screen p-6">
+  <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-10 relative mb-[25px] shadow-sm border border-[#e2e8f0]">
+    
+    <!-- Top Header Bar -->
+    <div class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
+      <div class="flex items-center gap-3">
+        <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">
+          Brand Management
+        </h4>
+      </div>
+    </div>
+
+    <div class="p-[25px]">
+      
+      <!-- Brand Form Section -->
+      <div class="mb-8">
+        <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">
+          Add / Edit Brand
+        </h5>
+
+        <form [formGroup]="brandForm" (ngSubmit)="onSubmit()">
+          <div nz-row [nzGutter]="20">
+            <!-- Brand Name Field -->
+            <div nz-col nzXs="24" nzMd="12">
+              <nz-form-item class="mb-4">
+                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Brand Name</nz-form-label>
+                <nz-form-control nzErrorTip="Brand Name is required!">
+                  <input 
+                    nz-input 
+                    formControlName="brandName" 
+                    placeholder="Enter brand name" 
+                    class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <!-- Status Switch -->
+            <div nz-col nzXs="24" nzMd="12">
+              <nz-form-item class="mb-4">
+                <nz-form-label class="font-bold text-[#0B3B60]">Status</nz-form-label>
+                <nz-form-control>
+                  <div class="pt-2">
+                    <nz-switch formControlName="isActive" nzCheckedChildren="Active" nzUnCheckedChildren="Inactive"></nz-switch>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <!-- Form Action Buttons -->
+          <div class="flex justify-end gap-3 pt-4 border-t border-[#e2e8f0]">
+            <button 
+              type="button" 
+              nz-button 
+              (click)="resetForm()"
+              class="rounded-[6px] h-10 px-6 font-semibold border-[#cbd5e1] text-[#64748b] hover:border-[#0B3B60] hover:text-[#0B3B60]">
+              Reset
+            </button>
+            
+            <button 
+              type="submit" 
+              nz-button 
+              class="text-white text-[14px] font-semibold h-10 px-8 rounded-[6px] border-none shadow-sm transition-all duration-300"
+              style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
+              Save Brand
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Brand List / Table Section -->
+      <div>
+        <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">
+          Brand List
+        </h5>
+
+        <div class="w-full overflow-x-auto">
+          <nz-table #brandTable [nzData]="brandList" [nzPageSize]="10">
+            <thead>
+              <tr>
+                <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/4">SL</th>
+                <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-2/4">Brand Name</th>
+                <th class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-1/4">Status</th>
+                <th class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc] w-12">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (data of brandTable.data; track data.id; let i = $index) {
+                <tr class="border-b border-[#f1f5f9]">
+                  <td class="px-[20px] py-3 text-[#0B3B60] font-medium">{{ i + 1 }}</td>
+                  <td class="px-[20px] py-3 text-[#0B3B60] font-bold">{{ data.brandName }}</td>
+                  <td class="px-[20px] py-3 text-center">
+                    <span [ngClass]="data.isActive ? 'badge-approve' : 'badge-reject'">
+                      {{ data.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                  </td>
+                  <td class="px-[20px] py-3 text-center">
+                    <div class="flex items-center justify-center gap-2">
+                      <button 
+                        type="button" 
+                        nz-button 
+                        nzType="default" 
+                        nzShape="circle"
+                        class="border-[#cbd5e1] text-[#0B3B60] hover:border-[#0B3B60] hover:bg-[#0B3B60] hover:text-white transition-colors duration-200"
+                        (click)="editBrand(data)">
+                        <i nz-icon nzType="edit"></i>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        nz-button 
+                        nzType="default" 
+                        nzShape="circle"
+                        class="border-[#cbd5e1] text-[#ef4444] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white transition-colors duration-200"
+                        (click)="deleteBrand(data.id)">
+                        <i nz-icon nzType="delete"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

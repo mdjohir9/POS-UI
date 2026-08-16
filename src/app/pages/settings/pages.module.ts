@@ -1,4 +1,3 @@
-
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { SharedModule } from '../../shared/shared.module';
@@ -31,12 +30,16 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { CompanyComponent } from './company/company.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
-import { register } from 'swiper/element/bundle';
+import { CompanyComponent } from './company/company.component';
 import { PosBrandComponent } from './pos-brand/pos-brand.component';
 import { PosCategoryComponent } from './pos-category/pos-category.component';
+import { PosProductsComponent } from './pos-products/pos-products.component';
 import { PosroductBatchComponent } from './posroduct-batch/posroduct-batch.component';
+
+import { register } from 'swiper/element/bundle';
 
 register();
 
@@ -65,6 +68,8 @@ const antdModule = [
     NzBadgeModule,
     NzCollapseModule,
     NzBreadCrumbModule,
+    NzGridModule,
+    NzIconModule,
     AngularSvgIconModule,
 ]
 
@@ -77,13 +82,11 @@ const antdModule = [
         ...antdModule
     ],
     declarations: [
-
         CompanyComponent,
         PosBrandComponent,
         PosCategoryComponent,
+        PosProductsComponent,
         PosroductBatchComponent
-
-
     ],
     providers: [
       DatePipe
