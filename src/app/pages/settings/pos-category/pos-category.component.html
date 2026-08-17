@@ -91,7 +91,7 @@
         </h5>
 
         <div class="w-full overflow-x-auto">
-          <nz-table #categoryTable [nzData]="categoryList" [nzPageSize]="10">
+          <nz-table #categoryTable [nzData]="categoryList" [nzPageSize]="10" [nzLoading]="isLoading">
             <thead>
               <tr>
                 <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">SL</th>
@@ -105,8 +105,8 @@
               @for (data of categoryTable.data; track data.id; let i = $index) {
                 <tr class="border-b border-[#f1f5f9]">
                   <td class="px-[20px] py-3 text-[#0B3B60] font-medium">{{ i + 1 }}</td>
-                  <td class="px-[20px] py-3 text-[#0B3B60] font-bold">{{ data.categoryName }}</td>
-                  <td class="px-[20px] py-3 text-[#0B3B60]">{{ data.description }}</td>
+                  <td class="px-[20px] py-3 text-[#0B3B60] font-bold">{{ data.name || data.categoryName }}</td>
+                  <td class="px-[20px] py-3 text-[#0B3B60]">{{ data.description || '-' }}</td>
                   <td class="px-[20px] py-3 text-center">
                     <span [ngClass]="data.isActive ? 'badge-approve' : 'badge-reject'">
                       {{ data.isActive ? 'Active' : 'Inactive' }}
