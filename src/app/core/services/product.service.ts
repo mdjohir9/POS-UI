@@ -52,6 +52,23 @@ export class ProductService {
         })
       );
   }
+  createProduct(postData: any): Observable<any> {
+    return this.genericHttpService.create(this.POST_PRODUCT, postData).pipe(
+      catchError((error) => {
+        console.error('Error occurred while creating Product:', error);
+
+        const errorMessage = error?.error?.message || 'Failed to create product. Please try again.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Submission Failed',
+          text: errorMessage
+        });
+
+        return throwError(() => new Error('Failed to create product'));
+      })
+    );
+  }
 
   // =========================
   // Get Product By ID
