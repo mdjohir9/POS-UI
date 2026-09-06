@@ -1,15 +1,19 @@
 <div class="bg-slate-50 min-h-screen p-6">
 
-  <div class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-[10px] relative mb-[25px] shadow-sm border border-[#e2e8f0]">
+  <div
+    class="bg-white m-0 p-0 text-[#1e293b] text-[15px] rounded-[10px] relative mb-[25px] shadow-sm border border-[#e2e8f0]">
 
-    <div class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
+    <div
+      class="py-[16px] px-[25px] font-medium text-[17px] border-b border-[#e2e8f0] flex items-center justify-between flex-wrap gap-y-4">
 
       <div class="flex items-center gap-3">
         <h4 class="mb-0 text-lg font-bold text-[#0B3B60]">Product Management</h4>
       </div>
 
       <div class="flex items-center gap-[15px]">
-        <button type="button" nz-button (click)="showAddProduct()" class="text-white text-[13px] font-semibold h-10 px-[18px] flex items-center justify-center rounded-[6px] capitalize border-none shadow-sm" style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
+        <button type="button" nz-button (click)="showAddProduct()"
+          class="text-white text-[13px] font-semibold h-10 px-[18px] flex items-center justify-center rounded-[6px] capitalize border-none shadow-sm"
+          style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
           + Add Product
         </button>
       </div>
@@ -26,7 +30,8 @@
             <nz-form-item class="mb-4">
               <nz-form-label class="font-bold text-[#0B3B60]">Search Product</nz-form-label>
               <nz-form-control>
-                <input nz-input placeholder="Search by product name, code or barcode" class="h-10 rounded-[6px] border-[#cbd5e1]" />
+                <input nz-input placeholder="Search by product name, code or barcode"
+                  class="h-10 rounded-[6px] border-[#cbd5e1]" />
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -55,7 +60,7 @@
           <thead>
             <tr>
               <th class="text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f8fafc]">SL</th>
-              <th class="text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f8fafc]">Product Code</th>
+              <th class="text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f8fafc]">Barcode</th>
               <th class="text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f8fafc]">Product Name</th>
               <th class="text-start text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f8fafc]">Category</th>
               <th class="text-end text-[#0B3B60] text-[13px] font-bold uppercase bg-[#f8fafc]">Purchase</th>
@@ -71,59 +76,61 @@
 
             @for (product of productTable.data; track product.id; let i = $index) {
 
-              <tr>
+            <tr>
 
-                <td>{{ i + 1 }}</td>
+              <td>{{ i + 1 }}</td>
 
-                <td class="font-medium">{{ product.productCode }}</td>
+              <td class="font-medium">{{ product.barcode }}</td>
 
-                <td class="font-semibold text-[#0B3B60]">{{ product.productName }}</td>
+              <td class="font-semibold text-[#0B3B60]">{{ product.productName }}</td>
 
-                <td>{{ product.categoryId }}</td>
+              <td>{{ product.categoryId }}</td>
 
-                <td class="text-end">{{ product.purchasePrice | number:'1.2-2' }}</td>
+              <td class="text-end">{{ product.purchasePrice | number:'1.2-2' }}</td>
 
-                <td class="text-end font-semibold">{{ product.salesPrice | number:'1.2-2' }}</td>
+              <td class="text-end font-semibold">{{ product.salesPrice | number:'1.2-2' }}</td>
 
-                <td class="text-end">{{ product.vatPercent | number:'1.2-2' }}%</td>
+              <td class="text-end">{{ product.vatPercent | number:'1.2-2' }}%</td>
 
-                <td class="text-center">
+              <td class="text-center">
 
-                  @if (product.isBatchRequired) {
-                    <span class="px-2 py-1 rounded-full text-xs bg-[#e6f4ea] text-[#28C76F] font-semibold">Yes</span>
-                  } @else {
-                    <span class="px-2 py-1 rounded-full text-xs bg-[#f1f5f9] text-[#64748b] font-semibold">No</span>
-                  }
+                @if (product.isBatchRequired) {
+                <span class="px-2 py-1 rounded-full text-xs bg-[#e6f4ea] text-[#28C76F] font-semibold">Yes</span>
+                } @else {
+                <span class="px-2 py-1 rounded-full text-xs bg-[#f1f5f9] text-[#64748b] font-semibold">No</span>
+                }
 
-                </td>
+              </td>
 
-                <td class="text-center">
+              <td class="text-center">
 
-                  @if (product.isActive) {
-                    <span class="px-2 py-1 rounded-full text-xs bg-[#e6f4ea] text-[#28C76F] font-semibold">Active</span>
-                  } @else {
-                    <span class="px-2 py-1 rounded-full text-xs bg-[#fee2e2] text-[#ef4444] font-semibold">Inactive</span>
-                  }
+                @if (product.isActive) {
+                <span class="px-2 py-1 rounded-full text-xs bg-[#e6f4ea] text-[#28C76F] font-semibold">Active</span>
+                } @else {
+                <span class="px-2 py-1 rounded-full text-xs bg-[#fee2e2] text-[#ef4444] font-semibold">Inactive</span>
+                }
 
-                </td>
+              </td>
 
-                <td class="text-center">
+              <td class="text-center">
 
-                  <div class="flex justify-center items-center gap-2">
+                <div class="flex justify-center items-center gap-2">
 
-                    <button type="button" nz-button nzType="default" nzShape="circle" (click)="editProduct(product.id)" class="text-[#0B3B60] border-[#cbd5e1] hover:border-[#0B3B60]">
-                      <i nz-icon nzType="edit"></i>
-                    </button>
+                  <button type="button" nz-button nzType="default" nzShape="circle" (click)="editProduct(product.id)"
+                    class="text-[#0B3B60] border-[#cbd5e1] hover:border-[#0B3B60]">
+                    <i nz-icon nzType="edit"></i>
+                  </button>
 
-                    <button type="button" nz-button nzType="default" nzShape="circle" (click)="deleteProduct(product.id)" class="text-[#ef4444] border-[#cbd5e1] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white">
-                      <i nz-icon nzType="delete"></i>
-                    </button>
+                  <button type="button" nz-button nzType="default" nzShape="circle" (click)="deleteProduct(product.id)"
+                    class="text-[#ef4444] border-[#cbd5e1] hover:border-[#ef4444] hover:bg-[#ef4444] hover:text-white">
+                    <i nz-icon nzType="delete"></i>
+                  </button>
 
-                  </div>
+                </div>
 
-                </td>
+              </td>
 
-              </tr>
+            </tr>
 
             }
 
@@ -137,139 +144,273 @@
 
   </div>
 
-
-  <nz-modal [(nzVisible)]="isModalVisible" [nzTitle]="isEditMode ? 'Edit Product' : 'Add New Product'" [nzWidth]="850" (nzOnCancel)="handleCancel()" [nzFooter]="null">
-
+  <nz-modal [(nzVisible)]="isModalVisible" [nzTitle]="isEditMode ? 'Edit Product' : 'Add New Product'"
+    [nzWidth]="'min(850px, 95vw)'" (nzOnCancel)="handleCancel()" [nzFooter]="null">
     <ng-container *nzModalContent>
 
       <form nz-form [formGroup]="productForm" (ngSubmit)="onSubmit()">
 
+        <!-- Product Information -->
         <div class="mb-6">
 
-          <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">Product Information</h5>
+          <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase
+                 tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">
+            Product Information
+          </h5>
 
-          <div nz-row [nzGutter]="20">
+          <nz-form-item nzGutter="20" class="mb-0">
 
-            <div nz-col nzXs="24" nzMd="8">
-              <nz-form-item class="mb-4">
-                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Product Code</nz-form-label>
-                <nz-form-control nzErrorTip="Product code is required!">
-                  <input nz-input formControlName="productCode" placeholder="Enter product code" class="h-10 rounded-[6px] border-[#cbd5e1]" />
-                </nz-form-control>
-              </nz-form-item>
+            <!-- Product Code -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]" nzErrorTip="Product code is required">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="productCode">
+                  Product Code
+                </nz-form-label>
+
+                <input nz-input formControlName="productCode" id="productCode" placeholder="Enter product code" class="w-full rounded-6 border-normal border-1
+                       text-[15px] dark:bg-white/10
+                       dark:border-white/10 px-[20px] py-[12px]
+                       min-h-[50px] outline-none
+                       placeholder:text-[#A0A0A0]
+                       text-theme-gray dark:text-white/60" />
+
+              </nz-form-control>
             </div>
 
-            <div nz-col nzXs="24" nzMd="16">
-              <nz-form-item class="mb-4">
-                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Product Name</nz-form-label>
-                <nz-form-control nzErrorTip="Product name is required!">
-                  <input nz-input formControlName="productName" placeholder="Enter product name" class="h-10 rounded-[6px] border-[#cbd5e1]" />
-                </nz-form-control>
-              </nz-form-item>
+
+            <!-- Product Name -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]" nzErrorTip="Product name is required">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="productName">
+                  Product Name
+                </nz-form-label>
+
+                <input nz-input formControlName="productName" id="productName" placeholder="Enter product name" class="w-full rounded-6 border-normal border-1
+                       text-[15px] dark:bg-white/10
+                       dark:border-white/10 px-[20px] py-[12px]
+                       min-h-[50px] outline-none
+                       placeholder:text-[#A0A0A0]
+                       text-theme-gray dark:text-white/60" />
+
+              </nz-form-control>
             </div>
 
-            <div nz-col nzXs="24" nzMd="8">
-              <nz-form-item class="mb-4">
-                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Category</nz-form-label>
-                <nz-form-control nzErrorTip="Please select category!">
-                  <nz-select formControlName="categoryId" nzShowSearch nzPlaceHolder="Select Category" class="w-full h-10">
-                    @for (category of categories; track category.id) {
-                      <nz-option [nzValue]="category.id" [nzLabel]="category.name"></nz-option>
-                    }
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
+
+            <!-- Category -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]" nzErrorTip="Please select category">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="categoryId">
+                  Category
+                </nz-form-label>
+
+                <nz-select formControlName="categoryId" nzShowSearch nzPlaceHolder="Select Category" class="w-full"
+                  nzSize="large">
+                  @for (category of categories; track category.id) {
+                  <nz-option [nzValue]="category.id" [nzLabel]="category.name"></nz-option>
+                  }
+                </nz-select>
+
+              </nz-form-control>
             </div>
 
-            <div nz-col nzXs="24" nzMd="8">
-              <nz-form-item class="mb-4">
-                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Brand</nz-form-label>
-                <nz-form-control nzErrorTip="Please select brand!">
-                  <nz-select formControlName="brandId" nzShowSearch nzPlaceHolder="Select Brand" class="w-full h-10">
-                    @for (brand of brands; track brand.id) {
-                      <nz-option [nzValue]="brand.id" [nzLabel]="brand.name"></nz-option>
-                    }
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
+
+            <!-- Brand -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]" nzErrorTip="Please select brand">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="brandId">
+                  Brand
+                </nz-form-label>
+
+                <nz-select formControlName="brandId" nzShowSearch nzPlaceHolder="Select Brand" class="w-full"
+                  nzSize="large">
+                  @for (brand of brands; track brand.id) {
+                  <nz-option [nzValue]="brand.id" [nzLabel]="brand.name"></nz-option>
+                  }
+                </nz-select>
+
+              </nz-form-control>
             </div>
 
-            <div nz-col nzXs="24" nzMd="8">
-              <nz-form-item class="mb-4">
-                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Unit</nz-form-label>
-                <nz-form-control nzErrorTip="Please select unit!">
-                  <nz-select formControlName="unitId" nzShowSearch nzPlaceHolder="Select Unit" class="w-full h-10">
-                    @for (unit of units; track unit.id) {
-                      <nz-option [nzValue]="unit.id" [nzLabel]="unit.name"></nz-option>
-                    }
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
+
+            <!-- Unit -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]" nzErrorTip="Please select unit">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="unitId">
+                  Unit
+                </nz-form-label>
+
+                <nz-select formControlName="unitId" nzShowSearch nzPlaceHolder="Select Unit" class="w-full"
+                  nzSize="large">
+                  @for (unit of units; track unit.id) {
+                  <nz-option [nzValue]="unit.id" [nzLabel]="unit.name"></nz-option>
+                  }
+                </nz-select>
+
+              </nz-form-control>
             </div>
 
-            <div nz-col nzXs="24" nzMd="8">
-              <nz-form-item class="mb-4">
-                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Purchase Price</nz-form-label>
-                <nz-form-control>
-                  <input nz-input type="number" formControlName="purchasePrice" min="0" step="0.01" class="h-10 rounded-[6px] border-[#cbd5e1]" />
-                </nz-form-control>
-              </nz-form-item>
+
+            <!-- Purchase Price -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]" nzErrorTip="Purchase price is required">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="purchasePrice">
+                  Purchase Price
+                </nz-form-label>
+
+                <input nz-input type="number" formControlName="purchasePrice" id="purchasePrice" min="0" step="0.01"
+                  placeholder="0.00" class="w-full rounded-6 border-normal border-1
+                       text-[15px] dark:bg-white/10
+                       dark:border-white/10 px-[20px] py-[12px]
+                       min-h-[50px] outline-none
+                       placeholder:text-[#A0A0A0]
+                       text-theme-gray dark:text-white/60" />
+
+              </nz-form-control>
             </div>
 
-            <div nz-col nzXs="24" nzMd="8">
-              <nz-form-item class="mb-4">
-                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Sales Price</nz-form-label>
-                <nz-form-control>
-                  <input nz-input type="number" formControlName="salesPrice" min="0" step="0.01" class="h-10 rounded-[6px] border-[#cbd5e1]" />
-                </nz-form-control>
-              </nz-form-item>
+
+            <!-- Sales Price -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]" nzErrorTip="Sales price is required">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzRequired nzFor="salesPrice">
+                  Sales Price
+                </nz-form-label>
+
+                <input nz-input type="number" formControlName="salesPrice" id="salesPrice" min="0" step="0.01"
+                  placeholder="0.00" class="w-full rounded-6 border-normal border-1
+                       text-[15px] dark:bg-white/10
+                       dark:border-white/10 px-[20px] py-[12px]
+                       min-h-[50px] outline-none
+                       placeholder:text-[#A0A0A0]
+                       text-theme-gray dark:text-white/60" />
+
+              </nz-form-control>
             </div>
 
-            <div nz-col nzXs="24" nzMd="8">
-              <nz-form-item class="mb-4">
-                <nz-form-label class="font-bold text-[#0B3B60]">VAT %</nz-form-label>
-                <nz-form-control>
-                  <input nz-input type="number" formControlName="vatPercent" min="0" max="100" step="0.01" class="h-10 rounded-[6px] border-[#cbd5e1]" />
-                </nz-form-control>
-              </nz-form-item>
+
+            <!-- VAT -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzFor="vatPercent">
+                  VAT %
+                </nz-form-label>
+
+                <input nz-input type="number" formControlName="vatPercent" id="vatPercent" min="0" max="100" step="0.01"
+                  placeholder="0.00" class="w-full rounded-6 border-normal border-1
+                       text-[15px] dark:bg-white/10
+                       dark:border-white/10 px-[20px] py-[12px]
+                       min-h-[50px] outline-none
+                       placeholder:text-[#A0A0A0]
+                       text-theme-gray dark:text-white/60" />
+
+              </nz-form-control>
             </div>
 
-            <div nz-col nzXs="24" nzMd="16">
-              <nz-form-item class="mb-4">
-                <nz-form-label class="font-bold text-[#0B3B60]">Barcode</nz-form-label>
-                <nz-form-control>
-                  <input nz-input formControlName="barcode" placeholder="Enter barcode" class="h-10 rounded-[6px] border-[#cbd5e1]" />
-                </nz-form-control>
-              </nz-form-item>
+
+            <!-- Barcode -->
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
+
+              <nz-form-control class="mb-[10px]">
+
+                <nz-form-label class="flex items-center
+                       [&>label]:text-dark
+                       [&>label]:dark:text-white/60
+                       mb-[10px] p-0 text-[15px] capitalize" nzFor="barcode">
+                  Barcode
+                </nz-form-label>
+
+                <input nz-input formControlName="barcode" id="barcode" placeholder="Enter barcode" class="w-full rounded-6 border-normal border-1
+                       text-[15px] dark:bg-white/10
+                       dark:border-white/10 px-[20px] py-[12px]
+                       min-h-[50px] outline-none
+                       placeholder:text-[#A0A0A0]
+                       text-theme-gray dark:text-white/60" />
+
+              </nz-form-control>
             </div>
+            <div nz-col nzMd="8" nzSm="12" nzXs="24">
 
-          </div>
+              <nz-form-control class="mb-[10px]">
 
+                <nz-form-label class="!flex !items-center
+                    [&>label]:text-dark
+                    [&>label]:dark:text-white/60
+                    mb-[10px] p-0
+                    text-[15px] capitalize">
+                  Batch Required
+                </nz-form-label>
+
+                <div class="flex items-center gap-3 min-h-[50px]">
+
+                  <nz-switch formControlName="isBatchRequired"></nz-switch>
+
+                  <span class="text-[14px] text-gray-500">
+                    {{ productForm.get('isBatchRequired')?.value ? 'Required' : 'Not Required' }}
+                  </span>
+
+                </div>
+
+              </nz-form-control>
+
+            </div>
+          </nz-form-item>
         </div>
 
 
-        <div class="mb-6">
 
-          <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">Product Settings</h5>
+        <!-- Footer -->
+        <div class="flex flex-col sm:flex-row sm:justify-end gap-3
+               pt-4 border-t border-[#e2e8f0]">
 
-          <div class="flex items-center gap-8">
-
-            <label nz-checkbox formControlName="isBatchRequired" class="font-medium">Batch Required</label>
-
-            <label nz-checkbox formControlName="isActive" class="font-medium">Active</label>
-
-          </div>
-
-        </div>
-
-
-        <div class="flex justify-end gap-3 pt-4 border-t border-[#e2e8f0]">
-
-          <button type="button" nz-button (click)="handleCancel()" class="rounded-[6px] h-10 px-6 font-semibold border-[#cbd5e1] text-[#64748b] hover:border-[#0B3B60] hover:text-[#0B3B60]">
+          <button type="button" nz-button (click)="handleCancel()" class="w-full sm:w-auto rounded-[6px] h-10 px-6
+                 font-semibold border-[#cbd5e1]
+                 text-[#64748b]">
             Cancel
           </button>
 
-          <button type="submit" nz-button class="text-white text-[14px] font-semibold h-10 px-8 rounded-[6px] border-none shadow-sm" style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
+          <button type="submit" nz-button class="w-full sm:w-auto text-white text-[14px]
+                 font-semibold h-10 px-8 rounded-[6px]
+                 border-none shadow-sm" style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
             {{ isEditMode ? 'Update Product' : 'Save Product' }}
           </button>
 
@@ -278,7 +419,8 @@
       </form>
 
     </ng-container>
-
   </nz-modal>
+
+
 
 </div>

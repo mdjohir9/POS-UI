@@ -74,7 +74,8 @@ export class PosProductsComponent {
 
   initForm(): void {
     this.productForm = this.fb.group({
-      productCode: ['', [Validators.required, Validators.maxLength(50)]],
+      productCode: ['', [Validators.required, Validators.
+        maxLength(50)]],
       productName: ['', [Validators.required, Validators.maxLength(200)]],
       categoryId: [null, [Validators.required]],
       companyId: [this.companyId, [Validators.required]],

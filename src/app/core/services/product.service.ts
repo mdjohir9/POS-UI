@@ -12,11 +12,11 @@ export class ProductService {
   private userId: string | null;
 
   private GET_PRODUCTS = `api/POSProduct/products`;
-  private GET_PRODUCT_BY_ID = `api/POSProduct/product/`;
+  private GET_PRODUCT_BY_ID = `api/POSProduct/product`;
   private GET_PRODUCT_BY_BARCODE = `api/POSProduct/product/barcode`;
-  private POST_PRODUCT = `api/POSProduct/create`;
-  private UPDATE_PRODUCT = `api/POSProduct/update`;
-  private DELETE_PRODUCT = `api/POSProduct/delete`;
+  private POST_PRODUCT = `api/POSProduct/product/create`;
+  private UPDATE_PRODUCT = `api/POSProduct/product/update`;
+  private DELETE_PRODUCT = `api/POSProduct/product/delete`;
   private POST_PURCHASE = `api/POSPurchase/purchase/create`;
 
   constructor(
@@ -74,12 +74,7 @@ export class ProductService {
   // Get Product By ID
   // =========================
   getProductById(id: any): Observable<any> {
-
-    return this.genericHttpService
-      .getById<any>(
-        this.GET_PRODUCT_BY_ID,
-        id
-      )
+    return this.genericHttpService.getById<any>( this.GET_PRODUCT_BY_ID,id)
       .pipe( map((response: any) => {
 
           if (response) {

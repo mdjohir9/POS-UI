@@ -7,7 +7,6 @@ export interface Category {
   id?: number;
   name?: string;
   categoryName?: string;
-  description?: string;
   isActive: boolean;
 }
 
@@ -36,7 +35,6 @@ export class PosCategoryComponent implements OnInit {
   initForm(): void {
     this.categoryForm = this.fb.group({
       categoryName: ['', [Validators.required]],
-      description: [''],
       isActive: [true]
     });
   }
@@ -82,7 +80,6 @@ export class PosCategoryComponent implements OnInit {
 
     const postData = {
       name: this.categoryForm.value.categoryName,
-      description: this.categoryForm.value.description,
       isActive: this.categoryForm.value.isActive
     };
 
@@ -146,7 +143,6 @@ export class PosCategoryComponent implements OnInit {
     this.editingId = category.id;
     this.categoryForm.patchValue({
       categoryName: category.name || category.categoryName || '',
-      description: category.description || '',
       isActive: category.isActive
     });
   }

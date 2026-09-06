@@ -13,76 +13,137 @@
     <div class="p-[25px]">
       
       <!-- Category Form Section -->
-      <div class="mb-8">
-        <h5 class="text-[14px] font-bold text-[#0B3B60] uppercase tracking-wider mb-4 border-b border-[#e2e8f0] pb-2">
-          Add / Edit Category Details
-        </h5>
 
-        <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-          <div nz-row [nzGutter]="20">
-            
-            <!-- Category Name -->
-            <div nz-col nzXs="24" nzMd="12">
-              <nz-form-item class="mb-4">
-                <nz-form-label nzRequired class="font-bold text-[#0B3B60]">Category Name</nz-form-label>
-                <nz-form-control nzErrorTip="Category Name is required!">
-                  <input 
-                    nz-input 
-                    formControlName="categoryName" 
-                    placeholder="Enter category name" 
-                    class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
-                </nz-form-control>
-              </nz-form-item>
-            </div>
+  <div class="mb-8">
 
-            <!-- Description -->
-            <div nz-col nzXs="24" nzMd="12">
-              <nz-form-item class="mb-4">
-                <nz-form-label class="font-bold text-[#0B3B60]">Description</nz-form-label>
-                <nz-form-control>
-                  <input 
-                    nz-input 
-                    formControlName="description" 
-                    placeholder="Enter description" 
-                    class="h-10 rounded-[6px] border-[#cbd5e1] focus:border-[#28C76F]" />
-                </nz-form-control>
-              </nz-form-item>
-            </div>
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
 
-            <!-- Status Switch -->
-            <div nz-col nzXs="24" nzMd="12">
-              <nz-form-item class="mb-4">
-                <nz-form-label class="font-bold text-[#0B3B60]">Status</nz-form-label>
-                <nz-form-control>
-                  <div class="pt-2">
-                    <nz-switch formControlName="isActive" nzCheckedChildren="Active" nzUnCheckedChildren="Inactive"></nz-switch>
-                  </div>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
+      <nz-form-item class="mb-0">
+
+        <div nz-row [nzGutter]="[20, 4]" class="w-full">
+
+          <!-- ================= CATEGORY NAME ================= -->
+          <div nz-col nzXs="24" nzSm="12" nzMd="8">
+
+            <nz-form-control
+              class="mb-[10px]"
+              nzErrorTip="Category Name is required!"
+            >
+
+              <nz-form-label
+                nzRequired
+                nzFor="categoryName"
+                class="flex items-center
+                      [&>label]:text-dark
+                      [&>label]:dark:text-white/60
+                      mb-[10px] p-0
+                      text-[15px] capitalize"
+              >
+                Category Name
+              </nz-form-label>
+
+              <input
+                nz-input
+                formControlName="categoryName"
+                id="categoryName"
+                placeholder="Enter category name"
+                class="w-full rounded-6 border-normal border-1
+                      text-[15px]
+                      dark:bg-white/10
+                      dark:border-white/10
+                      px-[20px] py-[12px]
+                      min-h-[50px]
+                      outline-none
+                      placeholder:text-[#A0A0A0]
+                      text-theme-gray
+                      dark:text-white/60"
+              />
+
+            </nz-form-control>
 
           </div>
 
-          <!-- Buttons -->
-          <div class="flex justify-end gap-3 pt-4 border-t border-[#e2e8f0]">
-            <button 
-              type="button" 
-              nz-button 
-              (click)="resetForm()"
-              class="rounded-[6px] h-10 px-6 font-semibold border-[#cbd5e1] text-[#64748b] hover:border-[#0B3B60] hover:text-[#0B3B60]">
-              Reset
-            </button>
-            
-            <button 
-              type="submit" 
-              nz-button 
-              class="text-white text-[14px] font-semibold h-10 px-8 rounded-[6px] border-none shadow-sm transition-all duration-300"
-              style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);">
-              Save Category
-            </button>
+          <!-- ================= STATUS ================= -->
+          <div nz-col nzXs="24" nzSm="12" nzMd="8">
+
+            <nz-form-control class="mb-[10px]">
+
+              <nz-form-label
+                nzFor="isActive"
+                class="flex items-center
+                      [&>label]:text-dark
+                      [&>label]:dark:text-white/60
+                      mb-[10px] p-0
+                      text-[15px] capitalize"
+              >
+                Status
+              </nz-form-label>
+
+              <div class="flex items-center min-h-[50px]">
+
+                <nz-switch
+                  formControlName="isActive"
+                  nzCheckedChildren="Active"
+                  nzUnCheckedChildren="Inactive"
+                >
+                </nz-switch>
+
+              </div>
+
+            </nz-form-control>
+
           </div>
-        </form>
+
+        </div>
+
+      </nz-form-item>
+
+
+      <!-- ================= BUTTONS ================= -->
+      <div
+        class="flex flex-col sm:flex-row sm:justify-end
+              gap-3 pt-4 mt-4
+              border-t border-[#e2e8f0]"
+      >
+
+        <button
+          type="button"
+          nz-button
+          (click)="resetForm()"
+          class="w-full sm:w-auto
+                rounded-[6px] h-10 px-6
+                font-semibold
+                border-[#cbd5e1]
+                text-[#64748b]
+                hover:border-[#0B3B60]
+                hover:text-[#0B3B60]"
+        >
+          Reset
+        </button>
+
+
+        <button
+          type="submit"
+          nz-button
+          class="w-full sm:w-auto
+                text-white text-[14px]
+                font-semibold
+                h-10 px-8
+                rounded-[6px]
+                border-none
+                shadow-sm
+                transition-all duration-300"
+          style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);"
+        >
+          Save Category
+        </button>
+
       </div>
+
+    </form>
+
+  </div>
+
 
       <!-- Category List Section -->
       <div>
@@ -96,7 +157,6 @@
               <tr>
                 <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">SL</th>
                 <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Category Name</th>
-                <th class="px-[20px] py-[12px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Description</th>
                 <th class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Status</th>
                 <th class="px-[20px] py-[12px] text-center text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f8fafc]">Action</th>
               </tr>
@@ -106,7 +166,6 @@
                 <tr class="border-b border-[#f1f5f9]">
                   <td class="px-[20px] py-3 text-[#0B3B60] font-medium">{{ i + 1 }}</td>
                   <td class="px-[20px] py-3 text-[#0B3B60] font-bold">{{ data.name || data.categoryName }}</td>
-                  <td class="px-[20px] py-3 text-[#0B3B60]">{{ data.description || '-' }}</td>
                   <td class="px-[20px] py-3 text-center">
                     <span [ngClass]="data.isActive ? 'badge-approve' : 'badge-reject'">
                       {{ data.isActive ? 'Active' : 'Inactive' }}
