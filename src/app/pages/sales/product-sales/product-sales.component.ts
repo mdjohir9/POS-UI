@@ -367,4 +367,31 @@ openInvoiceModal(): void {
 closeInvoiceModal(): void {
   this.isInvoiceModalVisible = false;
 }
+
+
+getCustomerName(customerId: any): string {
+  const customer = this.customers.find(
+    (x: any) => x.id == customerId
+  );
+
+  return customer?.name || customer?.customerName || '';
+}
+
+
+getProductName(productId: any): string {
+  const product = this.products.find(
+    (x: any) => x.id == productId
+  );
+
+  return product?.name || product?.productName || '';
+}
+
+
+getPaymentMethodName(paymentMethodId: any): string {
+  const paymentMethod = this.paymentMethods.find(
+    (x: any) => x.id == paymentMethodId
+  );
+
+  return paymentMethod?.name || paymentMethod?.paymentMethodName || '';
+}
 }
