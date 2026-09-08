@@ -216,7 +216,94 @@ addProductToDetails(product: any): void {
     );
   }
 }
+
 onBarcodeScan(event: Event): void {
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  const barcode = this.barcodeControl.value?.trim();
+
+  if (!barcode) {
+    return;
+  }
+
+  this.productService.getProductByBarcode(barcode).subscribe({
+    next: (response) => {
+
+      if (response.statusCode === 200 && response.data) {
+
+        const product = response.data;
+
+        // Product products list-e na thakle add kore dao
+        const productExists = this.products.some(
+          (x: any) => x.id == product.id
+        );
+
+        if (!productExists) {
+          this.products.push({
+            id: product.id,
+            name: product.productName,
+            productName: product.productName,
+            barcode: product.barcode,
+            salesPrice: product.salesPrice
+          });
+        }
+
+        const existingRowIndex =
+          this.details.controls.findIndex(
+            row => row.get('productId')?.value == product.id
+          );
+
+        if (existingRowIndex !== -1) {
+
+          const row = this.details.at(existingRowIndex);
+
+          const currentQty =
+            Number(row.get('quantity')?.value) || 0;
+
+          row.get('quantity')?.setValue(currentQty + 1);
+
+          this.calculateRowAmount(existingRowIndex);
+
+        } else {
+
+          this.addProductToDetails({
+            productId: product.id,
+            productName: product.productName,
+            barcode: product.barcode,
+            defaultRate: product.salesPrice
+          });
+        }
+
+        this.barcodeControl.setValue('');
+        this.focusBarcodeInput();
+
+      } else {
+
+        this.message.error(
+          response.message || 'Product not found.'
+        );
+
+        this.barcodeControl.setValue('');
+        this.focusBarcodeInput();
+      }
+    },
+
+    error: (error) => {
+
+      console.error('Barcode Product Error:', error);
+
+      this.message.error(
+        error?.error?.message || 'Product not found.'
+      );
+
+      this.barcodeControl.setValue('');
+      this.focusBarcodeInput();
+    }
+  });
+}
+/* onBarcodeScan(event: Event): void {
 
   event.preventDefault();
   event.stopPropagation();
@@ -287,7 +374,7 @@ onBarcodeScan(event: Event): void {
     }
   });
 }
-
+ */
 
 
   focusBarcodeInput(): void {
@@ -385,6 +472,7 @@ getProductName(productId: any): string {
 
   return product?.name || product?.productName || '';
 }
+
 
 
 getPaymentMethodName(paymentMethodId: any): string {

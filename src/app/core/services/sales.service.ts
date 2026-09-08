@@ -9,10 +9,42 @@ import Swal from 'sweetalert2';
 export class SalesService {
 
   private POST_SALES = `api/POSSales/sales/create`;
-private GET_SALES_LIST = `api/POSSales/sales`;
+  private GET_SALES_LIST = `api/POSSales/sales`;
+  private GET_SALES_INVOICE = `api/POSSales/sales/invoice`;
   constructor(
     private genericHttpService: GenericHttpService<any>
   ) {}
+
+   getSalesInvoiceById(id: number): Observable<any> {
+
+    return this.genericHttpService .getById<any>(  this.GET_SALES_INVOICE, id )
+      .pipe(
+        map((response: any) => {
+          if (response) {
+            return response;
+          }
+          return {
+            statusCode: 500,
+            message: 'Invalid response',
+            data: null
+          };
+
+        }),
+        catchError((error) => {
+
+          console.error(
+            'Error occurred while loading Brand:',
+            error
+          );
+
+          return throwError(
+            () => error
+          );
+
+        })
+
+      );
+  }
 getSalesList(): Observable<any> {
   return this.genericHttpService
     .getAll<any>(this.GET_SALES_LIST)

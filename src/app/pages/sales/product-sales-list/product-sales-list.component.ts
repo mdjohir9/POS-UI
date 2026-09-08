@@ -33,6 +33,7 @@ export class ProductSalesListComponent implements OnInit {
 
   allDatas: SalesItem[] = [];
   datas: SalesItem[] = [];
+  message: any;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -169,5 +170,49 @@ export class ProductSalesListComponent implements OnInit {
 
     });
   }
+isInvoiceModalVisible = false;
+InvoiceData: any = null;
 
+viewInvoice(salesMasterId: number): void {
+
+  this.salesService.getSalesInvoiceById(salesMasterId).subscribe({
+
+    next: (response: any) => {
+
+      if (response && response.statusCode === 200 && response.data) {
+
+        this.InvoiceData = response.data;
+
+        this.isInvoiceModalVisible = true;
+      }
+      else {
+
+        this.InvoiceData = null;
+
+        this.message.error(
+          response?.message || 'Invoice not found.'
+        );
+      }
+
+    },
+
+    error: (error) => {
+
+      console.error('Invoice load failed:', error);
+
+      this.InvoiceData = null;
+
+      this.message.error(
+        error?.error?.message || 'Failed to load invoice.'
+      );
+    }
+
+  });
+}
+closeInvoiceModal(): void {
+  this.isInvoiceModalVisible = false;
+}
+openInvoiceModal(): void {
+  this.isInvoiceModalVisible = true;
+}
 }

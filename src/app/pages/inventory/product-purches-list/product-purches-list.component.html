@@ -58,6 +58,8 @@
                 <tr>
                   <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">SL</th>
                   <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Purchase No</th>
+                   <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Barcode No</th>
+
                   <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Purchase Date</th>
                   <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Supplier</th>
                   <th class="px-[20px] py-[14px] text-start text-[#0B3B60] text-[14px] font-bold border-b border-[#e2e8f0] uppercase bg-[#f1f5f9]">Items</th>
@@ -69,6 +71,8 @@
                 <tr class="hover:bg-[#f8fafc] transition-colors duration-150 border-b border-[#f1f5f9]" *ngFor="let data of purchaseTable.data; let i = index;">
                   <td class="px-[20px] py-4 text-[#64748b] text-[14px]">{{ i + 1 }}</td>
                   <td class="px-[20px] py-4 text-[#0B3B60] font-semibold text-[14px]">{{ data.purchaseNo }}</td>
+                  <td class="px-[20px] py-4 text-[#0B3B60] font-semibold text-[14px]">{{ data.barcode }}</td>
+
                   <td class="px-[20px] py-4 text-[#334155] text-[14px]">{{ data.purchaseDate | date: 'yyyy-MM-dd HH:mm' }}</td>
                   <td class="px-[20px] py-4 text-[#334155] text-[14px] font-medium">{{ data.supplierName }}</td>
                   <td class="px-[20px] py-4 text-[#334155] text-[14px]">
