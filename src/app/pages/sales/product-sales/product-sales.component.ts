@@ -5,6 +5,7 @@ import { ProductService } from 'src/app/core/services/product.service';
 import {CustommerService} from 'src/app/core/services/custommerService';
 import { PaymentMethodService } from 'src/app/core/services/paymentMethod.service';
 import { SalesService } from 'src/app/core/services/sales.service';
+import { commonTaskService } from 'src/app/core/services/commonTaskService';
 @Component({
   selector: 'app-product-sales',
   standalone: false,
@@ -19,6 +20,7 @@ constructor(
   private customerService: CustommerService,  
   private paymentMethodService: PaymentMethodService,
   private salesService: SalesService,
+  private commonTaskService : commonTaskService,
   private message: NzMessageService
 ) {}
   barcodeControl = new FormControl('');
@@ -392,10 +394,15 @@ onSubmit(): void {
   }
 
   const rawValue = this.salesForm.getRawValue();
+  const date = new Date(rawValue.salesDate);
+
+const salesDate = this.commonTaskService.toLocalDateTime(date);
+
 
   const payload = {
     invoiceNo: rawValue.invoiceNo,
-    salesDate: new Date(rawValue.salesDate).toISOString(),
+
+    salesDate: salesDate,
     customerId: rawValue.customerId,
     discountAmount: rawValue.discountAmount || 0,
 

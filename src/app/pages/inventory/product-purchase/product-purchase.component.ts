@@ -212,8 +212,7 @@ onSubmit(): void {
   const payload = {
     purchaseNo: rawValue.purchaseNo,
 
-    purchaseDate:
-      new Date(rawValue.purchaseDate).toISOString(),
+    purchaseDate: this.commonTask.toLocalDateTime(rawValue.purchaseDate),
 
     supplierId: rawValue.supplierId,
 
