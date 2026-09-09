@@ -4,11 +4,11 @@ import { LeaveService } from 'src/app/core/services/leave.service';
 import { ILoanApplication } from 'src/app/core/models/interfaces/ILoanApplication';
 import { IApiResponse } from 'src/app/core/models/interfaces/IApiResponse';
 import Swal from 'sweetalert2';
-import { LoanService } from 'src/app/core/services/LoanService';
 import { ILeaveData } from 'src/app/core/models/interfaces/ILeave-data';
 import { Router } from '@angular/router';
 import { ILoanInstalmentDetails } from 'src/app/core/models/interfaces/ILoanInstalmentDetails';
 import { DateTimeFormat } from 'intl';
+import { SalesService } from 'src/app/core/services/sales.service';
 @Component({
   selector: 'upcoming-loan-instalment',
   standalone: false,
@@ -28,18 +28,19 @@ export class UpcomingInstalmentComponent implements OnInit{
 
    listOfCurrentPageData: readonly ILoanInstalmentDetails[] = [];
   filterDate: string = '';
-  constructor(private router: Router , private loanService: LoanService) {}
+  message: any;
+  constructor(private router: Router , private salesService: SalesService) {}
 
   ngOnInit(): void {
     // this.loadData();
 
-        const today = new Date();
+    const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0'); // months are 0-based
     const day = String(today.getDate()).padStart(2, '0');
 
     this.filterDate = `${year}-${month}-${day}`;
-    this.getLoanInstalments(this.filterDate);
+    this.getSalesList(this.filterDate);
 
   }
 
@@ -50,33 +51,49 @@ export class UpcomingInstalmentComponent implements OnInit{
     }, 500);
   }
  */
-  getLoanInstalments(date: any): void {
+
+    getSalesList(date: string): void {
+
     this.isLoading = true;
-    this.showContent = false; // Hide content during loading
-  
-    setTimeout(() => {
-      this.loanService.getLaonInstalmentsByMonth(date).subscribe(
-        (response: IApiResponse<ILoanInstalmentDetails[]>) => {
-          this.isLoading = false;
+
+    this.salesService.getSalesList().subscribe({
+
+      next: (response: any) => {
+
+        if (response && response.statusCode === 200) {
+
+          this.allDatas = response.data || [];
+          this.datas = [...this.allDatas];
+
           this.showContent = true;
-  
-          if (response.statusCode === 200) {
-            this.allDatas = response.data || [];
-          } else {
-            this.allDatas = [];
-            console.error('Error fetching loan instalments by month:', response.message);
-          }
-        },
-        error => {
-          this.isLoading = false;
-          this.showContent = true;
-          this.allDatas = [];
-          console.error('API Error:', error);
         }
-      );
-    }, 5); // Optional: small delay to simulate loading
+        else {
+
+          this.allDatas = [];
+          this.datas = [];
+
+          this.showContent = true;
+        }
+
+        this.isLoading = false;
+      },
+
+      error: (error) => {
+
+        console.error(
+          'Failed to load sales list:',
+          error
+        );
+
+        this.allDatas = [];
+        this.datas = [];
+
+        this.showContent = true;
+        this.isLoading = false;
+      }
+    });
   }
-  
+
   
     onCurrentPageDataChange(listOfCurrentPageData: readonly ILoanInstalmentDetails[]): void {
       this.listOfCurrentPageData = listOfCurrentPageData;
@@ -97,21 +114,50 @@ export class UpcomingInstalmentComponent implements OnInit{
     );
   }
 
-/*   filterByStatus() {
-    if (this.statusFilter === 'All') {
-      this.leaves = [...this.allLeaves]; // Reset to original list
-      return;
+
+isInvoiceModalVisible = false;
+InvoiceData: any = null;
+
+viewInvoice(salesMasterId: number): void {
+
+  this.salesService.getSalesInvoiceById(salesMasterId).subscribe({
+
+    next: (response: any) => {
+
+      if (response && response.statusCode === 200 && response.data) {
+
+        this.InvoiceData = response.data;
+
+        this.isInvoiceModalVisible = true;
+      }
+      else {
+
+        this.InvoiceData = null;
+
+        this.message.error(
+          response?.message || 'Invoice not found.'
+        );
+      }
+
+    },
+
+    error: (error) => {
+
+      console.error('Invoice load failed:', error);
+
+      this.InvoiceData = null;
+
+      this.message.error(
+        error?.error?.message || 'Failed to load invoice.'
+      );
     }
 
-    this.leaves = this.allLeaves.filter(leave => {
-      const statusLabel = leave.approvalStatus === null ? 'Pending' :
-                          leave.approvalStatus === 0 ? 'Processing' :
-                          leave.approvalStatus === 1 ? 'Approve' : // Assuming 'Approve' is 'Active'
-                          leave.approvalStatus === 2 ? 'Reject' : 'NA';
-
-      this.dataType = 'leaves'
-      return statusLabel === this.statusFilter;
-    });
-  } */
-
+  });
+}
+closeInvoiceModal(): void {
+  this.isInvoiceModalVisible = false;
+}
+openInvoiceModal(): void {
+  this.isInvoiceModalVisible = true;
+}
 }

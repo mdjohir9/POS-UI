@@ -46,14 +46,14 @@ export type ChartOptions = {
     <div class="flex items-center justify-center max-ssm:flex-col max-ssm:gap-y-[15px]">
       <div class="relative flex items-center mx-3">
         <span
-          class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-[18px] font-semibold">$8,550</span>
+          class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-[18px] font-semibold"><span>{{ stockInTotal | number }}</span></span>
         <span class="flex items-center text-sm font-medium text-success">
             <svg-icon class="w-[20px] h-[20px] [&>svg]:w-full [&>svg]:h-full" src="assets/images/svg/unicons-line/arrow-up.svg"></svg-icon>
           25% </span>
       </div>
       <div class="relative flex items-center mx-3">
         <span
-          class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-[18px] font-semibold">$5,550</span>
+          class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-[18px] font-semibold"><span>{{ stockOutTotal | number }}</span></span>
         <span class="flex items-center text-sm font-medium text-danger">
             <svg-icon class="w-[20px] h-[20px] [&>svg]:w-full [&>svg]:h-full" src="assets/images/svg/unicons-line/arrow-down.svg"></svg-icon>
             15% </span>
@@ -88,213 +88,216 @@ export type ChartOptions = {
   `]
 })
 
-export class SaleGrowthComponent implements OnInit  {
-  @Input() componentId: string;
-  //Tabs
+export class SaleGrowthComponent implements OnInit {
+
+  @Input() componentId!: string;
+
   sellingTab: string = 'today';
-  handleClick(tab: string): void {
-    this.sellingTab = tab;
-    const storageKey = `sellingTab_${this.componentId}`; // Use a unique key for each component
-    localStorage.setItem(storageKey, tab);
-  }
   filterDate: string = '';
-  ngOnInit(): void {
-    const storageKey = `sellingTab_${this.componentId}`; // Use the same unique key as in handleClick
-    const storedTab = localStorage.getItem(storageKey);
-    if (storedTab) {
-      this.sellingTab = storedTab;
 
-    }
+  public stockInTotal: number = 0;
+  public stockOutTotal: number = 0;
 
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // months are 0-based
-    const day = String(today.getDate()).padStart(2, '0');
-
-    this.filterDate = `${year}-${month}-${day}`;
-       this.getRechargeAndWithdrawSummary(this.filterDate);
-    
-    
-  }
-
-//Chart Data
- @ViewChild("chart") chart: ChartComponent;
- public chartOptions: Partial<ChartOptions>;
- public chartOptions2: Partial<ChartOptions>;
- public chartOptions3: Partial<ChartOptions>;
-
+  public chartOptions: Partial<ChartOptions>;
+  weeklyStockIn: number[] = [];
+  weeklyStockOut: number[] = [];
   constructor(private dashboardService: DashboardService) {
     this.chartOptions = {
-      series: [{
-          name: "Stock In",
-          data: [0, 0, 0, 0, 0, 0, 0],
-          color: "#7811FF",
-      }, {
-          name: "Stock Out",
-          data: [0, 0, 0, 0, 0, 0, 0],
-          color: "#00AAFF",
-      }],
+      series: [
+        {
+          name: 'Stock In',
+          data: this.weeklyStockIn,
+          color: '#7811FF'
+        },
+        {
+          name: 'Stock Out',
+          data: this.weeklyStockOut,
+          color: '#00AAFF'
+        }
+      ],
+
       chart: {
         height: 311,
-        type: "bar",
+        type: 'bar',
         parentHeightOffset: 0,
         toolbar: {
           show: false
         }
       },
+
       dataLabels: {
-        enabled: false,
+        enabled: false
       },
+
       stroke: {
         show: true,
         width: 30,
         colors: ['transparent']
       },
+
       grid: {
         borderColor: '#485e9029',
-		    strokeDashArray: 5,
+        strokeDashArray: 5,
         padding: {
           top: 0,
           right: 0,
-          bottom: 0,
+          bottom: 0
+        }
       },
-      },
+
       plotOptions: {
         bar: {
           horizontal: false,
           columnWidth: '60%',
-          borderRadius: 2,
+          borderRadius: 2
         }
       },
-      legend: {
-        show: false,
-      },
-      states: {
 
+      legend: {
+        show: false
       },
+
       tooltip: {
         enabled: true,
-        enabledOnSeries: undefined,
         shared: true,
-        followCursor: false,
         intersect: false,
         x: {
-            show: true,
-            format: 'dd MMM',
-            formatter: undefined,
-        },
-        y: {
-            formatter: undefined,
-            title: {
-                formatter: (seriesName) => seriesName,
-            },
-        },
-        z: {
-            formatter: undefined,
-            title: 'Size: '
-        },
-        marker: {
-            show: true,
-        },
-        fixed: {
-            enabled: false,
-            position: 'topLeft',
-            offsetY: 0,
+          show: true,
+          format: 'dd MMM'
         },
         style: {
-            fontSize: '12px',
-            fontFamily: '"Jost", sans-serif',
-        },
+          fontSize: '12px',
+          fontFamily: '"Jost", sans-serif'
+        }
       },
+
       xaxis: {
         crosshairs: {
           show: false
         },
+
         labels: {
           style: {
-            colors: Array.from({ length: 12 }, () => '#747474'),
+            colors: Array.from({ length: 7 }, () => '#747474'),
             fontSize: '14px',
             fontFamily: '"Jost", sans-serif',
             fontWeight: 400,
-            cssClass: 'apexcharts-yaxis-label',
-          },
+            cssClass: 'apexcharts-yaxis-label'
+          }
         },
+
         categories: [
-          "Sat",
-          "Sun",
-          "Mon",
-          "Tue",
-          "Wed",
-          "Thu",
-          "Fri"
+          'Sat',
+          'Sun',
+          'Mon',
+          'Tue',
+          'Wed',
+          'Thu',
+          'Fri'
         ],
+
         axisBorder: {
-          show: false,
+          show: false
         },
+
         axisTicks: {
-            show: false,
-        },
+          show: false
+        }
       },
+
       yaxis: {
         labels: {
           offsetX: -15,
+
           formatter: (val) => {
-            return val + "$";
+            return val.toString();
           },
+
           style: {
             colors: ['#747474'],
             fontSize: '14px',
             fontFamily: '"Jost", sans-serif',
             fontWeight: 400,
-            cssClass: 'apexcharts-yaxis-label',
-          },
+            cssClass: 'apexcharts-yaxis-label'
+          }
         },
-        axisBorder: {
-          show: false,
-        },
-        axisTicks: {
-            show: false,
-        },
-      },
-    };
 
+        axisBorder: {
+          show: false
+        },
+
+        axisTicks: {
+          show: false
+        }
+      }
+    };
   }
 
+  ngOnInit(): void {
+    const storageKey = `sellingTab_${this.componentId}`;
+    const storedTab = localStorage.getItem(storageKey);
 
-  
- public rechargeTotal = 0;
-  public withdrawTotal = 0;
+    if (storedTab) {
+      this.sellingTab = storedTab;
+    }
 
-  getRechargeAndWithdrawSummary(selectedDate: string | null): void {
-    if (!selectedDate) return;
+    const today = new Date();
 
-    this.dashboardService.getRechargeAndWithdrawSummary(selectedDate).subscribe((chartData) => {
-      this.rechargeTotal = chartData.recharge.total;
-      this.withdrawTotal = chartData.withdraw.total;
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+
+    this.filterDate = `${year}-${month}-${day}`;
+
+    this.getStockInOutSummary(this.filterDate);
+  }
+
+  handleClick(tab: string): void {
+    this.sellingTab = tab;
+
+    const storageKey = `sellingTab_${this.componentId}`;
+    localStorage.setItem(storageKey, tab);
+  }
+
+getStockInOutSummary(selectedDate: string | null): void {
+  if (!selectedDate) return;
+
+  this.dashboardService.getStockInOutSummary(selectedDate).subscribe({
+    next: (response) => {
+      this.stockInTotal = response.stockInTotal || 0;
+      this.stockOutTotal = response.stockOutTotal || 0;
+
+      this.weeklyStockIn = response.stockInData || [];
+      this.weeklyStockOut = response.stockOutData || [];
 
       this.chartOptions = {
         ...this.chartOptions,
         series: [
           {
-            name: 'Recharge',
-            data: chartData.recharge.data,
+            name: 'Stock In',
+            data: this.weeklyStockIn,
             color: '#7811FF'
           },
           {
-            name: 'Withdrawal',
-            data: chartData.withdraw.data,
+            name: 'Stock Out',
+            data: this.weeklyStockOut,
             color: '#00AAFF'
           }
         ],
         xaxis: {
           ...this.chartOptions.xaxis,
-          categories: chartData.labels
+          categories: response.labels || []
         }
       };
-    });
-  }
-
-
+    },
+    error: (error) => {
+      console.error('Error fetching stock in/out summary:', error);
+      this.stockInTotal = 0;
+      this.stockOutTotal = 0;
+      this.weeklyStockIn = [];
+      this.weeklyStockOut = [];
+    }
+  });
 }
-
+}
 

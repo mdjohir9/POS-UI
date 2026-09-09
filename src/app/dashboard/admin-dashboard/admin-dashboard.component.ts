@@ -12,7 +12,7 @@ export class AdminDashboardComponent  {
   showContent = false;
   
   @ViewChild(SaleGrowthComponent) 
-  rechargeWithdrawComponent!: SaleGrowthComponent;
+  stockInOutComponent!: SaleGrowthComponent;
 
   @ViewChild (SaleReportComponent) disbursedAndRecoveredSummary !: SaleReportComponent;
   @ViewChild (UpcomingInstalmentComponent) upcomingInstalmentComponent !: UpcomingInstalmentComponent;
@@ -39,15 +39,15 @@ filterDate: string = new Date().toISOString().split('T')[0];
 
   OnFilterClick() {
     if (this.filterDate) {
-      this.rechargeWithdrawComponent.getRechargeAndWithdrawSummary(this.filterDate);
+      this.stockInOutComponent.getStockInOutSummary(this.filterDate);
     } else {
       console.warn('No date selected');
     }
 
   const year = this.filterDate.split('-')[0];
-    this.disbursedAndRecoveredSummary.getdisbursedAndRecoveredSummary(year);
+    this.disbursedAndRecoveredSummary.getSalesPurchaseSummary(year);
 
-    this.upcomingInstalmentComponent.getLoanInstalments(this.filterDate);
+    this.upcomingInstalmentComponent.getSalesList(this.filterDate);
 
   }
 

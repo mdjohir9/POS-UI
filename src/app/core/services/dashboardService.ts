@@ -20,8 +20,8 @@ export class DashboardService {
     private GET_LOAN_BALANCE = `api/Loan/balance`;
     private GET_TRANSCTION_BYE_ID = `api/Transction/transactions`;
     private GET_ADMIN_BALANCE = `api/POSSales/dashboard/summary`;
-    private GET_RECOVERD_DISBURSED_SUMMARY = `api/Dashboard/repayment-disbursed`;
-    private GET_RECHARGE_WITHDRAW_SUMMARY = `api/Dashboard/recharge-withdraw`;
+    private GET_SALES_PURCHASE_SUMMARY = `api/POSSales/sales-purchase-summary`;
+    private GET_STOCK_IN_OUT_SUMMARY = `api/POSSales/stock-in-out-summary`;
 
 
     constructor(private genericHttpService: GenericHttpService<any>) { 
@@ -53,8 +53,8 @@ export class DashboardService {
         );
       }
 
-      getRecoverdAndDisbursedSummary(year:any): Observable<any> {
-        return this.genericHttpService.getAll<any>(`${this.GET_RECOVERD_DISBURSED_SUMMARY}/${year}`).pipe(
+      getSalesPurchaseSummary(year:any): Observable<any> {
+        return this.genericHttpService.getAll<any>(`${this.GET_SALES_PURCHASE_SUMMARY}?companyId=${this.companyId}&year=${year}`).pipe(
           map((response: any) => {
             if (response && response.statusCode === 200 && response.data) {
               return response;  // Return the response if it's valid
@@ -65,21 +65,25 @@ export class DashboardService {
         );
       }
 
-      getRechargeAndWithdrawSummary(date: any): Observable<any> {
-        return this.genericHttpService.getAll<any>(`${this.GET_RECHARGE_WITHDRAW_SUMMARY}/${date}`).pipe(
-          map((response: any) => {
-            if (response && response.statusCode === 200 && response.data) {
-              return response.data;  // ✅ Return just the `data` object
-            } else {
-              return {
-                labels: [],
-                recharge: { data: [], total: 0 },
-                withdraw: { data: [], total: 0 }
-              }; // Return empty fallback structure
-            }
-          })
-        );
-      }
+     getStockInOutSummary(date: any): Observable<any> {
+  return this.genericHttpService
+    .getAll<any>(`${this.GET_STOCK_IN_OUT_SUMMARY}?companyId=${this.companyId}&date=${date}`)
+    .pipe(
+      map((response: any) => {
+        if (response && response.statusCode === 200 && response.data) {
+          return response.data;
+        }
+
+        return {
+          labels: [],
+          stockInTotal: 0,
+          stockOutTotal: 0,
+          stockInData: [],
+          stockOutData: []
+        };
+      })
+    );
+}
 
 
       getTransctionByeCustomerIdAndDateRange(customerId : any, fromDate :any, todate:any): Observable<any> {

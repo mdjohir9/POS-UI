@@ -60,14 +60,14 @@ import { DashboardService } from 'src/app/core/services/dashboardService';
     <div class="flex items-center justify-center max-ssm:flex-col max-ssm:gap-y-[15px]">
       <div class="relative flex items-center mx-3">
           <span class="flex items-center ps-3 text-sm text-body dark:text-white/60 before:absolute before:bg-primary before:w-2 before:h-2 before:rounded-full ltr:before:left-0 rtl:before:right-0 before:top-1/2 before:-translate-y-2/4">Sales</span>
-          <span class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-22 font-semibold">{{repaymentAmount}}</span>
+          <span class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-22 font-semibold">{{salesAmount}}</span>
           <span class="flex items-center text-sm text-success font-medium">
           <svg-icon class="w-[20px] h-[20px] [&>svg]:w-full [&>svg]:h-full" src="assets/images/svg/unicons-line/arrow-down.svg"></svg-icon>
            </span>
       </div>
       <div class="relative flex items-center mx-3">
           <span class="flex items-center ps-3 text-sm text-body dark:text-white/60 before:absolute before:bg-info before:w-2 before:h-2 before:rounded-full ltr:before:left-0 rtl:before:right-0 before:top-1/2 before:-translate-y-2/4">Purchases</span>
-          <span class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-22 font-semibold">{{disbursementAmount}}</span>
+          <span class="inline-block text-dark dark:text-white/[.87] me-1 ms-2.5 text-22 font-semibold">{{purchaseAmount}}</span>
           <span class="flex items-center text-sm text-danger font-medium">
           <svg-icon class="w-[20px] h-[20px] [&>svg]:w-full [&>svg]:h-full" src="assets/images/svg/unicons-line/arrow-up.svg"></svg-icon> </span>
       </div>
@@ -99,45 +99,38 @@ import { DashboardService } from 'src/app/core/services/dashboardService';
   `]
 })
 export class SaleReportComponent implements OnInit {
-  blanceAmount: any = null;
-  monthlyDisbursementData: number[] = [];
-  monthlyRepaymentData: number[] = [];
+   salesAmount: number = 0;
+  purchaseAmount: number = 0;
+
+  monthlySalesData: number[] = Array(12).fill(0);
+  monthlyPurchaseData: number[] = Array(12).fill(0);
 
   chartOptions: Partial<ApexOptions> = {};
 
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    const today = new Date();
-    const currentYear = today.getFullYear().toString(); // "2025"
-  this.repaymentAmount = 125000;
-  this.disbursementAmount = 250000;
+    const currentYear = new Date().getFullYear().toString();
 
-  this.monthlyDisbursementData = [
-    18000, 25000, 32000, 28000, 40000, 35000,
-    45000, 50000, 42000, 55000, 48000, 60000
-  ];
+    this.initializeChart();
+    this.getSalesPurchaseSummary(currentYear);
+  }
 
-  this.monthlyRepaymentData = [
-    12000, 18000, 22000, 20000, 28000, 25000,
-    30000, 35000, 32000, 38000, 36000, 42000
-  ];
-    //this.getdisbursedAndRecoveredSummary(currentYear);
-
-    // Initialize chart options without series
+  initializeChart(): void {
     this.chartOptions = {
-         series: [
-      {
-        name: 'Total Sales',
-        data: this.monthlyRepaymentData,
-        color: '#7811FF'
-      },
-      {
-        name: 'Total Purches',
-        data: this.monthlyDisbursementData,
-        color: '#00AAFF'
-      }
-    ],
+      series: [
+        {
+          name: 'Total Sales',
+          data: this.monthlySalesData,
+          color: '#7811FF'
+        },
+        {
+          name: 'Total Purchase',
+          data: this.monthlyPurchaseData,
+          color: '#00AAFF'
+        }
+      ],
+
       chart: {
         width: '100%',
         height: 245,
@@ -146,15 +139,18 @@ export class SaleReportComponent implements OnInit {
           show: false
         }
       },
+
       dataLabels: {
         enabled: false
       },
+
       stroke: {
         show: true,
         curve: 'smooth',
         lineCap: 'butt',
         width: 3
       },
+
       grid: {
         borderColor: '#485e9029',
         strokeDashArray: 5,
@@ -164,6 +160,7 @@ export class SaleReportComponent implements OnInit {
           bottom: 0
         }
       },
+
       plotOptions: {
         bar: {
           horizontal: false,
@@ -171,9 +168,11 @@ export class SaleReportComponent implements OnInit {
           borderRadius: 2
         }
       },
+
       legend: {
         show: false
       },
+
       tooltip: {
         enabled: true,
         shared: true,
@@ -183,10 +182,12 @@ export class SaleReportComponent implements OnInit {
           fontFamily: '"Jost", sans-serif'
         }
       },
+
       xaxis: {
         crosshairs: {
           show: false
         },
+
         labels: {
           style: {
             colors: Array.from({ length: 12 }, () => '#747474'),
@@ -195,21 +196,27 @@ export class SaleReportComponent implements OnInit {
             fontWeight: 400
           }
         },
+
         categories: [
           'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ],
+
         axisBorder: {
           show: false
         },
+
         axisTicks: {
           show: false
         }
       },
+
       yaxis: {
         labels: {
           offsetX: -15,
-          formatter: (val) => `${val}$`,
+
+          formatter: (val) => `${val}`,
+
           style: {
             colors: ['#747474'],
             fontSize: '14px',
@@ -217,9 +224,11 @@ export class SaleReportComponent implements OnInit {
             fontWeight: 400
           }
         },
+
         axisBorder: {
           show: false
         },
+
         axisTicks: {
           show: false
         }
@@ -227,41 +236,54 @@ export class SaleReportComponent implements OnInit {
     };
   }
 
-
-    repaymentAmount: number;
-    disbursementAmount: number;
-
-  getdisbursedAndRecoveredSummary(year: string | null): void {
+  getSalesPurchaseSummary(year: string | null): void {
     if (!year) return;
 
-    this.dashboardService.getRecoverdAndDisbursedSummary(year).subscribe({
+    this.dashboardService.getSalesPurchaseSummary(year).subscribe({
       next: (response) => {
         if (response.statusCode === 200 && response.data) {
-          this.blanceAmount = response.data;
-          this.repaymentAmount=this.blanceAmount.repaymentAmount,
-          this.disbursementAmount=this.blanceAmount.disbursementAmount,
-          this.monthlyDisbursementData = response.data.monthlyDisbursementAmounts || [];
-          this.monthlyRepaymentData = response.data.monthlyRepaymentAmounts || [];
 
-          // Set series now that data is available
-          this.chartOptions.series = [
-            {
-              name: 'Total Sales ',
-              data: this.monthlyRepaymentData,
-              color: '#7811FF'
-            },
-            {
-              name: 'Total Purches',
-              data: this.monthlyDisbursementData,
-              color: '#00AAFF'
-            }
-          ];
+          this.salesAmount = response.data.salesAmount || 0;
+          this.purchaseAmount = response.data.purchaseAmount || 0;
+
+          this.monthlySalesData =
+            response.data.monthlySalesAmounts || Array(12).fill(0);
+
+          this.monthlyPurchaseData =
+            response.data.monthlyPurchaseAmounts || Array(12).fill(0);
+
+          this.chartOptions = {
+            ...this.chartOptions,
+
+            series: [
+              {
+                name: 'Total Sales',
+                data: this.monthlySalesData,
+                color: '#7811FF'
+              },
+              {
+                name: 'Total Purchase',
+                data: this.monthlyPurchaseData,
+                color: '#00AAFF'
+              }
+            ]
+          };
         }
       },
+
       error: (error) => {
-        console.error('Error fetching balance details:', error);
+        console.error(
+          'Error fetching sales and purchase summary:',
+          error
+        );
+
+        this.salesAmount = 0;
+        this.purchaseAmount = 0;
+        this.monthlySalesData = Array(12).fill(0);
+        this.monthlyPurchaseData = Array(12).fill(0);
       }
     });
   }
+ 
   
 }

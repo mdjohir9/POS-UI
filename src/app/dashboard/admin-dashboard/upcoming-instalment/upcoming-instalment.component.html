@@ -14,78 +14,357 @@
             </div>
             <div class="p-[25px] h-[360px] overflow-auto">
               <div class="w-full overflow-x-auto">
-                <nz-table   #leavesTable  
-                [nzData]="dataType === 'datas' ? datas : allDatas"
-                nzShowPagination
-                nzShowSizeChanger
-                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-                [nzLoading]="!showContent">
-             
-                  <thead>
-                    <tr>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden rounded-s-[10px] capitalize">SL</th>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Name</th>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Loan Number</th>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Loan type</th>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Payment Method</th>
-<!--                       <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Total Payable</th>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Paid Amount</th>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Due Amount</th> -->
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Instalment Amount</th>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Payment Date</th>
-                      <th class="bg-regularBG dark:bg-[#323440] px-[20px] py-[16px] text-start text-dark dark:text-white/[.87] text-[15px] font-medium border-none before:hidden capitalize">Status</th>
 
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                    <tr class="group"  *ngFor="let data of leavesTable.data; let i = index;" > 
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ i+1}}</td>
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">
-                        <div class="flex items-center space-x-2">
-                          <img [src]="data.custommerImage" class="w-10 h-10 rounded-full" alt="Custommer Picture">
-                          <div>
-                            <span class="block font-medium">{{ data.fullName }}</span>
-                            <span class="text-gray-500 text-sm">{{ data.custCardNo }}</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ data.loanNumber }}</td>
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ data.planName }}</td>
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ data.payMethodName }}</td>
-                     <!--  <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ data.totalPayableAmount }}</td>
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ data.paidAmount }}</td>
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ data.dueAmount }}</td> -->
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ data.amountPaid }}</td>
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">{{ data.paymentDate  | date}}</td>
-                   
-                      <td class="ltr:pr-[20px] rtl:pl-[20px] text-dark dark:text-white/[.87] text-[15px] py-4 before:hidden border-none group-hover:bg-transparent">
-                        <span 
-                          class="inline-flex items-center justify-center min-h-[24px] px-3 text-xs font-medium rounded-[15px] capitalize"
-                          [ngClass]="{
-                            'text-Pending ': data.status === null,
-                            'text-Processing': data.status === 0,
-                            'text-Approve': data.status === 1,
-                            'text-Reject': data.status === 2,
-                          
-                          }">
-                          {{ data.status === null ? 'Pending' :
-                             data.status === 0 ? 'Due' :
-                             data.status === 1 ? 'Paid' :
-                             data.status === 2 ? 'Waive' : 'NA' }}
-                        </span>
-                      </td>
-                      
-                    </tr>
- 
-                  </tbody>
-                
+            <nz-table #salesTable [nzData]="
+                dataType === 'datas'
+                  ? datas
+                  : allDatas
+              " nzShowPagination nzShowSizeChanger [nzLoading]="isLoading" class="max-h-[650px]">
 
-                </nz-table>
+
+              <!-- Header -->
+              <thead>
+
+                <tr>
+
+                  <th class="px-[20px] py-[14px]
+                           text-start text-[#0B3B60]
+                           text-[14px] font-bold
+                           border-b border-[#e2e8f0]
+                           uppercase bg-[#f1f5f9]">
+
+                    SL
+
+                  </th>
+
+
+                  <th class="px-[20px] py-[14px]
+                           text-start text-[#0B3B60]
+                           text-[14px] font-bold
+                           border-b border-[#e2e8f0]
+                           uppercase bg-[#f1f5f9]">
+
+                    Invoice No
+
+                  </th>
+
+
+                  <th class="px-[20px] py-[14px]
+                           text-start text-[#0B3B60]
+                           text-[14px] font-bold
+                           border-b border-[#e2e8f0]
+                           uppercase bg-[#f1f5f9]">
+
+                    Sales Date
+
+                  </th>
+
+                  <th class="px-[20px] py-[14px]
+                           text-start text-[#0B3B60]
+                           text-[14px] font-bold
+                           border-b border-[#e2e8f0]
+                           uppercase bg-[#f1f5f9]">
+
+                    Payment
+
+                  </th>
+
+
+                  <th class="px-[20px] py-[14px]
+                           text-end text-[#0B3B60]
+                           text-[14px] font-bold
+                           border-b border-[#e2e8f0]
+                           uppercase bg-[#f1f5f9]">
+
+                    Gross
+
+                  </th>
+
+
+                  <th class="px-[20px] py-[14px]
+                           text-end text-[#0B3B60]
+                           text-[14px] font-bold
+                           border-b border-[#e2e8f0]
+                           uppercase bg-[#f1f5f9]">
+
+                    Discount
+
+                  </th>
+
+
+                  <th class="px-[20px] py-[14px]
+                           text-end text-[#0B3B60]
+                           text-[14px] font-bold
+                           border-b border-[#e2e8f0]
+                           uppercase bg-[#f1f5f9]">
+
+                    Net Amount
+
+                  </th>
+
+
+                  <th class="px-[20px] py-[14px]
+                           text-center text-[#0B3B60]
+                           text-[14px] font-bold
+                           border-b border-[#e2e8f0]
+                           uppercase bg-[#f1f5f9]">
+
+                    Action
+
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <!-- Body -->
+              <tbody>
+
+                <tr class="hover:bg-[#f8fafc]
+                         transition-colors duration-150
+                         border-b border-[#f1f5f9]" *ngFor="
+                    let data of salesTable.data;
+                    let i = index
+                  ">
+
+
+                  <!-- SL -->
+                  <td class="px-[20px] py-4
+                           text-[#64748b]
+                           text-[14px]">
+
+                    {{ i + 1 }}
+
+                  </td>
+
+
+                  <!-- Invoice -->
+                  <td class="px-[20px] py-4
+                           text-[#0B3B60]
+                           font-semibold text-[14px]">
+
+                    {{ data.invoiceNo }}
+
+                  </td>
+
+
+                  <!-- Date -->
+                  <td class="px-[20px] py-4
+                           text-[#334155]
+                           text-[14px]">
+
+                    {{ data.salesDate | date:'yyyy-MM-dd HH:mm' }}
+
+                  </td>
+
+
+
+  
+
+
+                  <!-- Payment -->
+                  <td class="px-[20px] py-4
+                           text-[14px]">
+
+                    <span *ngIf="data.paymentMethod;
+                             else noPayment" class="bg-[#eff6ff]
+                             text-[#2563eb]
+                             px-2.5 py-1
+                             rounded-full
+                             text-[12px]
+                             font-bold">
+
+                      {{ data.paymentMethod }}
+
+                    </span>
+
+                    <ng-template #noPayment>
+
+                      <span class="text-[#94a3b8]
+                               text-[12px]">
+
+                        No Payment
+
+                      </span>
+
+                    </ng-template>
+
+                  </td>
+
+
+                  <!-- Gross -->
+                  <td class="px-[20px] py-4
+                           text-[#334155]
+                           text-[14px]
+                           font-semibold text-end">
+
+                    {{ data.grossAmount | number:'1.2-2' }}
+
+                  </td>
+
+
+                  <!-- Discount -->
+                  <td class="px-[20px] py-4
+                           text-[#ef4444]
+                           text-[14px]
+                           font-semibold text-end">
+
+                    {{ data.discountAmount | number:'1.2-2' }}
+
+                  </td>
+
+
+                  <!-- Net -->
+                  <td class="px-[20px] py-4
+                           text-[#0B3B60]
+                           text-[15px]
+                           font-bold text-end">
+
+                    {{ data.netAmount | number:'1.2-2' }}
+
+                  </td>
+
+
+                  <!-- Action -->
+                  <td class="px-[20px] py-4
+                           text-center">
+
+                    <div class="flex items-center
+                             justify-center gap-2">
+
+
+                      <!-- View -->
+                     <button nz-button nzType="default" nzShape="circle" class="border-[#cbd5e1]
+                               text-[#0B3B60]
+                               hover:border-[#0B3B60]
+                               hover:bg-[#0B3B60]
+                               hover:text-white
+                               transition-all duration-200" (click)="viewInvoice(data.salesId)">
+                             <i nz-icon nzType="printer"></i>
+
+                      </button>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </nz-table>
              
               </div>
             </div>
           </div>
+
+              <nz-modal 
+  [(nzVisible)]="isInvoiceModalVisible" 
+  nzTitle="Invoice Preview" 
+  [nzFooter]="invoiceModalFooter"
+  (nzOnCancel)="closeInvoiceModal()"
+  nzWidth="750px">
+  
+  <ng-container *nzModalContent>
+    <!-- Printable Invoice Template -->
+    <div id="printable-invoice" class="p-6 bg-white border border-[#e2e8f0] rounded-[8px]">
+      
+      <!-- Invoice Header -->
+      <div class="flex justify-between items-start border-b border-[#e2e8f0] pb-4 mb-4">
+        <div>
+          <h2 class="text-2xl font-black text-[#0B3B60] m-0">NEXTPOS</h2>
+          <p class="text-xs text-[#64748b] m-0">Sales & POS Solution</p>
+        </div>
+        <div class="text-right">
+          <h3 class="text-lg font-bold text-[#0B3B60] m-0">INVOICE</h3>
+          <p class="text-sm font-semibold text-[#28C76F] m-0">#{{ InvoiceData?.invoiceNo }}</p>
+          <p class="text-xs text-[#64748b] m-0">Date: {{ InvoiceData?.salesDate | date:'yyyy-MM-dd HH:mm' }}</p>
+        </div>
+      </div>
+
+      <!-- Customer Details -->
+      <div class="mb-6 bg-[#f8fafc] p-3 rounded-[6px] border border-[#f1f5f9]">
+        <span class="text-xs font-bold text-[#64748b] uppercase block mb-1">Customer Details</span>
+        <p class="text-sm font-bold text-[#0B3B60] m-0">{{ InvoiceData?.customerName }}</p>
+      </div>
+
+      <!-- Items Table -->
+      <table class="w-full text-left mb-6 border-collapse">
+        <thead>
+          <tr class="bg-[#f8fafc] border-b border-[#e2e8f0]">
+            <th class="py-2 px-3 text-xs font-bold text-[#0B3B60] uppercase">SL</th>
+            <th class="py-2 px-3 text-xs font-bold text-[#0B3B60] uppercase">Product</th>
+            <th class="py-2 px-3 text-xs font-bold text-[#0B3B60] uppercase text-center">Qty</th>
+            <th class="py-2 px-3 text-xs font-bold text-[#0B3B60] uppercase text-right">Rate</th>
+            <th class="py-2 px-3 text-xs font-bold text-[#0B3B60] uppercase text-right">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of InvoiceData?.details; track $index) {
+            <tr class="border-b border-[#f1f5f9] text-sm">
+              <td class="py-2 px-3 text-[#64748b]">{{ $index + 1 }}</td>
+              <td class="py-2 px-3 font-medium text-[#0B3B60]">{{ item.productName }}</td>
+              <td class="py-2 px-3 text-center text-[#334155]">{{ item.quantity }}</td>
+              <td class="py-2 px-3 text-right text-[#334155]">{{ item.rate | currency:'USD' }}</td>
+              <td class="py-2 px-3 text-right font-bold text-[#0B3B60]">{{ item.amount | currency:'USD' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Summary & Payments -->
+      <div class="flex justify-between items-start pt-2 border-t border-[#e2e8f0]">
+        <!-- Payment Methods Breakdown -->
+        <div class="w-1/2">
+          <span class="text-xs font-bold text-[#64748b] uppercase block mb-2">Payment Details</span>
+          <div class="space-y-1">
+            @for (pay of InvoiceData?.payments; track $index) {
+              <div class="text-xs flex justify-between pr-6 text-[#334155]">
+                <span>{{ pay.paymentMethodName}}:</span>
+                <span class="font-bold text-[#28C76F]">{{ pay.amount | currency:'USD' }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Total Calculation -->
+        <div class="w-1/2 text-right space-y-1 text-sm">
+          <div class="flex justify-between text-[#64748b]">
+            <span>Sub Total:</span>
+            <span class="font-semibold text-[#0B3B60]">{{ InvoiceData?.subTotal | currency:'USD' }}</span>
+          </div>
+          <div class="flex justify-between text-[#64748b]">
+            <span>Discount:</span>
+            <span class="font-semibold text-[#ef4444]">-{{ InvoiceData?.discountAmount | currency:'USD' }}</span>
+          </div>
+          <div class="flex justify-between text-base font-bold text-[#0B3B60] pt-2 border-t border-[#e2e8f0]">
+            <span>Grand Total:</span>
+            <span class="text-[#28C76F]">{{ InvoiceData?.grandTotal | currency:'USD' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 text-center border-t border-dashed border-[#cbd5e1] pt-3">
+        <p class="text-xs text-[#64748b] m-0">Thank you for your business!</p>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Modal Footer Buttons -->
+  <ng-template #invoiceModalFooter>
+    <div class="flex justify-end gap-2 no-print">
+      <button nz-button (click)="closeInvoiceModal()">Close</button>
+      <button 
+        nz-button 
+        class="text-white border-none"
+        style="background: linear-gradient(135deg, #0B3B60 0%, #28C76F 100%);"
+        (click)="printInvoice()">
+        <i nz-icon nzType="printer"></i> Print Invoice
+      </button>
+    </div>
+  </ng-template>
+</nz-modal>
       </ng-container>
     </div>
   </div>
