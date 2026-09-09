@@ -17,7 +17,7 @@ export class AdminDashboardComponent  {
   @ViewChild (SaleReportComponent) disbursedAndRecoveredSummary !: SaleReportComponent;
   @ViewChild (UpcomingInstalmentComponent) upcomingInstalmentComponent !: UpcomingInstalmentComponent;
 
-  filterDate: string = '';
+filterDate: string = new Date().toISOString().split('T')[0];
   constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -58,31 +58,21 @@ export class AdminDashboardComponent  {
     disbursementAmount: 0,
     repaymentAmount: 0
   };
-    getBalance(): void {
-    // Static/Demo data
-    this.isLoading = true;
-    this.showContent = false;
 
-    setTimeout(() => {
-      this.blanceAmount = {
-        totalCustomers: 1250,
-        totalActiveLoan: 485,
-        disbursementAmount: 2500000,
-        repaymentAmount: 1850000
-      };
 
-      this.isLoading = false;
-      this.showContent = true;
-    }, 500);
-  }
-/*   getBalance(): void {
-    this.isLoading = true;
-    this.showContent = false;
-  
-    this.dashboardService.getAdminBalance().subscribe({
+
+getBalance(): void {
+  this.isLoading = true;
+  this.showContent = false;
+
+  const companyId = 1;
+
+  this.dashboardService
+    .getAdminBalance(companyId, this.filterDate)
+    .subscribe({
       next: (response) => {
         this.isLoading = false;
-  
+
         if (response.statusCode === 200 && response.data) {
           this.blanceAmount = response.data;
           this.showContent = true;
@@ -91,9 +81,12 @@ export class AdminDashboardComponent  {
       error: (error) => {
         this.isLoading = false;
         this.showContent = false;
-        console.error('Error fetching balance details:', error);
+
+        console.error(
+          'Error fetching dashboard summary:',
+          error
+        );
       }
     });
-  } */
-
+}
 }

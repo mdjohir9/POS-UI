@@ -9,6 +9,7 @@ import { IApiResponse } from '../models/interfaces/IApiResponse';
 import { ICustomerIDName } from '../models/interfaces/ICustomerIDName';
 import { ILoanApplication } from '../models/interfaces/ILoanApplication';
 import Swal from 'sweetalert2';
+import { DateTimeFormat } from 'intl';
 @Injectable({
     providedIn: 'root'
   })
@@ -18,7 +19,7 @@ export class DashboardService {
     private GET_COMPANY_API_CALL_Url: string;
     private GET_LOAN_BALANCE = `api/Loan/balance`;
     private GET_TRANSCTION_BYE_ID = `api/Transction/transactions`;
-    private GET_ADMIN_BALANCE = `api/Dashboard/admin-balance`;
+    private GET_ADMIN_BALANCE = `api/POSSales/dashboard/summary`;
     private GET_RECOVERD_DISBURSED_SUMMARY = `api/Dashboard/repayment-disbursed`;
     private GET_RECHARGE_WITHDRAW_SUMMARY = `api/Dashboard/recharge-withdraw`;
 
@@ -40,8 +41,8 @@ export class DashboardService {
           })
         );
       } 
-    getAdminBalance(): Observable<any> {
-        return this.genericHttpService.getAll<any>(this.GET_ADMIN_BALANCE).pipe(
+    getAdminBalance(companyId : number, selectedDate : string): Observable<any> {
+        return this.genericHttpService.getAll<any>(`${this.GET_ADMIN_BALANCE}?CompanyId=${companyId}&Date=${selectedDate}`).pipe(
           map((response: any) => {
             if (response && response.statusCode === 200 && response.data) {
               return response;  // Return the response if it's valid

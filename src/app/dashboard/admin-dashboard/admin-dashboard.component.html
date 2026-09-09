@@ -9,7 +9,7 @@
   <div class="flex justify-end items-center gap-3">
   <input
     type="date"
-    [(ngModel)]="filterDate"
+     [(ngModel)]="filterDate"
     class="w-[250px] rounded-[6px] border border-gray-300 text-[15px] px-[20px] py-[12px] min-h-[50px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:bg-white/10 dark:border-white/10 dark:text-white/60"
     placeholder="Select Date"
   />
@@ -41,7 +41,7 @@
             <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/shopping-bag.svg"></svg-icon>
           </div>
           <div>
-            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">{{ blanceAmount.totalCustomers }}</h4>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">  {{ blanceAmount.sales.value | currency }}</h4>
             <span class="font-normal text-body dark:text-white/60 text-15">Today's Sales</span>
           </div>
         </div>
@@ -50,7 +50,8 @@
             <span class="flex items-center text-sm font-medium text-[#00AA45]">
               <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-up.svg"></svg-icon>
             </span>
-            <span class="text-sm text-light dark:text-white/60 ml-2 ">12.5%  Compared to yesterday</span>
+            <span class="text-sm text-light dark:text-white/60 ml-2 ">  {{ blanceAmount.sales.growth }}%
+  {{ blanceAmount.sales.message }}</span>
           </span>
         </div>
       </div>
@@ -64,7 +65,8 @@
             <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/shopping-cart.svg"></svg-icon>
           </div>
           <div>
-            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">{{ blanceAmount.totalActiveLoan  }}</h4>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">  {{ blanceAmount.purchase.value | currency }}
+</h4>
             <span class="font-normal text-body dark:text-white/60 text-15">Today's Purchase</span>
           </div>
         </div>
@@ -74,7 +76,8 @@
               <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-up.svg"></svg-icon>
    
             </span>
-            <span class="text-sm text-light dark:text-white/60 ml-2">8.4% Compared to yesterday</span>
+            <span class="text-sm text-light dark:text-white/60 ml-2">  {{ blanceAmount.purchase.growth }}%
+  {{ blanceAmount.purchase.message }}</span>
           </span>
         </div>
       </div>
@@ -88,7 +91,8 @@
             <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/coins.svg"></svg-icon>
           </div>
           <div>
-            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">{{ blanceAmount.disbursementAmount |  currency }}</h4>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">  {{ blanceAmount.profit.value | currency }}
+</h4>
             <span class="font-normal text-body dark:text-white/60 text-15">Today's Profit</span>
           </div>
         </div>
@@ -98,7 +102,8 @@
               <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-down.svg"></svg-icon>
        
             </span>
-            <span class="text-sm text-light dark:text-white/60 ml-2">8.4% Compared to yesterday</span>
+            <span class="text-sm text-light dark:text-white/60 ml-2">  {{ blanceAmount.profit.growth }}%
+  {{ blanceAmount.profit.message }}</span>
           </span>
         </div>
       </div>
@@ -112,7 +117,8 @@
             <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/box.svg"></svg-icon>
           </div>
           <div>
-            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">{{ blanceAmount.repaymentAmount |  currency }}</h4>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">  {{ blanceAmount.lowStockItems }}
+</h4>
             <span class="font-normal text-body dark:text-white/60 text-15">Low Stock Items
             </span>
           </div>
@@ -121,12 +127,22 @@
           <span class="inline-flex  w-full items-center h-11 bg-gray-50 dark:bg-white/[.06] px-2.5 rounded-lg gap-[10px]">
             <span class="flex items-center text-sm font-medium text-[#FF4D4F]">
               <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-down.svg"></svg-icon>
-       
+        
             </span>
-            <span class="text-sm text-light dark:text-white/60 ml-2">12.5% Compared to yesterday</span>
-          </span>
+            <span class="flex items-center text-sm font-medium"
+              [ngClass]="blanceAmount.sales.isUp ? 'text-[#00AA45]' : 'text-[#FF4D4F]'">
+        
+              <svg-icon *ngIf="blanceAmount.sales.isUp" class="w-[16px] h-[16px]"
+                src="assets/images/svg/feather/trending-up.svg">
+              </svg-icon>
+        
+              <svg-icon *ngIf="!blanceAmount.sales.isUp" class="w-[16px] h-[16px]"
+                src="assets/images/svg/feather/trending-down.svg">
+              </svg-icon>
+        
+            </span> </span>
         </div>
-      </div>
+        </div>
     </div>
   </div>
   </ng-container>
