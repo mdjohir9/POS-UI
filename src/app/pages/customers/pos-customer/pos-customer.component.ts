@@ -2,13 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import {CustommerService} from 'src/app/core/services/custommerService';
-interface CustomerModel {
-  customerCode: string;
-  customerName: string;
-  phone: string;
-  address: string;
-  isActive: boolean;
-}
+import { ICustommer } from 'src/app/core/models/interfaces/ICustommer';
+
 @Component({
   selector: 'app-pos-customer',
   standalone: false,
@@ -16,82 +11,24 @@ interface CustomerModel {
   styleUrl: './pos-customer.component.css'
 })
 export class PosCustomerComponent {
-  [x: string]: any;
+   [x: string]: any;
 private fb = inject(FormBuilder);
 private customerService = inject(CustommerService);
   customerForm!: FormGroup;
   isEditMode = false;
   searchQuery = '';
-
+  editCustomerId: number = 0;
   // Demo Dataset matching API
-  customers: CustomerModel[] = [
-    {
-      customerCode: 'CUST-001',
-      customerName: 'Rahim Apparel Ltd.',
-      phone: '+8801711223344',
-      address: 'House 12, Road 5, Uttara, Dhaka',
-      isActive: true
-    },
-    {
-      customerCode: 'CUST-002',
-      customerName: 'Fashion Warehouse',
-      phone: '+8801822334455',
-      address: 'Agrabad C/A, Chittagong',
-      isActive: true
-    },
-    {
-      customerCode: 'CUST-003',
-      customerName: 'Knitwear Traders',
-      phone: '+8801933445566',
-      address: 'Narayanganj BSCIC',
-      isActive: false
-    }
-  ];
+  customers: ICustommer[] = [];
 
-  filteredCustomers: CustomerModel[] = [];
+  filteredCustomers: ICustommer[] = [];
 
   ngOnInit(): void {
     this.initForm();
     //this.filteredCustomers = [...this.customers];
     this.getCustomers();
   }
-  getCustomers(): void {
-
-  this.customerService.getCustomers().subscribe({
-
-    next: (response) => {
-
-      if (response.statusCode === 200) {
-
-        this.customers = response.data;
-
-      } else {
-
-        this.customers = [];
-
-        this.message.error(
-          response.message || 'Customer not found.'
-        );
-      }
-    },
-
-    error: (error) => {
-
-      console.error(
-        'Customer API Error:',
-        error
-      );
-
-      this.customers = [];
-
-      this.message.error(
-        'Failed to load customers.'
-      );
-    }
-  });
-}
-
-  initForm(): void {
+    initForm(): void {
     this.customerForm = this.fb.group({
       customerCode: [`CUST-${Date.now().toString().slice(-4)}`, [Validators.required]],
       customerName: ['', [Validators.required]],
@@ -100,6 +37,64 @@ private customerService = inject(CustommerService);
       isActive: [true]
     });
   }
+ getCustomers(): void {
+  this.customerService.getCustomers().subscribe({
+    next: (response) => {
+      console.log('Customer Response:', response);
+
+      if (response.statusCode === 200) {
+        this.customers = response.data || [];
+        this.filteredCustomers = [...this.customers];
+      } else {
+        this.customers = [];
+        this.filteredCustomers = [];
+        this.message.error(response.message || 'Customer not found.');
+      }
+    },
+    error: (error) => {
+      console.error('Customer API Error:', error);
+      this.customers = [];
+      this.filteredCustomers = [];
+      this.message.error('Failed to load customers.');
+    }
+  });
+}
+
+ onSubmit(): void {
+  if (this.customerForm.invalid) {
+    Object.values(this.customerForm.controls).forEach(control => {
+      control.markAsDirty();
+      control.updateValueAndValidity();
+    });
+    return;
+  }
+
+  const payload: ICustommer = this.customerForm.value;
+
+  if (this.isEditMode) {
+    this.updateCustomer(payload,this.editCustomerId);
+  } else {
+    this.saveCustomer(payload);
+  }
+}
+
+saveCustomer(payload: ICustommer): void {
+  this.customerService.saveCustommer(payload).subscribe({
+    next: (response) => {
+      if (response.statusCode === 200 || response.statusCode === 201) {
+        Swal.fire('Saved!', response.message || 'Customer created successfully.', 'success');
+        this.getCustomers();
+        this.resetForm();
+      } else {
+        Swal.fire('Error!', response.message || 'Failed to save customer.', 'error');
+      }
+    },
+    error: (error) => {
+      console.error('Save Customer Error:', error);
+      Swal.fire('Error!', 'Failed to save customer.', 'error');
+    }
+  });
+}
 
   filterData(): void {
     const q = this.searchQuery.toLowerCase().trim();
@@ -114,58 +109,73 @@ private customerService = inject(CustommerService);
     );
   }
 
-  editCustomer(customer: CustomerModel): void {
+  editCustomer(customer: ICustommer, Id:number): void {
     this.isEditMode = true;
+      this.editCustomerId = Id;
     this.customerForm.patchValue(customer);
   }
-
-  deleteCustomer(code: string): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: `Do you want to delete customer ${code}?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#0B3B60',
-      cancelButtonColor: '#ef4444',
-      confirmButtonText: 'Yes, Delete'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.customers = this.customers.filter(c => c.customerCode !== code);
-        this.filterData();
-        Swal.fire('Deleted!', 'Customer record removed successfully.', 'success');
+  updateCustomer(payload: ICustommer,Id :number): void {
+  this.customerService.updateCustommerInfo(payload,Id).subscribe({
+    next: (response) => {
+      if (response.statusCode === 200) {
+        Swal.fire('Updated!', response.message || 'Customer updated successfully.', 'success');
+        this.getCustomers();
+        this.resetForm();
+      } else {
+        Swal.fire('Error!', response.message || 'Failed to update customer.', 'error');
       }
-    });
-  }
+    },
+    error: (error) => {
+      console.error('Update Customer Error:', error);
+      Swal.fire('Error!', 'Failed to update customer.', 'error');
+    }
+  });
+}
+
+deleteCustomer(Id: number): void {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: `Do you want to delete customer ${Id}?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#0B3B60',
+    cancelButtonColor: '#ef4444',
+    confirmButtonText: 'Yes, Delete'
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+      this.customerService.DeleteCustomerByeId(Id).subscribe({
+        next: (response) => {
+          if (response.statusCode === 200) {
+            Swal.fire(
+              'Deleted!',
+              response.message || 'Customer deleted successfully.',
+              'success'
+            );
+
+            this.getCustomers();
+          } else {
+            Swal.fire(
+              'Error!',
+              response.message || 'Failed to delete customer.',
+              'error'
+            );
+          }
+        },
+        error: (error) => {
+          console.error('Delete Customer Error:', error);
+          Swal.fire('Error!', 'Failed to delete customer.', 'error');
+        }
+      });
+
+    }
+  });
+}
 
   resetForm(): void {
     this.isEditMode = false;
     this.customerForm.reset();
     this.initForm();
   }
-
-  onSubmit(): void {
-    if (this.customerForm.valid) {
-      const payload: CustomerModel = this.customerForm.value;
-
-      if (this.isEditMode) {
-        const index = this.customers.findIndex(c => c.customerCode === payload.customerCode);
-        if (index !== -1) {
-          this.customers[index] = payload;
-        }
-        Swal.fire('Updated!', 'Customer updated successfully.', 'success');
-      } else {
-        this.customers.unshift(payload);
-        Swal.fire('Saved!', 'New customer created successfully.', 'success');
-      }
-
-      console.log('Customer API Payload:', JSON.stringify(payload, null, 2));
-      this.filterData();
-      this.resetForm();
-    } else {
-      Object.values(this.customerForm.controls).forEach(control => {
-        control.markAsDirty();
-        control.updateValueAndValidity();
-      });
-    }
-  }
+ 
 }

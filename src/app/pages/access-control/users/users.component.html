@@ -179,6 +179,9 @@
                   <tr>
                     <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden rounded-s-[10px] capitalize">SL</th>
                     <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Name</th>
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">User Name</th>
+                    <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Passward</th>
+
                     <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Data Access Level</th>
                     <th class="bg-regularBG px-[20px] py-[16px] text-start text-dark text-[15px] font-medium border-none before:hidden capitalize">Status</th>
                     <th class="bg-regularBG px-[20px] py-[16px] text-start border-none before:hidden rounded-e-[10px] capitalize">Action</th>
@@ -195,7 +198,10 @@
                           <span class="text-gray-500 text-sm">{{ data.userRoleName }}</span>
                         </div>
                       </div>
-                    </td>              
+                    </td>  
+                   <td class="px-[20px] py-4 text-dark text-[15px]">{{ data.userName}}</td>
+                   <td class="px-[20px] py-4 text-dark text-[15px]">{{ data.userPassword}}</td>
+
                     <td class="px-[20px] py-4 text-dark text-[15px]">
                       <span
                         class="inline-flex items-center justify-center min-h-[24px] px-3 text-xs font-medium rounded-[15px] capitalize"

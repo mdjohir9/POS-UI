@@ -41,7 +41,7 @@
             <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/shopping-bag.svg"></svg-icon>
           </div>
           <div>
-            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">  {{ blanceAmount.sales.value | currency }}</h4>
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]"> BDT {{ blanceAmount.sales.value  }}</h4>
             <span class="font-normal text-body dark:text-white/60 text-15">Today's Sales</span>
           </div>
         </div>
@@ -65,7 +65,7 @@
             <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/shopping-cart.svg"></svg-icon>
           </div>
           <div>
-            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">  {{ blanceAmount.purchase.value | currency }}
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]"> BDT {{ blanceAmount.purchase.value  }}
 </h4>
             <span class="font-normal text-body dark:text-white/60 text-15">Today's Purchase</span>
           </div>
@@ -91,7 +91,7 @@
             <svg-icon class="w-[30px] h-[30px]" src="assets/images/svg/unicons-line/coins.svg"></svg-icon>
           </div>
           <div>
-            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]">  {{ blanceAmount.profit.value | currency }}
+            <h4 class="mb-0 text-3xl font-semibold text-dark dark:text-white/[.87]"> BDT {{ blanceAmount.profit.value  }}
 </h4>
             <span class="font-normal text-body dark:text-white/60 text-15">Today's Profit</span>
           </div>
@@ -99,7 +99,7 @@
         <div class="mt-3">
           <span class="inline-flex  w-full items-center h-11 bg-gray-50 dark:bg-white/[.06] px-2.5 rounded-lg gap-[10px]">
             <span class="flex items-center text-sm font-medium text-[#FF4D4F]">
-              <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-down.svg"></svg-icon>
+              <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-up.svg"></svg-icon>
        
             </span>
             <span class="text-sm text-light dark:text-white/60 ml-2">  {{ blanceAmount.profit.growth }}%
@@ -125,10 +125,10 @@
         </div>
         <div class="mt-3">
           <span class="inline-flex  w-full items-center h-11 bg-gray-50 dark:bg-white/[.06] px-2.5 rounded-lg gap-[10px]">
-            <span class="flex items-center text-sm font-medium text-[#FF4D4F]">
+<!--             <span class="flex items-center text-sm font-medium text-[#FF4D4F]">
               <svg-icon class="w-[16px] h-[16px]" src="assets/images/svg/feather/trending-down.svg"></svg-icon>
         
-            </span>
+            </span> -->
             <span class="flex items-center text-sm font-medium"
               [ngClass]="blanceAmount.sales.isUp ? 'text-[#00AA45]' : 'text-[#FF4D4F]'">
         

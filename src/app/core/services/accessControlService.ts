@@ -18,7 +18,7 @@ export class accessControlService {
     private dataAccessLevel : string | null;
     private POST_ROLES_API_CALL_Url = `api/UserRoles/create`;
     private GET_USER_ROLES =`api/UserRoles/userRoles?companyId=1111&IsAdministrator=true`;
-    private GET_USERS =`api/User/users?companyId=1111&IsAdministrator=false`;
+    private GET_USERS =`api/User/users?companyId=1&IsAdministrator=false`;
     private GET_USER_NAME_ID =`api/User/UserNameAndId`;
     private GET_USER_ROLES_ID_NAME =`api/UserRoles/userRolesWithGuestUser?IsGuestUser=false&CompanyId=1111`;
     private CREATE_USER_API_URL =`api/User/users/create`;

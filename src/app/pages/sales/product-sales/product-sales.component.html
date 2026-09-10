@@ -322,8 +322,8 @@
               <td class="py-2 px-3 text-[#64748b]">{{ $index + 1 }}</td>
               <td class="py-2 px-3 font-medium text-[#0B3B60]">{{ getProductName(item.productId) }}</td>
               <td class="py-2 px-3 text-center text-[#334155]">{{ item.quantity }}</td>
-              <td class="py-2 px-3 text-right text-[#334155]">{{ item.rate | currency:'USD' }}</td>
-              <td class="py-2 px-3 text-right font-bold text-[#0B3B60]">{{ item.amount | currency:'USD' }}</td>
+              <td class="py-2 px-3 text-right text-[#334155]">{{ item.rate | currency:'BDT' }}</td>
+              <td class="py-2 px-3 text-right font-bold text-[#0B3B60]">{{ item.amount | currency:'BDT' }}</td>
             </tr>
           }
         </tbody>
@@ -338,7 +338,7 @@
             @for (pay of savedInvoiceData?.payments; track $index) {
               <div class="text-xs flex justify-between pr-6 text-[#334155]">
                 <span>{{ getPaymentMethodName(pay.paymentMethodId) }}:</span>
-                <span class="font-bold text-[#28C76F]">{{ pay.amount | currency:'USD' }}</span>
+                <span class="font-bold text-[#28C76F]">{{ pay.amount | currency:'BDT' }}</span>
               </div>
             }
           </div>
@@ -348,15 +348,15 @@
         <div class="w-1/2 text-right space-y-1 text-sm">
           <div class="flex justify-between text-[#64748b]">
             <span>Sub Total:</span>
-            <span class="font-semibold text-[#0B3B60]">{{ savedInvoiceData?.subTotal | currency:'USD' }}</span>
+            <span class="font-semibold text-[#0B3B60]">{{ savedInvoiceData?.subTotal | currency:'BDT' }}</span>
           </div>
           <div class="flex justify-between text-[#64748b]">
             <span>Discount:</span>
-            <span class="font-semibold text-[#ef4444]">-{{ savedInvoiceData?.discountAmount | currency:'USD' }}</span>
+            <span class="font-semibold text-[#ef4444]">-{{ savedInvoiceData?.discountAmount | currency:'BDT' }}</span>
           </div>
           <div class="flex justify-between text-base font-bold text-[#0B3B60] pt-2 border-t border-[#e2e8f0]">
             <span>Grand Total:</span>
-            <span class="text-[#28C76F]">{{ savedInvoiceData?.grandTotal | currency:'USD' }}</span>
+            <span class="text-[#28C76F]">{{ savedInvoiceData?.grandTotal | currency:'BDT' }}</span>
           </div>
         </div>
       </div>

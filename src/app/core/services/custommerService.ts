@@ -15,8 +15,8 @@ export class CustommerService {
   private Get_EMPLOYEE_URL = `api/Employee/employees?CompanyId=${this.CompanyId}`;
   private POST_PERSONNEL_INFO_URL = `api/Custommer/create`;
   private POST_CONTACT_INFO_URL = `api/CustommerContact/create`;
-  private POST_CUSTOMER_ALL_INFO_URL = `api/Custommer/create-full`;
-  private UPDATE_CUSTOMER_ALL_INFO_URL = `api/Custommer/update-full`;
+  private POST_CUSTOMER_URL = `api/POSCustomer/customer/create`;
+  private UPDATE_CUSTOMER_URL = `api/POSCustomer/customer/update`;
   private POST_EMPLOYMENT_INFO_URL = `api/CustommerEmployment/create`;
   private POST_FINANCIAL_INFO_URL = `api/CustommerFinancial/create`;
   private POST_GUARANTOR_INFO_URL = `api/CustommerGuarantor/create`;
@@ -26,7 +26,7 @@ export class CustommerService {
   private GET_PERSONNEL_DETAILES_BY_ID = `api/Custommer/custommer`;
   private GET_CUSTOMMER_DETAILES = `api/Custommer/custommerDetailes`;
   private GET_ALL_CUSTOMMER = `api/Custommer/custommers`;
-  private DELETE_CUSTOMMER_BY_ID = `api/Custommer/delete`;
+  private DELETE_CUSTOMMER_BY_ID = `api/POSCustomer/customer/delete`;
   private GET_COUNTRY = `api/Custommer/countries`;
  
 
@@ -44,20 +44,21 @@ export class CustommerService {
     );
   }
 
-  saveCustommerAllnfo(any): Observable<any> {
-    const url = `${this.POST_CUSTOMER_ALL_INFO_URL}`;
-    return this.genericHttpService.create(url, any).pipe(
-      catchError((error) => {
-        console.error('Error occurred while saving personnel info:', error);
-        return throwError(() => new Error('Failed to save personnel info'));
-      })
-    );
-  }
+  saveCustommer(data: ICustommer): Observable<any> {
+  const url = `${this.POST_CUSTOMER_URL}`;
+
+  return this.genericHttpService.create(url, data).pipe(
+    catchError((error) => {
+      console.error('Error occurred while saving customer:', error);
+      return throwError(() => new Error('Failed to save customer'));
+    })
+  );
+}
 
 
-  updateCustommerAllnfo(any): Observable<any> {
-    const url = `${this.UPDATE_CUSTOMER_ALL_INFO_URL}`;
-    return this.genericHttpService.update(url, any).pipe(
+  updateCustommerInfo(data: ICustommer, Id: number): Observable<any> {
+     const url = `${this.UPDATE_CUSTOMER_URL}/${Id}`;
+    return this.genericHttpService.update(url, data).pipe(
       catchError((error) => {
         console.error('Error occurred while saving personnel info:', error);
         return throwError(() => new Error('Failed to save personnel info'));

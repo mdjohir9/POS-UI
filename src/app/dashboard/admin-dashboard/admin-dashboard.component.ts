@@ -22,7 +22,7 @@ filterDate: string = new Date().toISOString().split('T')[0];
 
   ngOnInit() {
      this.getBalance();
-
+      this.stockInOutComponent.getStockInOutSummary(this.filterDate);
   }
 
   
