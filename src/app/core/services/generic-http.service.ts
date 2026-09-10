@@ -7,8 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class GenericHttpService<T> {
   constructor(private http: HttpClient) {}
-  private RootUrl='https://localhost:7007';
+/*   private RootUrl='https://localhost:7007'; */
   //private RootUrl='https://upstartloan-api.codehosting.xyz';
+   private RootUrl='http://posappapi.runasp.net';
   getAll<T>(apiUrl: string): Observable<T[]> {
     return this.http.get<T[]>(`${this.RootUrl}/${apiUrl}`);  // No need to manually set headers
   }
