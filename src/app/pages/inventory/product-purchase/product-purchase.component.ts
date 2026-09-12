@@ -214,9 +214,9 @@ onSubmit(): void {
 
     purchaseDate: this.commonTask.toLocalDateTime(rawValue.purchaseDate),
 
-    supplierId: rawValue.supplierId,
-
-    details: rawValue.details.map((item: any) => ({
+     supplierId: rawValue.supplierId,
+     companyId: rawValue.companyId || 1, // Default companyId if not provided
+     details: rawValue.details.map((item: any) => ({
       productId: item.productId,
       quantity: Number(item.quantity),
       rate: Number(item.rate),

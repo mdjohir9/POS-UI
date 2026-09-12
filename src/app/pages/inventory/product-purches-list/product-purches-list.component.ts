@@ -13,6 +13,7 @@ interface PurchaseItem {
   purchaseDate: string;
   totalAmount: number;
   barcode :string;
+  productNames :string;
 }
 
 @Component({
